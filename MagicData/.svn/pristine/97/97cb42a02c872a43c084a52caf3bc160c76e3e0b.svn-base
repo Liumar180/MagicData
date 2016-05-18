@@ -1,0 +1,31 @@
+package com.integrity.dataSmart.titanGraph.service;
+
+import java.util.List;
+
+import com.integrity.dataSmart.titanGraph.bean.qqBeans;
+import com.integrity.dataSmart.titanGraph.dao.SearchQqRelationDao;
+
+public class SearchQqRelationServiceImp implements SearchQqRelationService{
+	private SearchQqRelationDao searchQqRelationDao;
+	@Override
+	public List<qqBeans> queryQqFriends(String qq){
+	    searchQqRelationDao.queryQqFriends(qq);
+		return null;
+	}
+	
+
+	@Override
+	public List<qqBeans> queryQqGroups(String qq) {
+		searchQqRelationDao.queryQqGroups(qq);
+		return null;
+	}
+
+	public SearchQqRelationDao getSearchQqRelationDao() {
+		return searchQqRelationDao;
+	}
+	public void setSearchQqRelationDao(SearchQqRelationDao searchQqRelationDao) {
+		this.searchQqRelationDao = searchQqRelationDao;
+	}
+
+
+}

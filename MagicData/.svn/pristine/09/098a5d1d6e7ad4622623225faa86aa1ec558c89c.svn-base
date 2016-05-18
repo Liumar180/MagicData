@@ -1,0 +1,80 @@
+package com.integrity.dataSmart.impAnalyImport.bean;
+
+/**
+ * @author liuBF
+ * 简历相关人物关联信息
+ *
+ */
+public class resumeBase {
+	private String ContactID;
+	private String FirstName;
+	private String LastName;
+	private String GenderTag;
+	private String CreationDate;
+	private String Login;
+	private String PasswordHash;
+	private String Address1;
+	private String City;
+	private String County;
+	public String getContactID() {
+		return ContactID;
+	}
+	public void setContactID(String contactID) {
+		ContactID = contactID;
+	}
+	public String getFirstName() {
+		return FirstName;
+	}
+	public void setFirstName(String firstName) {
+		FirstName = firstName;
+	}
+	public String getLastName() {
+		return LastName;
+	}
+	public void setLastName(String lastName) {
+		LastName = lastName;
+	}
+	public String getGenderTag() {
+		return GenderTag;
+	}
+	public void setGenderTag(String genderTag) {
+		GenderTag = genderTag;
+	}
+	public String getCreationDate() {
+		return CreationDate;
+	}
+	public void setCreationDate(String creationDate) {
+		CreationDate = creationDate;
+	}
+	public String getLogin() {
+		return Login;
+	}
+	public void setLogin(String login) {
+		Login = login;
+	}
+	public String getPasswordHash() {
+		return PasswordHash;
+	}
+	public void setPasswordHash(String passwordHash) {
+		PasswordHash = passwordHash;
+	}
+	public String getAddress1() {
+		return Address1;
+	}
+	public void setAddress1(String address1) {
+		Address1 = address1;
+	}
+	public String getCity() {
+		return City;
+	}
+	public void setCity(String city) {
+		City = city;
+	}
+	public String getCounty() {
+		return County;
+	}
+	public void setCounty(String county) {
+		County = county;
+	}
+
+}

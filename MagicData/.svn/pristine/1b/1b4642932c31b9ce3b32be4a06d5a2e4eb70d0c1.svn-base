@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.integrity.dataSmart.titanGraph.bean.GraphHistory" table="graphHistory" >
+		<id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" length="30" not-null="true">
+                <comment>历史版本名称</comment>
+            </column>
+        </property>
+        <property name="nodes" type="java.lang.String">
+            <column name="nodes" length="500" not-null="true">
+                <comment>结点</comment>
+            </column>
+        </property>
+        <property name="edges" type="java.lang.String">
+            <column name="edges" length="500" not-null="true">
+                <comment>边</comment>
+            </column>
+        </property>
+        <property name="image" type="java.lang.String">
+            <column name="image" length="1000" not-null="true">
+                <comment>图片</comment>
+            </column>
+        </property>
+        <property name="time" type="java.util.Date">
+            <column name="time" not-null="true">
+                <comment>版本时间</comment>
+            </column>
+        </property>
+	</class>
+</hibernate-mapping>

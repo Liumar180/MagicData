@@ -1,0 +1,46 @@
+package com.integrity.dataSmart.pojo;
+
+import java.util.Map;
+
+public class VertexObject {
+
+	/**
+	 * 节点类型
+	 */
+	private String type;
+	
+	/**
+	 * 基础属性map 
+	 * 节点自身的属性
+	 * key 节点属性
+	 * value 节点属性值
+	 */
+	private Map<String, String> baseProMap;
+	
+	/**
+	 * 人物节点的own属性节点
+	 * key own节点的类型
+	 * value own节点自身属性map
+	 */
+	private Map<String, Map<String, String>> ownProMap;
+	
+	public String getType() {
+		return type;
+	}
+	public Map<String, String> getBaseProMap() {
+		return baseProMap;
+	}
+	public Map<String, Map<String, String>> getOwnProMap() {
+		return ownProMap;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public void setBaseProMap(Map<String, String> baseProMap) {
+		this.baseProMap = baseProMap;
+	}
+	public void setOwnProMap(Map<String, Map<String, String>> ownProMap) {
+		this.ownProMap = ownProMap;
+	}
+	
+}

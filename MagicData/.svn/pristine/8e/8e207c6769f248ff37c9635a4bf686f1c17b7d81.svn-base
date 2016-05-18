@@ -1,0 +1,149 @@
+package com.integrity.lawCase.exportLaw.action;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
+
+import com.integrity.lawCase.caseManage.bean.CaseObject;
+import com.integrity.lawCase.caseManage.service.CaseManageService;
+import com.integrity.lawCase.exportLaw.service.ImportLCService;
+import com.integrity.lawCase.exportLaw.util.ReadExcel;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class ImportLCAjaxAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+
+	private Logger logger = Logger.getLogger(ImportLCAjaxAction.class);
+	private Map<String, Object> root;
+
+	/**excel上传*/
+	private File excel;
+	private String excelFileName;
+	
+	private String imgTimeNum;
+	
+	private CaseManageService cmService;
+	private ImportLCService importLCService;
+	
+	private InputStream inputStream;
+
+	/**
+	 * 导入案件
+	 * @return
+	 */
+	public String importLawObjs(){
+		String excelDir = ServletActionContext.getServletContext().getRealPath(File.separator+"image"+File.separator+"uploadExcelTemp"+File.separator);
+		String finalPath = excelDir+File.separator+excelFileName;
+		try{
+			File excelDirFile = new File(excelDir); // 判断文件夹是否存在,如果不存在则创建文件夹
+	        if (!excelDirFile.exists()) {
+	        	excelDirFile.mkdirs();
+	        }
+			if(null!=excel){
+				String[] fileFit = new String[] { ".xls",".xlsx" };
+				boolean fitFlag = false;
+				for (int i = 0; i < fileFit.length; i++) {
+	                if (excelFileName.toLowerCase().endsWith(fileFit[i])) {
+	                	fitFlag = true;
+	                    break;
+	                }
+	            }
+				if(fitFlag){
+					InputStream is = new FileInputStream(excel);
+			        File saveExcel = new File(excelDir,excelFileName);
+			        if(!saveExcel.exists()){
+			        	saveExcel.createNewFile();
+			        	OutputStream os = new FileOutputStream(saveExcel);	        
+				        byte[] buffer = new byte[1024];
+				        int length = 0;
+			            while ((length = is.read(buffer)) != -1) {
+			                os.write(buffer, 0, length);
+			            }
+				        os.close();
+				        is.close();
+			        }
+				}
+			}
+			
+			//导入到数据库
+			if(finalPath!=null&&!"".equals(finalPath)){
+				List<CaseObject> list = ReadExcel.readLCExcel(finalPath);
+				importLCService.addCases(list);
+			}
+			File f = new File(finalPath);
+			if(f.exists()){
+				f.delete();
+			}
+			root = new HashMap<String, Object>();
+		}catch (Exception e) {
+			logger.error("添加excel文件异常"+e.getMessage());
+		}
+		return SUCCESS;
+	}
+
+	public File getExcel() {
+		return excel;
+	}
+
+	public void setExcel(File excel) {
+		this.excel = excel;
+	}
+
+	public String getExcelFileName() {
+		return excelFileName;
+	}
+
+	public void setExcelFileName(String excelFileName) {
+		this.excelFileName = excelFileName;
+	}
+
+	public String getImgTimeNum() {
+		return imgTimeNum;
+	}
+
+	public void setImgTimeNum(String imgTimeNum) {
+		this.imgTimeNum = imgTimeNum;
+	}
+
+	public CaseManageService getCmService() {
+		return cmService;
+	}
+
+	public void setCmService(CaseManageService cmService) {
+		this.cmService = cmService;
+	}
+
+	public ImportLCService getImportLCService() {
+		return importLCService;
+	}
+
+	public void setImportLCService(ImportLCService importLCService) {
+		this.importLCService = importLCService;
+	}
+
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
+	}
+
+	public Map<String, Object> getRoot() {
+		return root;
+	}
+
+	public void setRoot(Map<String, Object> root) {
+		this.root = root;
+	}
+
+}

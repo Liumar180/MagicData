@@ -1,0 +1,204 @@
+package com.integrity.dataSmart.test.ImportResumeData;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.integrity.dataSmart.impAnalyImport.bean.Resume;
+import com.integrity.dataSmart.impAnalyImport.bean.ResumeBase;
+import com.integrity.dataSmart.test.Internet;
+import com.integrity.dataSmart.test.TitanConnection;
+import com.integrity.dataSmart.util.WritelogContents;
+import com.integrity.dataSmart.util.importData.JdbcUtils;
+import com.thinkaurelius.titan.core.TitanGraph;
+
+/**
+ * @author liuBF
+ * 简历导入O
+ */
+public class ResumeInfoImpUtils {
+
+	public static void main(String[] args) {
+		TitanGraph graph = TitanConnection.getTitaConnection();
+		List<Resume> rs= ResumeInfoImpUtils.findResumes(0, 10);
+		Internet.impResumes(rs, graph);
+		graph.shutdown();
+
+	}
+	/**
+	 * @param start
+	 * @param rows
+	 * @return
+	 * 获取简历人员基本信息
+	 */
+		public static ResumeBase getResumelistDatas(String InfoID) {
+			Connection conn = null;
+			ResultSet rs = null;
+			PreparedStatement ps = null;
+			try {
+				conn = JdbcUtils.getSqlServerConnection();
+				try {
+					conn.setAutoCommit(false);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	
+	    String sql = "select top 1 tempcolumn=0, "
+					+" p.ContactID, p.FirstName,p.LastName,p.GenderTag,p.CreationDate,"
+					+" cc.Login,cc.PasswordHash,ar.Address1,ar.City,ar.County from "
+					+" Person p,Contact cc,ContactAddressTBL ar"
+					+" where p.ContactID = cc.ContactID"
+					+" AND p.ContactID = ar.ContactID"
+					+" and p.ContactID "
+					+" in(SELECT top 1 a.ContactID "
+							+" from ContactInformation a where a.InformationID = "+InfoID+")";
+	    ResumeBase rBase = new ResumeBase();
+	    try {
+					ps = conn.prepareStatement(sql);
+					rs = ps.executeQuery();
+					while(rs.next()){
+						rBase.setContactID(rs.getString("ContactID"));
+						rBase.setName(rs.getString("FirstName")+" "+rs.getString("LastName"));// FirstName; LastName;
+						rBase.setGenderTag(rs.getString("GenderTag"));
+						rBase.setCreationDate(rs.getString("CreationDate"));
+						rBase.setLogin(rs.getString("Login"));
+						rBase.setPasswordHash(rs.getString("PasswordHash"));
+						rBase.setAddress(rs.getString("City")+" "+rs.getString("Address1"));// Address1;City;
+						rBase.setCounty(rs.getString("County"));
+					}
+					conn.commit();
+				} catch (SQLException e) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					e.printStackTrace();
+				}finally{
+					JdbcUtils.free(rs, ps, conn);
+				}
+				return rBase;
+	
+		}
+		/**
+		 * @param contactID
+		 * @return
+		 * 获取电话号码
+		 */
+		public static List<String> findPhoneNum(String contactID){
+			List<String> phones = new ArrayList<String>();
+			Connection conn = null;
+			ResultSet rs = null;
+			PreparedStatement ps = null;
+			try {
+				
+				conn = JdbcUtils.getSqlServerConnection();
+				try {
+					conn.setAutoCommit(false);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    String sql = "select top 5 p.PhoneNumber "
+				+" from ContactPhoneTBL p "
+				+" where p.ContactID ="+contactID;
+	    try {
+					ps = conn.prepareStatement(sql);
+					rs = ps.executeQuery();
+					while(rs.next()){
+						phones.add(rs.getString("PhoneNumber"));
+					}
+					conn.commit();
+				} catch (SQLException e) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					e.printStackTrace();
+				}finally{
+					JdbcUtils.free(rs, ps, conn);
+				}
+			return phones;
+		}
+		
+		/**
+		 * @param contactID
+		 * @return
+		 * 获取简历信息
+		 */
+		public static List<Resume> findResumes(Integer start,Integer rows){
+			WritelogContents.writeLogs("C:\\Users\\integrity\\Desktop\\solr\\resumeList0217.txt", "开始查询行数："+start+"---查询行数："+rows);
+			List<Resume> resumes = new ArrayList<Resume>();
+			Connection conn = null;
+			ResultSet rs = null;
+			PreparedStatement ps = null;
+			try {
+				conn = JdbcUtils.getSqlServerConnection();
+				try {
+					conn.setAutoCommit(false);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	
+	    String sql = "select "
+					+"tt.InformationID,tt.Keywords,tt.Title,tt.Description,tt.AreaCode,tt.City,tt.CountryType,tt.CreationDate,"
+					+"tt.ApprovalDate,tt.BeginDate,tt.Private,tt.State,tt.Zip,tt.ModifyDate"
+					+" from ("
+					+"select row_number()over(order by tempcolumn)temprownumber,*"
+					+" from (select top "+rows+" tempcolumn=0,"
+					+"q.InformationID,q.Keywords,q.Title,q.Description,q.AreaCode,q.City,q.CountryType,q.CreationDate,"
+					+"q.ApprovalDate,q.BeginDate,q.Private,q.State,q.Zip,q.ModifyDate"
+					+" from Query q "
+					+")t"
+					+")tt"
+					+" where temprownumber>"+start;
+	    try {
+					ps = conn.prepareStatement(sql);
+					rs = ps.executeQuery();
+					while(rs.next()){
+						Resume r = new Resume();
+						r.setInformationID(rs.getString("InformationID"));
+						r.setKeywords(rs.getString("Keywords"));
+						r.setTitle(rs.getString("Title"));
+						r.setDescription(rs.getString("Description"));
+						r.setAreaCode(rs.getString("AreaCode"));
+						r.setCity(rs.getString("City"));
+						r.setCountryType(rs.getString("CountryType"));
+						r.setCreationDate(rs.getString("CreationDate"));
+						r.setApprovalDate(rs.getString("ApprovalDate"));
+						r.setBeginDate(rs.getString("BeginDate"));
+						r.setPrivate(rs.getString("Private"));
+						r.setState(rs.getString("State"));
+						r.setZip(rs.getString("Zip"));
+						r.setModifyDate(rs.getString("ModifyDate"));
+						resumes.add(r);
+					}
+					conn.commit();
+				} catch (SQLException e) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					e.printStackTrace();
+				}finally{
+					JdbcUtils.free(rs, ps, conn);
+				}
+			return resumes;
+			
+		}
+
+}

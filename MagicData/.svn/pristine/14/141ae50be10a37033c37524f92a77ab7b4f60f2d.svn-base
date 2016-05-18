@@ -1,0 +1,21 @@
+package com.integrity.dataSmart.titanGraph.service;
+
+import com.integrity.dataSmart.titanGraph.dao.DataShowDao;
+
+public class DataShowServiceImp implements DataShowService {
+	private DataShowDao dataShowDao;
+
+	public DataShowDao getDataShowDao() {
+		return dataShowDao;
+	}
+
+	public void setDataShowDao(DataShowDao dataShowDao) {
+		this.dataShowDao = dataShowDao;
+	}
+
+
+
+
+	
+
+}

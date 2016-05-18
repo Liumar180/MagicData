@@ -1,0 +1,388 @@
+
+
+
+.wheel-button {
+  position: relative;
+}
+
+.wheel-button, .wheel-button:visited {
+  /* background: #df4727; 
+  background:url(../../images/menu/user.png) no-repeat; */
+  /* background-position:center;
+  -moz-background-size:80px 80px;
+  -webkit-background-size:80px 80px;
+  -o-background-size:80px 80px;
+  background-size:80px 80px; */
+  /* padding: 10px 10px; */
+  text-align: center;
+  border-radius: 50%;
+  /* width: 80px;
+  height: 80px; */
+  width: 40px;
+  height: 40px;
+  color: white;
+  display: block;
+   /*background: red;
+ margin: 80px ;  auto 20px*/
+  /* border: 2px solid #92311e;  */
+  /*box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.25);*/
+}
+
+
+.wheel-button i{
+  position: relative;
+  width: 28px;
+  height: 28px;
+  -moz-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+  display: block;
+  line-height: 140%;
+}
+
+/*点击按钮时选择
+ .wheel-button.active i{
+  transform: rotate(135deg);
+  -ms-transform: rotate(135deg); IE 9
+  -webkit-transform: rotate(135deg); Safari and Chrome
+} */
+
+.wheel {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 1200px;/*  this will determine the diameter of the circle 400 */
+  height:1200px;/*  this will determine the diameter of the circle 400 */
+  visibility: hidden;
+  position: relative;
+  display: none;
+}
+
+.wheel li {
+/*   overflow: hidden; 此处在IE下会显示错误*/
+  float:left;
+}
+
+.wheel li a {
+  display: block;
+}
+  
+/* ALL DEMO */
+
+/* Required Stylesheets */
+
+.wheel li i {
+  position: relative;
+  width: 69px;
+  height: 114px;
+  -moz-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+  display: block;
+  line-height: 140%;
+  vertical-align: bottom;
+}
+.wheel li a, .wheel li a:visited{
+  /* background: rgba(0,0,0,0.65);
+  border-radius: 50%;
+  padding: 10px;
+  text-align: center;
+  width: 69px;
+  height: 114px;
+  border: 1px solid black; 
+  box-shadow: 0 1px 2px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.5);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.5);
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.5); 
+  color: white;
+  -moz-transition: all 0.25s ease;
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease; */
+}
+
+.wheel li a:hover{
+  /* background: #C0C2C2; */
+  /* background:url(../../images/menu/select.png) no-repeat;
+  background-position: center; */
+}
+.levelOneA{
+	position: absolute;
+	height: 40px;
+	width: 35px;
+	left: 15px;
+	top:30px;
+	z-index: 7;/*此处要高于i的坐标*/
+}
+.levelOneB{
+	position: absolute;
+	height: 50px;
+	width: 38px;
+	left: 17px;
+	top:40px;
+	border-radius: 50%;
+	/* background-color:red; */
+	z-index: 7;/*此处要高于i的坐标*/
+}
+
+/*reset以后显示为建设中*/
+.customicon-todo-0{
+  background:url(../../images/menu/todo1.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-todo-1{
+  background:url(../../images/menu/todo2.png) no-repeat;
+  background-position: 0px 0px;
+  background-size:69px 114px;
+}
+.customicon-todo-2{
+  background:url(../../images/menu/todo3.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-todo-3{
+  background:url(../../images/menu/todo4.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-todo-4{
+  background:url(../../images/menu/todo5.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-todo-5{
+  background:url(../../images/menu/todo6.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+
+.customicon-1search{
+  background:url(../../images/menu/1search.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-1search-click{
+  background:url(../../images/menu/1searchClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+
+.customicon-2connect{
+	/* 140:100:120 */
+  background:url(../../images/menu/2connect.png) no-repeat;
+  background-position: 0px 0px;
+  background-size:69px 114px;
+}
+.customicon-2connect-click{
+  background:url(../../images/menu/2connectClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-3openList{
+  background:url(../../images/menu/3openList.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-3openList-click{
+  background:url(../../images/menu/3openListClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-3closeList{
+  background:url(../../images/menu/3closeList.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-3closeList-click{
+  background:url(../../images/menu/3closeListClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-4clear{
+  background:url(../../images/menu/4clear.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-4clear-click{
+  background:url(../../images/menu/4clearClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-5delete{
+  background:url(../../images/menu/5delete.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-5delete-click{
+  background:url(../../images/menu/5deleteClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-5friend{
+  background:url(../../images/menu/5friend.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-5friend-click{
+  background:url(../../images/menu/5friendClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-5merge{
+  background:url(../../images/menu/5merge.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-5merge-click{
+  background:url(../../images/menu/5mergeClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-6map{
+  background:url(../../images/menu/6map.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-6map-click{
+  background:url(../../images/menu/6mapClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-6group{
+  background:url(../../images/menu/6group.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-6group-click{
+  background:url(../../images/menu/6groupClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-6unmerge{
+  background:url(../../images/menu/6unmerge.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-6unmerge-click{
+  background:url(../../images/menu/6unmergeClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-6inGroup{
+  background:url(../../images/menu/6inGroup.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+.customicon-6inGroup-click{
+  background:url(../../images/menu/6inGroupClick.png) no-repeat;
+  background-position: center;
+  background-size:69px 114px;
+}
+
+.customicon-11object{
+  background:url(../../images/menu/11object.png) no-repeat;
+  background-position: center;
+  background-size:63px 134px;
+}
+.customicon-11object-click{
+  background:url(../../images/menu/11objectClick.png) no-repeat;
+  background-position: center;
+  background-size:63px 134px;
+}
+.customicon-12event{
+  background:url(../../images/menu/12event.png) no-repeat;
+  background-position: center;
+  background-size:63px 134px;
+}
+.customicon-12event-click{
+  background:url(../../images/menu/12eventClick.png) no-repeat;
+  background-position: center;
+  background-size:63px 134px;
+}
+.customicon-13net{
+  background:url(../../images/menu/13net.png) no-repeat;
+  background-position: center;
+  background-size:63px 134px;
+}
+.customicon-13net-click{
+  background:url(../../images/menu/13netClick.png) no-repeat;
+  background-position: center;
+  background-size:63px 134px;
+}
+.customicon-120all{
+	/* 100,115:92,125 */
+  background:url(../../images/menu/120all.png) no-repeat;
+  background-position: center;
+  background-size:47px 67px;
+}
+.customicon-121bbs{
+  background:url(../../images/menu/121bbs.png) no-repeat;
+  background-position: center;
+  background-size:47px 67px;
+}
+.customicon-122doctor{
+  background:url(../../images/menu/122doctor.png) no-repeat;
+  background-position: center;
+  background-size:47px 67px;
+}
+.customicon-123talk{
+  background:url(../../images/menu/123talk.png) no-repeat;
+  background-position: center;
+  background-size:47px 67px;
+}
+.customicon-124login{
+  background:url(../../images/menu/124login.png) no-repeat;
+  background-position: center;
+  background-size:47px 67px;
+}
+.customicon-125mail{
+  background:url(../../images/menu/125mail.png) no-repeat;
+  background-position: center;
+  background-size:47px 67px;
+}
+
+.customicon-120all-click{
+  background:url(../../images/menu/120allClick.png) no-repeat;
+  background-position: center;
+  background-size:80px 80px;
+}
+.customicon-121bbs-click{
+  background:url(../../images/menu/121bbsClick.png) no-repeat;
+  background-position: center;
+  background-size:80px 80px;
+}
+.customicon-122doctor-click{
+  background:url(../../images/menu/122doctorClick.png) no-repeat;
+  background-position: center;
+  background-size:80px 80px;
+}
+.customicon-123talk-click{
+  background:url(../../images/menu/123talkClick.png) no-repeat;
+  background-position: center;
+  background-size:80px 80px;
+}
+.customicon-124login-click{
+  background:url(../../images/menu/124loginClick.png) no-repeat;
+  background-position: center;
+  background-size:80px 80px;
+}
+.customicon-125mail-click{
+  background:url(../../images/menu/125mailClick.png) no-repeat;
+  background-position: center;
+  background-size:80px 80px;
+}
+.customicon-126hotel{
+  background:url(../../images/menu/126hotel.png) no-repeat;
+  background-position: center;
+  background-size:47px 67px;
+}
+.customicon-126hotel-click{
+  background:url(../../images/menu/126hotelClick.png) no-repeat;
+  background-position: center;
+  background-size:80px 80px;
+}
+

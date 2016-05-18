@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.integrity.lawCase.common.bean.DictionaryTable" table="dictionaryTable" >
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="code" type="java.lang.String">
+            <column name="code" length="64" not-null="true">
+                <comment>字典key</comment>
+            </column>
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="name"  length="500" not-null="true">
+                <comment>字典name</comment>
+            </column>
+        </property>
+        <property name="pid" type="java.lang.Long">
+            <column name="pid" length="20" >
+                <comment>上层id</comment>
+            </column>
+        </property>
+        <property name="memo" type="java.lang.String">
+            <column name="memo" length="2000" >
+                <comment>备注</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

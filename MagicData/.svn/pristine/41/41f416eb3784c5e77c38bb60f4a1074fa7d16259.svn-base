@@ -1,0 +1,73 @@
+package com.integrity.lawCase.exportLaw.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+import com.integrity.lawCase.caseManage.bean.CaseObject;
+import com.integrity.lawCase.caseManage.dao.CaseManageDao;
+import com.integrity.lawCase.common.bean.DictionaryTable;
+import com.integrity.lawCase.common.init.dao.DictionaryDao;
+
+public class ImportLCService {
+	private CaseManageDao caseManageDao;
+	private DictionaryDao dictionaryDao;
+
+	public CaseManageDao getCaseManageDao() {
+		return caseManageDao;
+	}
+
+	public void setCaseManageDao(CaseManageDao caseManageDao) {
+		this.caseManageDao = caseManageDao;
+	}
+
+	public DictionaryDao getDictionaryDao() {
+		return dictionaryDao;
+	}
+
+	public void setDictionaryDao(DictionaryDao dictionaryDao) {
+		this.dictionaryDao = dictionaryDao;
+	}
+
+	public void addCases(List<CaseObject> list) {
+		List<CaseObject> l = formCasesList(list);
+		for(CaseObject c : l){
+			caseNameTrim(c);
+			caseManageDao.getHibernateTemplate().save(c);
+		}
+	}
+	
+	private List<CaseObject> formCasesList(List<CaseObject> list) {
+		List<CaseObject> l = new ArrayList<CaseObject>();
+		for(CaseObject c : list){
+			String caseLevelName = c.getCaseLevelName();
+			String caseStatusName = c.getCaseStatusName();
+			String directionName = c.getDirectionName();
+			List<DictionaryTable> dList = dictionaryDao.findDicByName(caseLevelName);
+			if(dList!=null&&dList.size()>0){
+				c.setCaseLevel(dList.get(0).getName());
+			}
+			dList = dictionaryDao.findDicByName(caseStatusName);
+			if(dList!=null&&dList.size()>0){
+				c.setCaseStatus(dList.get(0).getName());
+			}
+			dList = dictionaryDao.findDicByName(directionName);
+			if(dList!=null&&dList.size()>0){
+				c.setDirectionCode(dList.get(0).getName());
+			}
+			l.add(c);
+		}
+		return l;
+	}
+
+	/**
+	 * 去除名称首尾空格
+	 * @param caseObject
+	 */
+	private void caseNameTrim(CaseObject caseObject){
+		caseObject.setCaseName(caseObject.getCaseName().trim());
+	}
+
+	
+
+}

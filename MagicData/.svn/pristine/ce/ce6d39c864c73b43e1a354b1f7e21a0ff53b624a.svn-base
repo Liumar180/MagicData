@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 系统管理-->
+	<package name="systemmanage" extends="base" namespace="/system">
+        <action name="viewSystemPage" class="systemManageAction" method="viewSystemPage"> 
+	        <result>/WEB-INF/jsp/system/systemManage.jsp</result>
+        </action>
+	</package>
+	
+	<!-- 权限管理-->
+	<package name="authmanage" extends="base" namespace="/auth">
+		<!-- 角色管理页面-->
+        <action name="viewRolePage" class="roleAction" method="viewRolePage"> 
+	        <result>/WEB-INF/jsp/system/auth/role.jsp</result>
+        </action>
+        <!-- 角色添加页面-->
+        <action name="viewAddRolePage" class="roleAction" method="viewAddRolePage"> 
+	        <result>/WEB-INF/jsp/system/auth/roleAdd.jsp</result>
+        </action>
+        <!-- 角色编辑页面-->
+        <action name="viewUpdateRolePage" class="roleAction" method="viewUpdateRolePage"> 
+	        <result>/WEB-INF/jsp/system/auth/roleAdd.jsp</result>
+        </action>
+        <!-- 角色详细页面-->
+        <action name="viewDetailRolePage" class="roleAction" method="viewDetailRolePage"> 
+	        <result>/WEB-INF/jsp/system/auth/roleAdd.jsp</result>
+        </action>
+        <!-- 用户管理页面-->
+        <action name="viewUserPage" class="authUserAction" method="viewUserPage"> 
+	        <result>/WEB-INF/jsp/system/auth/user.jsp</result>
+        </action>
+        <!-- 用户添加页面-->
+        <action name="viewAddUserPage" class="authUserAction" method="viewAddUserPage"> 
+	        <result>/WEB-INF/jsp/system/auth/userAdd.jsp</result>
+        </action>
+        <!-- 用户编辑页面-->
+        <action name="viewUpdateUserPage" class="authUserAction" method="viewUpdateUserPage"> 
+	        <result>/WEB-INF/jsp/system/auth/userAdd.jsp</result>
+        </action>
+        <!-- 用户详细页面-->
+        <action name="viewDetailUserPage" class="authUserAction" method="viewDetailUserPage"> 
+	        <result>/WEB-INF/jsp/system/auth/userAdd.jsp</result>
+        </action>
+	</package>
+	<package name="authajax" extends="jsondefault" namespace="/ajaxauth">
+		<!-- 获取资源树-->
+		<action name="loadPermissionTree" class="permissionAction" method="loadPermissionTree"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 获取角色列表-->
+		<action name="findRoleList" class="roleAction" method="findRoleList"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 角色添加-->
+		<action name="saveRole" class="roleAction" method="saveRole"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 角色编辑-->
+		<action name="updateRole" class="roleAction" method="updateRole"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 角色删除-->
+		<action name="deleteRoles" class="roleAction" method="deleteRoles"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 验证角色名称重复-->
+        <action name="validateRoleName" class="roleAction" method="validateRoleName"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 获取角色树-->
+		<action name="loadRoleTree" class="roleAction" method="loadRoleTree"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 获取用户列表-->
+		<action name="findUserList" class="authUserAction" method="findUserList"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 用户添加-->
+		<action name="saveUser" class="authUserAction" method="saveUser"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 用户编辑-->
+		<action name="updateUser" class="authUserAction" method="updateUser"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 用户删除-->
+		<action name="deleteUsers" class="authUserAction" method="deleteUsers"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 验证用户名称重复-->
+        <action name="validateUserName" class="authUserAction" method="validateUserName"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 用户启用禁用-->
+        <action name="enabledUserById" class="authUserAction" method="enabledUserById"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 修改用户密码-->
+        <action name="updateUserPassword" class="authUserAction" method="updateUserPassword"> 
+	        <result name="success" type="json"></result> 
+        </action>
+	</package>
+	<!-- 对象管理 -->
+	<package name="ObjectManage" extends="base" namespace="/">
+	<!-- 跳转到对象表格 -->
+	   <action name="infos" class="dataTypeAction" method="info">
+	       <result>/WEB-INF/jsp/system/dataType/ObjectList.jsp</result>
+	   </action>
+	   <!-- 添加对象 -->
+	   <action name="addObject" class="dataTypeAction" method="addObject">
+	       <result>/WEB-INF/jsp/system/dataType/addObject.jsp</result>
+	   </action>
+	   <!-- 保存对象 -->
+	   <action name="saveObject" class="dataTypeAction" method="saveObject">
+            <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result> 
+        </action>
+        <!-- 删除对象 -->
+        <action name="delObjByid" class="dataTypeAction" method="delObjByid"></action>
+        <!-- 更新对象 -->
+        <action name="updateObjByid" class="dataTypeAction" method="updateObjByid">
+            <result name="success">/WEB-INF/jsp/system/dataType/addObject.jsp</result>
+        </action>
+        <!-- 删除对象属性 -->
+        <action name="delProByid" class="dataTypeAction" method="delProByid" ></action>
+	</package>
+	<package name="Objectajax" extends="jsondefault" namespace="/">
+	<!-- 加载对象表格 -->
+	    <action name="searchList" class="dataTypeAction" method="searchList">
+           <result name="success" type="json"></result> 
+        </action>
+	</package>
+	<!-- 日志管理-->
+	<package name="logManage" extends="base" namespace="/">
+	   <action name="logManageIndex" class="logManageAction" method="logManageIndex"> 
+	        <result name="success">
+	      		/WEB-INF/jsp/system/logManage/LogManage.jsp
+	      	</result>
+        </action>
+        <action name="getLogList" class="logManageAction" method="getLogList"> 
+	        <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>  
+        </action>
+	</package>
+	
+	<!-- 恢复出厂-->
+	<package name="resetData" extends="base" namespace="/reset">
+	   <action name="viewResetPage" class="resetAction" method="viewResetPage"> 
+	        <result name="success">/WEB-INF/jsp/system/reset/reset.jsp</result>
+        </action>
+	</package>
+	<package name="ajaxResetData" extends="jsondefault" namespace="/ajaxReset">
+	    <action name="resetData" class="resetAction" method="resetData">
+           <result name="success" type="json"></result> 
+        </action>
+	</package>
+	
+</struts>

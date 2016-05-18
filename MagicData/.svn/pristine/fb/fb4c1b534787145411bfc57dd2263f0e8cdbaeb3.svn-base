@@ -1,0 +1,115 @@
+package com.integrity.lawCase.exportLaw.util;
+
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.integrity.lawCase.caseManage.bean.CaseObject;
+
+public class ReadExcel {
+	
+	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	
+	public static void main(String[] args) throws Exception {
+		readLCExcel("");
+	}
+	
+	public static List<CaseObject> readLCExcel(String path) throws Exception{
+//		path = "C:\\Users\\RenSx\\Desktop\\cases.xlsx";
+		List<CaseObject> list = new ArrayList<CaseObject>();
+//		InputStream is = new FileInputStream(path);
+		DataInputStream input=new DataInputStream(new BufferedInputStream((new FileInputStream(path)))); 
+		String suffix = path.substring(path.lastIndexOf(".")+1);
+		Workbook workbook = null;
+		if("xls".equals(suffix)){
+			workbook = new HSSFWorkbook(input);
+		}else if("xlsx".equals(suffix)){
+			workbook = new XSSFWorkbook(input);
+		}else{
+			throw new Exception("该文件不是excel文件！");
+		}
+		
+		
+		CaseObject c = null;
+		for(int numSheet=0;numSheet<workbook.getNumberOfSheets();numSheet++){
+			
+			Sheet sheet = workbook.getSheetAt(numSheet);
+			if(sheet==null){
+				continue;
+			}
+			//先判断是不是咱的模板
+			Row r = sheet.getRow(0);
+			Cell cell = r.getCell(12);
+			String value = getValue(cell);
+			if(value==null||!"123456".equals(value)){
+				throw new Exception("此文件不符合本站模板格式，请先下载模板再录入案件！");
+			}
+			for(int rowNum=1;rowNum<=sheet.getLastRowNum();rowNum++){
+				Row row = sheet.getRow(rowNum);
+				if(row!=null){
+					c = new CaseObject();
+					Cell caseName = row.getCell(0);//案件名称
+					c.setCaseName(getValue(caseName));
+					Cell createTime = row.getCell(1);//创建时间
+					String time = getValue(createTime);
+					Date date = sdf.parse(time);
+					c.setCreateTime(date);
+					Cell caseLevelName = row.getCell(2);//案件级别
+					c.setCaseLevelName(getValue(caseLevelName));
+					/*Cell caseLevel = row.getCell(3);//案件级别编号
+					c.setCaseLevel(getValue(caseLevel));*/
+					Cell caseLeader = row.getCell(3);//案件负责人
+					c.setCaseLeader(getValue(caseLeader));
+					Cell caseSupervisor = row.getCell(4);//案件督办人
+					c.setCaseSupervisor(getValue(caseSupervisor));
+					Cell caseUserNames = row.getCell(5);//案件人员
+					c.setCaseUserNames(getValue(caseUserNames));
+					/*Cell caseUserIds = row.getCell(7);//案件人员ids
+					c.setCaseUserIds(getValue(caseUserIds));*/
+					Cell caseStatusName = row.getCell(6);//案件状态名字
+					c.setCaseStatusName(getValue(caseStatusName));
+					/*Cell caseStatus = row.getCell(9);//案件状态编号
+					c.setCaseStatus(getValue(caseStatus));*/
+					Cell directionCodeName = row.getCell(7);//所属方向名称
+					c.setDirectionName(getValue(directionCodeName));
+					/*Cell directionCode = row.getCell(11);//方向代码
+					c.setDirectionCode(getValue(directionCode));*/
+					Cell caseAim = row.getCell(8);//案件目标
+					c.setCaseAim(getValue(caseAim));
+					Cell memo = row.getCell(9);//备注
+					c.setMemo(getValue(memo));
+					list.add(c);
+				}
+			}
+		}
+		return list;
+	}
+	
+    private static String getValue(Cell name) {
+    	 if(name.getCellType()==Cell.CELL_TYPE_BOOLEAN){
+    		 return String.valueOf(name.getBooleanCellValue());
+    	 }else if(name.getCellType()==Cell.CELL_TYPE_FORMULA){
+    		 return String.valueOf(name.getCellFormula());
+    	 }else if(name.getCellType()==Cell.CELL_TYPE_NUMERIC){
+    		 if(HSSFDateUtil.isCellDateFormatted(name)){
+    			 double d = name.getNumericCellValue();
+    			 Date date = HSSFDateUtil.getJavaDate(d);
+    			 return sdf.format(date);
+    		 }
+    	 }
+    	 return String.valueOf(name.getStringCellValue());
+    }   
+
+}

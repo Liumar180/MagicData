@@ -1,0 +1,158 @@
+package com.integrity.dataSmart.impAnalyImport.bean;
+
+import org.apache.solr.client.solrj.beans.Field;
+
+/**
+ * @author liuBf
+ * 简历信息
+ */
+public class Resume {
+	@Field("vertexID")
+	private String vertexID;//节点ID
+	@Field("InformationID")
+	private String InformationID;
+	@Field("type")
+	private String type;
+	@Field("Keywords")
+	private String Keywords;
+	@Field("Title")
+	private String Title;
+	@Field("Description")
+	private String Description;
+	@Field("AreaCode")
+	private String AreaCode;
+	@Field("City")
+	private String City;
+	@Field("CreationDate")
+	private String CreationDate;
+	@Field("crDate")
+	private String uTCDate;//创建时间毫秒
+	@Field("ApprovalDate")
+	private String ApprovalDate;
+	@Field("CountryType")
+	private String CountryType;
+	@Field("Private")
+	private String Private;
+	@Field("State")
+	private String State;
+	@Field("Zip")
+	private String Zip;
+	@Field("BeginDate")
+	private String BeginDate;
+	@Field("ModifyDate")
+	private String ModifyDate;
+	@Field("moDate")
+	private String uTMDate;//修改时间毫秒
+	
+	public String getBeginDate() {
+		return BeginDate;
+	}
+	public void setBeginDate(String beginDate) {
+		BeginDate = beginDate;
+	}
+	public String getVertexID() {
+		return vertexID;
+	}
+	public void setVertexID(String vertexID) {
+		this.vertexID = vertexID;
+	}
+	public String getKeywords() {
+		return Keywords;
+	}
+	public void setKeywords(String keywords) {
+		Keywords = keywords;
+	}
+	public String getTitle() {
+		return Title;
+	}
+	public void setTitle(String title) {
+		Title = title;
+	}
+	public String getDescription() {
+		return Description;
+	}
+	public void setDescription(String description) {
+		Description = description;
+	}
+	public String getAreaCode() {
+		return AreaCode;
+	}
+	public void setAreaCode(String areaCode) {
+		AreaCode = areaCode;
+	}
+	public String getCity() {
+		return City;
+	}
+	public void setCity(String city) {
+		City = city;
+	}
+	public String getCreationDate() {
+		return CreationDate;
+	}
+	public void setCreationDate(String creationDate) {
+		CreationDate = creationDate;
+	}
+	public String getuTCDate() {
+		return uTCDate;
+	}
+	public void setuTCDate(String uTCDate) {
+		this.uTCDate = uTCDate;
+	}
+	public String getApprovalDate() {
+		return ApprovalDate;
+	}
+	public void setApprovalDate(String approvalDate) {
+		ApprovalDate = approvalDate;
+	}
+	public String getCountryType() {
+		return CountryType;
+	}
+	public void setCountryType(String countryType) {
+		CountryType = countryType;
+	}
+	public String getPrivate() {
+		return Private;
+	}
+	public void setPrivate(String private1) {
+		Private = private1;
+	}
+	public String getState() {
+		return State;
+	}
+	public void setState(String state) {
+		State = state;
+	}
+	public String getZip() {
+		return Zip;
+	}
+	public void setZip(String zip) {
+		Zip = zip;
+	}
+	public String getModifyDate() {
+		return ModifyDate;
+	}
+	public void setModifyDate(String modifyDate) {
+		ModifyDate = modifyDate;
+	}
+	public String getuTMDate() {
+		return uTMDate;
+	}
+	public void setuTMDate(String uTMDate) {
+		this.uTMDate = uTMDate;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getInformationID() {
+		return InformationID;
+	}
+	public void setInformationID(String informationID) {
+		InformationID = informationID;
+	}
+	
+	
+
+}

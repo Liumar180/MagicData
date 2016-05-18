@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.integrity.dataSmart.titanGraph.bean.PropertyHistory" table="propertyHistory" >
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="vertexId" type="java.lang.Long">
+            <column name="vertexId" length="64" not-null="true">
+                <comment>节点id</comment>
+            </column>
+        </property>
+        <property name="type" type="java.lang.String">
+            <column name="type" length="20" not-null="true">
+                <comment>节点类型</comment>
+            </column>
+        </property>
+        <property name="property" type="java.lang.String">
+            <column name="property" length="64" not-null="true">
+                <comment>属性名</comment>
+            </column>
+        </property>
+        <property name="value" type="java.lang.String">
+            <column name="value" length="255" not-null="true">
+                <comment>属性值</comment>
+            </column>
+        </property>
+        <property name="updateTime" type="java.util.Date">
+            <column name="updateTime"  not-null="true">
+                <comment>修改时间</comment>
+            </column>
+        </property>
+        <property name="userName" type="java.lang.String">
+            <column name="userName" length="64" not-null="true">
+                <comment>用户</comment>
+            </column>
+        </property>
+        
+    </class>
+</hibernate-mapping>

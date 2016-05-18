@@ -1,0 +1,2374 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0056)http://blog.csdn.net/u013327467/article/details/45675705 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/get_unread"></script><script type="text/javascript" async="" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/acom"></script>   
+    
+     
+    <script type="text/javascript" async="" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/acom(1)"></script><script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/tracking.js" charset="utf-8"></script>  
+
+    <script type="text/javascript">
+        var protocol = window.location.protocol;
+        document.write('<script type="text/javascript" src="' + protocol + '//csdnimg.cn/pubfooter/js/repoAddr2.js?v=' + Math.random() + '"></' + 'script>');
+    </script><script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/repoAddr2.js"></script>
+
+  
+ <meta http-equiv="Cache-Control" content="no-siteapp"><link rel="alternate" media="handheld" href="http://blog.csdn.net/u013327467/article/details/45675705#">
+
+    <title>Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子
+        - 博客频道 - CSDN.NET</title>
+    
+    <meta name="description" content="用Android rotate动画实现翻页效果，效果如图：要实现上面动画，首先搞明白rotate动画原理；（1）Degrees坐标：                      0度（360度）  270度 90度  顺时针旋转                        180（2）rotate 关键属性          fromDegree">
+    <script src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/ad.js"></script>
+        <!--new top-->
+       
+        <link rel="stylesheet" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/index.css">
+        <!--new top-->
+
+    <link rel="Stylesheet" type="text/css" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/style.css">
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/u013327467/rss/list">
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/default.css">
+ 
+
+
+<script src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/share.js"></script><link rel="stylesheet" type="text/css" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/job_reco.css"><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><link href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/bdsstyle.css" rel="stylesheet" type="text/css"><script type="text/javascript" charset="utf-8" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/main.js"></script><link rel="stylesheet" type="text/css" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/style(1).css"><link rel="stylesheet" type="text/css" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/style(2).css"><script src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/logger.js"></script><link rel="stylesheet" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/share_style0_16.css"></head>
+<body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/o.html" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div><iframe frameborder="0" style="display: none;"></iframe><div id="MathJax_Message" style="display: none;"></div>
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/html.js" type="text/javascript"></script><div class="csdn-toolbar csdn-toolbar-skin-black ">        <div class="container row center-block ">          <div class="col-md-3 pull-left logo clearfix"><a href="http://www.csdn.net/?ref=toolbar" title="CSDN首页" target="_blank" class="icon"></a><a title="频道首页" href="http://blog.csdn.net/?ref=toolbar_logo" class="img blog-icon"></a></div>          <div class="pull-right login-wrap ">            <ul class="btns">              <li class="loginlink"><a href="https://passport.csdn.net/account/login?ref=toolbar" target="_top">登录&nbsp;</a>|<a target="_top" href="http://passport.csdn.net/account/mobileregister?ref=toolbar&action=mobileRegister">&nbsp;注册</a></li>              <li class="search">                <div class="icon on-search-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <form action="http://so.csdn.net/search" method="get" target="_blank">                      <input type="hidden" value="toolbar" name="ref" accesskey="2">                      <div class="border">                        <input placeholder="搜索" type="text" value="" name="q" accesskey="2"><span class="icon-enter-sm"></span>                      </div>                    </form>                  </div>                </div>              </li>              <li class="favor">                <div class="icon on-favor-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div style="display:none;" class="favor-success"><span class="msg">收藏成功</span>                      <div class="btns"><span class="btn btn-primary ok">确定</span></div>                    </div>                    <div style="display:none;" class="favor-failed"><span class="icon-danger-lg"></span><span class="msg">收藏失败，请重新收藏</span>                      <div class="btns"><span class="btn btn-primary ok">确定</span></div>                    </div>                    <form role="form" class="form-horizontal favor-form">                      <div class="form-group">                        <div class="clearfix">                          <label for="input-title" class="col-sm-2 control-label">标题</label>                          <div class="col-sm-10">                            <input id="inputTitle" type="text" placeholder="" class="title form-control">                          </div>                        </div>                        <div class="alert alert-danger"><strong></strong>标题不能为空</div>                      </div>                      <div class="form-group">                        <label for="input-url" class="col-sm-2 control-label">网址</label>                        <div class="col-sm-10">                          <input id="input-url" type="text" placeholder="" class="url form-control">                        </div>                      </div>                      <div class="form-group">                        <label for="input-tag" class="col-sm-2 tag control-label">标签</label>                        <div class="col-sm-10">                          <input id="input-tag" type="text" class="form-control tag">                        </div>                      </div>                      <div class="form-group">                        <label for="input-description" class="description col-sm-2 control-label">摘要</label>                        <div class="col-sm-10">                          <textarea id="input-description" class="form-control description"></textarea>                        </div>                      </div>                      <div class="form-group">                        <div class="col-sm-offset-2 col-sm-10 ft">                          <div class="col-sm-4 pull-left">                            <div class="checkbox">                              <label>                                <input type="checkbox" name="share" checked="checked" class="share">公开                              </label>                            </div>                          </div>                          <div class="col-sm-8 pull-right favor-btns">                            <button type="button" class="cancel btn btn-default">取消</button>                            <button type="submit" class="submit btn btn-primary">收藏</button>                          </div>                        </div>                      </div>                    </form>                  </div>                </div>              </li>              <li class="notify">                <div style="display:none" class="number"></div>                <div style="" class="icon-hasnotes-sm"></div>                <div id="header_notice_num"><div class="icon-hasnotes" style=""></div></div>                <div class="icon on-notify-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div id="note1" class="csdn_note" style="display: block; left: -212px; top: 25px;">                      <div class="box"><div class="notifications notice_list_con curr">  <div class="menu_title">    <span class="title"><a href="http://msg.csdn.net/letters" target="_blank" class="read_all">查看所有私信</a><a href="http://msg.csdn.net/" target="_blank" class="go_all">查看所有通知</a></span>  </div>  <div class="loading" style="display: block;"></div>  <div class="empty" style="display: none;">暂没有新通知</div>  <div class="notice_content" style="overflow-y: auto; max-height: 270px;"><dl data-ids="15010130" class="list rev_type1234" style="/*display: none*/">  <dt>    <i></i>    <span class="item_title"> 【每日一课】Unity3D实战进阶教程—第二篇     </span>    <span class="count_down">01-23</span>  </dt></dl><dl data-ids="14991723" class="list rev_type1234" style="/*display: none*/">  <dt>    <i></i>    <span class="item_title"> 【每日一课】【深入理解计算机网络】入门必备的计算机网络基础视频课程（下）     </span>    <span class="count_down">01-22</span>  </dt></dl><dl data-ids="14961701" class="list rev_type1234" style="/*display: none*/">  <dt>    <i></i>    <span class="item_title"> 【每日一课】通俗易懂UML     </span>    <span class="count_down">01-20</span>  </dt></dl><dl data-ids="14955592" class="list rev_type1234" style="/*display: none*/">  <dt>    <i></i>    <span class="item_title"> 【精品课程】实战进阶学习Unity3d游戏开发     </span>    <span class="count_down">01-19</span>  </dt></dl><dl data-ids="14670603" class="list rev_type1234" style="/*display: none*/">  <dt>    <i></i>    <span class="item_title"> CSDN 2014博客之星评选开始啦~     </span>    <span class="count_down">2014-12-29</span>  </dt></dl></div></div><div class="notifications detail_con" style="display: none">  <div class="menu_title">    <span class="title">      <a class="go_back" href="javascript:void 0;">返回通知列表</a>      <a class="notifications_page_none nextnote" href="javascript:void 0;">下一条</a>      <a class="notifications_page prvnote" href="javascript:void 0;">上一条</a>    </span>  </div>  <div class="notice_content" style="overflow-y: scroll; height: 250px;"><div style="/*display: none*/">  <dl class="detail_list rev_type1234" data-ids="15010130">    <dt>      <i></i>      <span class="item_title"><a href="http://edu.csdn.net/course/detail/376" target="_blank">【每日一课】Unity3D实战进阶教程—第二篇</a></span>      <span class="count_down"></span>    </dt>  </dl>  <div class="loading"></div>  <div class="empty">暂没有新通知</div>  <a class="notifications_more" target="_blank">查看其它 0 条</a></div><div style="/*display: none*/">  <dl class="detail_list rev_type1234" data-ids="14991723">    <dt>      <i></i>      <span class="item_title"><a href="http://edu.csdn.net/course/detail/356" target="_blank">【每日一课】【深入理解计算机网络】入门必备的计算机网络基础视频课程（下）</a></span>      <span class="count_down"></span>    </dt>  </dl>  <div class="loading"></div>  <div class="empty">暂没有新通知</div>  <a class="notifications_more" target="_blank">查看其它 0 条</a></div><div style="/*display: none*/">  <dl class="detail_list rev_type1234" data-ids="14961701">    <dt>      <i></i>      <span class="item_title"><a href="http://edu.csdn.net/course/detail/174" target="_blank">【每日一课】通俗易懂UML</a></span>      <span class="count_down"></span>    </dt>  </dl>  <div class="loading"></div>  <div class="empty">暂没有新通知</div>  <a class="notifications_more" target="_blank">查看其它 0 条</a></div><div style="/*display: none*/">  <dl class="detail_list rev_type1234" data-ids="14955592">    <dt>      <i></i>      <span class="item_title"><a href="http://edu.csdn.net/course/detail/305">&nbsp;&nbsp;【精品课程】实战进阶学习Unity3d游戏开发 </a></span><a href="http://edu.csdn.net/course/detail/305">      <span class="count_down"></span>    </a></dt><a href="http://edu.csdn.net/course/detail/305">  </a></dl><a href="http://edu.csdn.net/course/detail/305">  <div class="loading"></div>  <div class="empty">暂没有新通知</div>  </a><a class="notifications_more" target="_blank">查看其它 0 条</a></div><div style="/*display: none*/">  <dl class="detail_list rev_type1234" data-ids="14670603">    <dt>      <i></i>      <span class="item_title">博客之星，感谢有你~<a href="http://vote.blog.csdn.net/" target="_blank">CSDN 2014博客之星评选 </a>开始啦~</span>      <span class="count_down"></span>    </dt>  </dl>  <div class="loading"></div>  <div class="empty">暂没有新通知</div>  <a class="notifications_more" target="_blank">查看其它 0 条</a></div></div></div><div class="error"></div></div>                    <iframe src="about:block" frameborder="0" allowtransparency="true" style="z-index:-1;position:absolute;top:0;left:0;width:100%;height:100%;background:transparent"></iframe></div>                  </div>                </div>              </li>              <li class="ugc">                <div class="icon on-ugc-icon">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <dl>                      <dt><a href="http://geek.csdn.net/news/expert?ref=toolbar" target="_blank" class="p-news clearfix" style="display:none;"><em class="icon"></em><span>分享资讯</span></a></dt>                      <dt><a href="http://u.download.csdn.net/upload?ref=toolbar" target="_blank" class="p-doc clearfix"><em class="icon"></em><span>传PPT/文档</span></a></dt>                      <dt><a href="http://bbs.csdn.net/topics/new?ref=toolbar" target="_blank" class="p-ask clearfix"><em class="icon"></em><span>提问题</span></a></dt>                      <dt><a href="http://write.blog.csdn.net/postedit?ref=toolbar" target="_blank" class="p-blog clearfix"><em class="icon"></em><span>写博客</span></a></dt>                      <dt><a href="http://u.download.csdn.net/upload?ref=toolbar" target="_blank" class="p-src clearfix"><em class="icon"></em><span>传资源</span></a></dt>                      <dt><a href="https://code.csdn.net/projects/new?ref=toolbar" target="_blank" class="c-obj clearfix"><em class="icon"></em><span>创建项目</span></a></dt>                      <dt><a href="https://code.csdn.net/snippets/new?ref=toolbar" target="_blank" class="c-code clearfix"><em class="icon"></em><span>创建代码片</span></a></dt>                    </dl>                  </div>                </div>              </li>              <li class="profile">                <div class="icon on-profile-icon"><img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/2_lzrcoming.jpg" class="curr-icon-img">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div class="bd">                      <dl class="clearfix">                        <dt class="pull-left img"><a target="_blank" href="http://my.csdn.net/?ref=toolbar" class="avatar"><img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/2_lzrcoming.jpg"></a></dt>                        <dd class="info" style="border: none;"><a target="_blank" href="http://my.csdn.net/?ref=toolbar" class="nickname">lzrcoming</a><span class="dec"><a class="fill-dec" href="http://my.csdn.net/" target="_blank">编辑自我介绍，让更多人了解你<span class="write-icon"></span></a></span></dd>                      </dl>                    </div>                    <div class="ft clearfix"><a target="_blank" href="http://my.csdn.net/my/account/changepwd?ref=toolbar" class="pull-left"><span class="icon-cog"></span>帐号设置</a><a href="https://passport.csdn.net/account/logout?ref=toolbar" target="_top" class="pull-left" style="margin-left:132px; width:18px; height:27px; white-space:nowrap; overflow:hidden;"><span class="icon-signout"></span><span class="out">退出</span></a></div>                  </div>                </div>              </li>              <li class="apps">                <div id="chasnew123" class="hasnew" style="display: none;"></div>                <div id="cappsarea123" class="icon on-apps-icon">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                  <div class="detail">                    <dl>                      <dt>                        <h5>社区</h5>                      </dt>                      <dd> <a href="http://blog.csdn.net/?ref=toolbar" target="_blank">博客</a></dd>                      <dd> <a href="http://bbs.csdn.net/?ref=toolbar" target="_blank">论坛</a></dd>                      <dd> <a href="http://download.csdn.net/?ref=toolbar" target="_blank">下载</a></dd>                      <dd><a href="http://ask.csdn.net/?ref=toolbar" target="_blank">技术问答</a></dd>                      <dd><a href="http://geek.csdn.net/?ref=toolbar" target="_blank">极客头条</a></dd>                      <dd style="display:none"> <a href="http://hero.csdn.net/?ref=toolbar" target="_blank">英雄会</a></dd>                    </dl>                  </div>                  <div class="detail">                    <dl>                      <dt>                        <h5>服务</h5>                      </dt>                      <dd style="display:none"> <a href="http://job.csdn.net/?ref=toolbar" target="_blank">JOB<img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/new.gif" style="display: none; margin-top: -26px; width: 23px;"></a></dd>                      <dd> <a href="http://edu.csdn.net/?ref=toolbar" target="_blank">学院<img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/new.gif" style="display: none; margin-top: -26px; width: 23px;"></a></dd>                      <dd> <a href="https://code.csdn.net/?ref=toolbar" target="_blank">CODE</a></dd>                      <dd> <a href="http://huiyi.csdn.net/?ref=toolbar" target="_blank">活动</a></dd>                      <dd> <a href="http://www.csto.com/?ref=toolbar" target="_blank">CSTO</a></dd>                      <dd> <a href="http://mall.csdn.net/?ref=toolbar" target="_blank">C币兑换<img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/new.gif" style="display: none; margin-top: -26px; width: 23px;"></a></dd>                    </dl>                  </div>                  <div class="detail last">                    <dl>                      <dt>                        <h5>俱乐部</h5>                      </dt>                      <dd> <a href="http://cto.csdn.net/?ref=toolbar" target="_blank">CTO俱乐部</a></dd>                      <dd> <a href="http://student.csdn.net/?ref=toolbar" target="_blank">高校俱乐部</a></dd>                    </dl>                  </div>                </div>              </div>            </li>            </ul>          </div>        </div>    </div>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/u013327467">杯子</a></h2>
+            <h3></h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>
+            
+                <li id="btnContents"><a href="http://blog.csdn.net/u013327467?viewmode=contents"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_mulu&#39;])">
+                    <img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/u013327467?viewmode=list"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_zhaiyao&#39;])">
+                    <img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/u013327467/rss/list"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_RSS&#39;])">
+                    <img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/ico_rss.gif">订阅</span></a></li>                
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "u013327467";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/u013327467";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "lzrcoming";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod="popu_3"> 
+
+<a href="http://huiyi.csdn.net/activity/product/goods_list?project_id=2741" target="_blank">
+<font color="red">2016软考项目经理实战班
+</font></a>
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://edu.csdn.net/yearPromotion" target="_blank">
+<font color="blue">学院周年礼-顶尖课程钜惠呈现
+</font></a>
+&nbsp;&nbsp;&nbsp;
+<a href="http://blog.csdn.net/blogdevteam/article/details/50495973" target="_blank">
+<font color="red">有奖征文：在云上开发的无限可能 </font>
+&nbsp;&nbsp;&nbsp;
+</a><a href="http://blog.csdn.net/blogdevteam/article/details/50509672" target="_blank">
+<font color="blue">2015年度社区之星 放榜啦
+</font></a>
+
+</div>                        </div>
+                        
+
+<!--AdForward Begin:-->
+<script type="text/javascript" ads-src="http://csdnim.qtmojo.com/main/s?user=csdn|blog|fumeiti&amp;db=csdnim&amp;border=0&amp;local=yes&amp;js=ie" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/AllyesDeliver.min.js" charset="gbk" id="allyes_ins_b36c261c" ads-outputs="0" ads-tid="f1887392_0"></script><div id="f1887392_0" style="padding:0;margin:0;border:0;"><script type="text/javascript" data-belong="allyes" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/s"></script><script type="text/javascript">
+var cpro_id="u2392861";
+(window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id]={at:"3",rsi0:"300",rsi1:"250",pat:"17",tn:"baiduCustNativeAD_xuanfu",rss1:"#FFFFFF",conBW:"1",adp:"1",ptt:"0",titFF:"%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",titFS:"14",rss2:"#000000",titSU:"0"}
+</script>
+<script src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/f.js" type="text/javascript"></script><script type="text/javascript" data-belong="allyes" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/delay.min.js"></script><script type="text/javascript" data-belong="allyes" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/delay.min.js"></script><script type="text/javascript" data-belong="allyes" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/delay.min.js"></script><script type="text/javascript" data-belong="allyes" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/delay.min.js"></script><script type="text/javascript" data-belong="allyes" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/delay.min.js"></script></div>
+<!--AdForward End-->
+
+  
+<link href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/comment1.css" type="text/css" rel="stylesheet">
+<link href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/style1.css" type="text/css" rel="stylesheet">
+<script language="JavaScript" type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/jquery.cookie.js"></script>
+<script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/main(1).js"></script>
+<link rel="stylesheet" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/markdown_views.css">
+<link rel="stylesheet" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/category.css">
+<script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/MathJax.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+           
+            var isBole = false;
+            
+          
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET.html">
+        Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建            
+        </a></span>
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href="http://www.csdn.net/tag/hive" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">hive</a><a href="http://www.csdn.net/tag/hadoop" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">hadoop</a><a href="http://www.csdn.net/tag/hbase" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">hbase</a><a href="http://www.csdn.net/tag/zookeeper" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">zookeeper</a><a href="http://www.csdn.net/tag/spark" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">spark</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2015-05-12 22:09</span>
+            <span class="link_view" title="阅读次数">1549人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="http://blog.csdn.net/u013327467/article/details/45675705#comments" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_pinglun&#39;])">评论</a>(2)</span>
+            <span class="link_collect"> <a href="javascript:void(0);" onclick="javascript:collectArticle(&#39;Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建&#39;,&#39;45675705&#39;);return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="http://blog.csdn.net/u013327467/article/details/45675705#report" onclick="javascript:report(45675705,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label>
+                        <span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_fenlei&#39;]);">spark<em></em></span>                       
+                    </label>      
+        </div>
+    </div>
+    <script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/category.js"></script>  
+
+  
+
+  
+  
+     
+
+<div id="article_content" class="article_content">
+        <div class="markdown_views"><hr>
+
+<pre><code>                                                             前言
+</code></pre>
+
+<p>本博客目的在于跟大家分享大数据平台搭建过程，是笔者半年的结晶。在大数据搭建过程中,希望能给大家提过一些帮助，这也是本博客的价值所在。  <br>
+博客内容分为将五个部分，具体如下：</p>
+
+<hr>
+
+<p>第一部分  集群平台搭建 <br>
+第二部分  SSH登录和JDK安装 <br>
+第三部分 Hadoop-2.6.0+zookeeper-3.4.6集群搭建 <br>
+第四部分 Spark集群搭建 <br>
+第五部分 Hive集群搭建 <br>
+第六部分 Hbase 集群搭建</p>
+
+<hr>
+
+<p>以下是本集群所需要的软件，大家可按需要进行下载： <br>
+Ubuntu14.04 <br>
+VMware Workstation 12 Pro for Linux <br>
+Hadoop-2.6.0  <br>
+jdk-7u80-linux-x64.gz <br>
+Zookeeper-3.4.6 <br>
+Spark-1.5.0 <br>
+Hbase-1.1.2 <br>
+Hive-1.2.0</p>
+
+<hr>
+
+<pre><code>                                              第一部分 Ubuntu物理机和虚拟机搭建
+</code></pre>
+
+<hr>
+
+<p>集群框架，采用一台物理机和两台虚拟机。在PC机上用easyBCD方式安装Win和Ubuntu双系统。 <br>
+一.安装easyBCD <br>
+1.下载 <br>
+网址：<a href="http://172.28.0.26/cache/4/02/crsky.com/f5eedf182f9ae67bdd575d0feaf80406/EasyBCD-v2.2.zip">http://172.28.0.26/cache/4/02/crsky.com/f5eedf182f9ae67bdd575d0feaf80406/EasyBCD-v2.2.zip</a> <br>
+2.设置引导 <br>
+安装好easyBCD，打开并点击添加新条目–&gt;安装–&gt;NeoGrub–&gt;配置，如图所示： <br>
+<img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/20151022220653434" alt="这里写图片描述" title=""> <br>
+点击配置后，会跳出menu.lst文件，删除文件里面的所有内容，并复制以下内容到文件内：</p>
+
+<pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">title Install Ubuntu
+
+root (hd0,<span class="hljs-number">1</span>)
+
+kernel (hd0,<span class="hljs-number">1</span>)/vmlinuz<span class="hljs-preprocessor">.efi</span> boot=casper iso-scan/filename=/ubuntu-<span class="hljs-number">14.04</span>-desktop-amd64<span class="hljs-preprocessor">.iso</span> ro quiet splash locale=zh_CN<span class="hljs-preprocessor">.UTF</span>-<span class="hljs-number">8</span>
+
+initrd (hd0,<span class="hljs-number">1</span>)/initrd<span class="hljs-preprocessor">.lz</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul></pre>
+
+<p>注：如果Win操作系统有系统保留分区，则root处为1，即root(hd0,1)；如果没有则为0,即root(hd0,0)。</p>
+
+<p>二.安装Ubuntu</p>
+
+<p>将buntu-14.04-desktop-amd64.iso文件拷贝到C盘。用解压软件打开，在casper文件下有两个文件：initrd.lz、vmlinuz.efi，将它们复制到C盘。</p>
+
+<p>接下来重启PC,在引导界面选择NeoGrub，进入安装界面后，ctril+alt+t打开终端命令，输入以下命令需要使用的命令取消光盘驱动器挂载：</p>
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> umount <span class="hljs-operator">-l</span> /isodevice </code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>三.Ubuntu相关配置</p>
+
+<p>1.打开软件中心更改软件更新源，一般选择国内的网易。</p>
+
+<p>2.列举本地更新</p>
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> apt-get update</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>3.安装可用更新</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> apt-get upgrade</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>4.修改root用户登录 </p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">sudo gedit /usr/share/lightdm/lightdm<span class="hljs-preprocessor">.conf</span><span class="hljs-preprocessor">.d</span>/<span class="hljs-number">50</span>-ubuntu<span class="hljs-preprocessor">.conf</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>添加</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ini has-numbering"><span class="hljs-title">[SeatDefaults]</span>
+<span class="hljs-setting">greeter-session=<span class="hljs-value">unity-greeter</span></span>
+<span class="hljs-setting">user-session=<span class="hljs-value">ubuntu</span></span>
+<span class="hljs-setting">greeter-show-manual-login=<span class="hljs-value"><span class="hljs-keyword">true</span></span></span>
+<span class="hljs-setting">allow-guest=<span class="hljs-value"><span class="hljs-keyword">false</span>  </span></span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul></pre>
+
+<p>5.设置 root用户密码，,并输入root用户的密码 </p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> passwd root  </code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>6.卸载防火墙</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs cs has-numbering">ufw disable   <span class="hljs-comment">//关闭</span>
+sudo apt-<span class="hljs-keyword">get</span> remove  ufw   <span class="hljs-comment">//卸载</span>
+sudo ufw status   <span class="hljs-comment">//查看</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>7.安装ssh <br>
+安装ssh-server</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs vbscript has-numbering">sudo apt-<span class="hljs-keyword">get</span> install openssh-<span class="hljs-built_in">server</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>安装ssh-client</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">sudo apt<span class="hljs-attribute">-get</span> install openssh<span class="hljs-attribute">-client</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<pre class="prettyprint" name="code"><code class="hljs 1c has-numbering">验证：
+ps -e <span class="hljs-string">| grep ssh</span>
+
+<span class="hljs-number">450</span> ??<span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> sshd  <span class="hljs-comment">//如果出现这个,则安装成功</span>
+
+重启ssh：
+/etc/init.d/ssh restart</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul></pre>
+
+<p>四.安装Ubuntu虚拟机</p>
+
+<p>1.下载VMware Workstation 12 Pro for Linux <br>
+ 网址：<a href="http://www.vmware.com/cn/products/workstation/workstation-evaluation">http://www.vmware.com/cn/products/workstation/workstation-evaluation</a> <br>
+密钥：</p>
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering"><span class="hljs-number">5</span>A02H<span class="hljs-attribute">-AU243</span><span class="hljs-attribute">-TZJ49</span><span class="hljs-attribute">-GTC7K</span><span class="hljs-subst">-</span><span class="hljs-number">3</span>C61N</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>2.安装VMware <br>
+使用以下命令安装VMware，”/home/huai/桌面/“为我在Ubuntu下文件路径名，大家可跟据自己的做更改。</p>
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">sudo chmod <span class="hljs-subst">+</span>x /home/huai<span class="hljs-subst">/</span>桌面/VMware<span class="hljs-attribute">-Workstation</span><span class="hljs-attribute">-Full</span><span class="hljs-subst">-</span><span class="hljs-number">12.0</span><span class="hljs-number">.0</span><span class="hljs-subst">-</span><span class="hljs-number">2985596.</span>x86_64<span class="hljs-built_in">.</span>bundle
+
+sudo /home/huai<span class="hljs-subst">/</span>桌面/VMware<span class="hljs-attribute">-Workstation</span><span class="hljs-attribute">-Full</span><span class="hljs-subst">-</span><span class="hljs-number">12.0</span><span class="hljs-number">.0</span><span class="hljs-subst">-</span><span class="hljs-number">2985596.</span>x86_64<span class="hljs-built_in">.</span>bundle</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>3.安装虚拟机</p>
+
+<p>注：虚拟机用户名要与物理机的用户名保持一致，如笔者的三台集群的用户名都是“huai”。</p>
+
+<p>用VMware安装虚拟机，采用典型方式安装，操作过程很简单，就不在这叙述了，大家可另行百度。对于刚安装好Ubuntu虚拟机，是可以联网的。按照上面Ubuntu物理机的相关配置对虚拟机Ubuntu进行同样操作。</p>
+
+<p>配置好虚拟机,关闭虚拟机和VMware。复制安装的虚拟机文件，构成两台虚拟机。</p>
+
+<p>4.修改主机名</p>
+
+<p>因为笔者搭建此集群是为了学习spark,故将三台集群主机名命为spark01、spark02和spark03。其中，park01为物理机，充当主节点。spark02和spark03为两台虚拟机的主机名。</p>
+
+<p>修改物理机主机名,使用以下命令将主机名改为spark01:</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> gedit /etc/hostname</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>修改虚拟机主机名：同上,分别修改为spark02和spark03。</p>
+
+<p>五.修改IP</p>
+
+<p>集群IP分别设为</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs  has-numbering">192.168.8.101, 192.168.8.102, 192.168.8.103</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>1.设置虚拟机IP模式</p>
+
+<pre><code>    虚拟机网卡设置为host-only模式(具体操作，请百度)
+</code></pre>
+
+<p>2.设置spark02的IP</p>
+
+<p>通过界面设置IP</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs oxygene has-numbering">系统设置--&gt;网络--&gt;选项 --&gt;IPv4设置--&gt; <span class="hljs-function"><span class="hljs-keyword">method</span>选择为<span class="hljs-title">manual</span>--&gt; 点击<span class="hljs-title">add</span>按钮--添加
+<span class="hljs-title">IP</span>：192.168.8.102 子网掩码：255.255.255.0 网关：192.168.1.1--&gt; <span class="hljs-title">apply</span></span></code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>3.设置spark03的IP</p>
+
+<p>通过同样的方式把spark03的IP设置为：192.168.8.103</p>
+
+<p>4.设置物理机spark01的IP</p>
+
+<p>给物理机设置静态IP有点麻烦，因为在学校用的是内网，根据网上很多方法设置后，都无法再上网了。以下这种方式是网上比较常见的修改方式，但是不好使，只作参考，修改方式如下： <br>
+1）一种令人不愉快的方式</p>
+
+<pre class="prettyprint" name="code"><code class="hljs d has-numbering">打开：
+sudo gedit /etc/network/interfaces
+
+添加：
+<span class="hljs-keyword">auto</span> eth0
+iface eth0 inet <span class="hljs-keyword">static</span>  
+address <span class="hljs-number">192.168</span>.8.101  
+netmask <span class="hljs-number">255.255</span>.255.0  
+gateway <span class="hljs-number">192.168</span>.8.1  </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ul></pre>
+
+<p>设置DNS域名解析：</p>
+
+<pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">打开：
+sudo gedit /etc/resolv<span class="hljs-preprocessor">.conf</span> 
+
+添加：
+search nwu<span class="hljs-preprocessor">.edu</span><span class="hljs-preprocessor">.cn</span>
+nameserver <span class="hljs-number">202.117</span><span class="hljs-number">.96</span><span class="hljs-number">.5</span> 
+nameserver <span class="hljs-number">202.117</span><span class="hljs-number">.96</span><span class="hljs-number">.10</span>
+nameserver <span class="hljs-number">127.0</span><span class="hljs-number">.1</span><span class="hljs-number">.1</span>
+
+打开：
+sudo gedit /etc/resolvconf/resolv<span class="hljs-preprocessor">.conf</span><span class="hljs-preprocessor">.d</span>/tail
+
+添加：
+search nwu<span class="hljs-preprocessor">.edu</span><span class="hljs-preprocessor">.cn</span>
+nameserver <span class="hljs-number">202.117</span><span class="hljs-number">.96</span><span class="hljs-number">.5</span> 
+nameserver <span class="hljs-number">202.117</span><span class="hljs-number">.96</span><span class="hljs-number">.10</span>
+nameserver <span class="hljs-number">127.0</span><span class="hljs-number">.1</span><span class="hljs-number">.1</span>
+
+重启networking命令：
+
+sudo /etc/init<span class="hljs-preprocessor">.d</span>/networking restart
+sudo /etc/init<span class="hljs-preprocessor">.d</span>/resolvconf restart
+</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li><li>19</li><li>20</li><li>21</li><li>22</li><li>23</li></ul></pre>
+
+<p>笔者自己找到了两种方式设置一个固定的IP，简单且容易实现，关键在百度上都找不到。一种是采用桥接,第二种是绑定</p>
+
+<p>2）采用桥接</p>
+
+<pre class="prettyprint" name="code"><code class="hljs mathematica has-numbering"><span class="hljs-number">1.</span>点击桌面右上角网络图标栏中的<span class="hljs-string">"编辑连接"</span>,网络连接中选中<span class="hljs-string">"桥接"</span>,点击<span class="hljs-string">"添加"</span>;
+<span class="hljs-number">2.</span>对跳转出来选择连接类型窗口,选择<span class="hljs-string">"虚拟--桥接"</span>,点击<span class="hljs-string">"新建"</span>,
+<span class="hljs-number">3.</span>在桥接--桥接连接(c)处,点击<span class="hljs-string">"添加"</span>,选择<span class="hljs-string">"以太网"</span>,点击新建,在设备MAC地址(<span class="hljs-keyword">D</span>)处.选择<span class="hljs-string">"eth0"</span>,并<span class="hljs-string">"保存"</span>
+<span class="hljs-number">4.</span>点击IPv4设置,方法处选择为<span class="hljs-string">"手动"</span>,&gt;点击<span class="hljs-string">"添加"</span>设置IP为：<span class="hljs-number">192.168</span><span class="hljs-number">.8</span><span class="hljs-number">.101</span> 子网掩码：<span class="hljs-number">255.255</span><span class="hljs-number">.255</span><span class="hljs-number">.0</span> 网关：<span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.1</span>,<span class="hljs-string">"保存"</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>3）采用绑定</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs brainfuck has-numbering"><span class="hljs-comment">采用绑定的方式与桥接方式操作一样，就是在操作2中，选择“虚拟</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">绑定”，其他操作一样。</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>六.修改主机名和IP的映射关系</p>
+
+<p>整个集群的主机名和IP的映射关系的内容设置是一样的，<em>分别在三台机子上操作以下命令</em>：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs nginx has-numbering"><span class="hljs-title">sudo</span>  gedit  /etc/hosts
+
+添加:
+
+<span class="hljs-number">192.168.8.101</span>   spark01    
+<span class="hljs-number">192.168.8.102</span>   spark02
+<span class="hljs-number">192.168.8.103</span>   spark03 </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul></pre>
+
+<p>七.重启</p>
+
+<pre class="prettyprint" name="code"><code class="hljs  has-numbering">关闭两台虚拟机，并重启Ubuntu物理机</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<hr>
+
+<pre><code>                                         第二部分  SSH登录和JDK安装
+</code></pre>
+
+<hr>
+
+<p>一.SSH登录配置</p>
+
+<p>本集群的用户名为”huai”,集群尽量用统一的用户名,用不同的ssh登录时,还要进行一些其他操作，很麻烦。</p>
+
+<p>1.在物理机spark01上,使用以下命令,四个回车，并cd到相关目录，操作如下：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">huai<span class="hljs-variable">@spark01</span><span class="hljs-symbol">:~</span><span class="hljs-variable">$ </span>ssh-keygen -t rsa 
+huai<span class="hljs-variable">@spark01</span><span class="hljs-symbol">:~</span><span class="hljs-variable">$ </span>cd /home/huai/.ssh
+huai<span class="hljs-variable">@spark01</span><span class="hljs-symbol">:~/</span>.ssh<span class="hljs-variable">$ </span>ls
+id_rsa  id_rsa.pub</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>生成两个文件：id_rsa（私钥）、id_rsa.pub（公钥）</p>
+
+<p>2.对两台虚拟机进行同样操作(如上) </p>
+
+<p>3.将虚拟机的id_rsa.pub（公钥）传到spark01,”huai”是我集群的用户名,”huai”应改为你自己设定的用户名。分别在spark02和spark03进行以下操作：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">scp id_rsa.pub huai<span class="hljs-variable">@spark01</span><span class="hljs-symbol">:/home/huai/</span>.ssh/id_rsa.pub.spark02
+scp id_rsa.pub huai<span class="hljs-variable">@spark01</span><span class="hljs-symbol">:/home/huai/</span>.ssh/id_rsa.pub.spark03</code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>4.在物理机上，按以下操作：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">huai<span class="hljs-variable">@spark01</span><span class="hljs-symbol">:~</span><span class="hljs-variable">$ </span>cd /home/huai/.ssh
+huai<span class="hljs-variable">@spark01</span><span class="hljs-symbol">:~/</span>.ssh<span class="hljs-variable">$ </span>ls
+id_rsa.pub       id_rsa.pub.spark03
+id_rsa           id_rsa.pub.spark02 </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>将公钥导入到综合authorized_keys文件中，在目录huai@spark01:~/.ssh$下使用导入命令：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">cat id_rsa<span class="hljs-preprocessor">.pub</span> &gt;&gt; authorized_keys
+cat id_rsa<span class="hljs-preprocessor">.pub</span><span class="hljs-preprocessor">.spark</span>02 &gt;&gt; authorized_keys
+cat id_rsa<span class="hljs-preprocessor">.pub</span><span class="hljs-preprocessor">.spark</span>03 &gt;&gt; authorized_keys</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>5.将spark01上的authorized_keys复制到spark02和spark03的/home/huai/.ssh/目录下</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">scp authorized_keys huai<span class="hljs-variable">@spark02</span><span class="hljs-symbol">:/home/huai/</span>.ssh/authorized_keys
+scp authorized_keys huai<span class="hljs-variable">@spark03</span><span class="hljs-symbol">:/home/huai/</span>.ssh/authorized_keys </code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>6.ssh常见错误修改 <br>
+    因为笔者的已经配置好,具体错误就没法再重现了。不过只要按以下操作之后,保证不会再有错误。 <br>
+　　 <br>
+1）：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> gedit /etc/ssh/sshd_config</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>打开文件后，注释”PermitRootLogin without-password”,使用”#”注释 <br>
+ 并在其下面添加: PermitRootLogin yes </p>
+
+<p>2）：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs coffeescript has-numbering">打开:
+ sudo  gedit /etc/ssh/ssh_config 
+
+添加：
+
+StrictHostKeyChecking <span class="hljs-literal">no</span>
+UserKnownHostsFile /dev/<span class="hljs-literal">null</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul></pre>
+
+<p>3）： <br>
+如果有Agent admitted failure to sign using the key错误抛出，执行以下命令即可：</p>
+
+<pre class="prettyprint" name="code"><code class="hljs livecodeserver has-numbering">ssh-<span class="hljs-built_in">add</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>4）： <br>
+     如果ssh登录时,在known_hosts报出警告,后面显示一个数字,使用以下命令将其删除,比如显示数字”8”.</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">sed -i <span class="hljs-number">8</span>d /home/huai/<span class="hljs-preprocessor">.ssh</span>/known_hosts</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>7.分别在每台上进行以下ssh登录,使用”exit”退出</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs  has-numbering">ssh spark01
+ssh spark02
+ssh spark03</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>二.安装JDK</p>
+
+<p>1.下载jdk，6和8不做考虑，8不支持，6版本太低，下载地址如下：</p>
+
+<p><a href="http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz">http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz</a></p>
+
+<p>2.安装</p>
+
+<p>创建java文件夹：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> mkdir /usr/java</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>解压</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">sudo tar <span class="hljs-attribute">-zxvf</span> /home/huai<span class="hljs-subst">/</span>桌面/jdk<span class="hljs-subst">-</span><span class="hljs-number">7</span>u80<span class="hljs-attribute">-linux</span><span class="hljs-attribute">-x64</span><span class="hljs-built_in">.</span>gz <span class="hljs-attribute">-C</span> /usr/java<span class="hljs-subst">/</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>修改文件权限</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> chmod -R <span class="hljs-number">777</span> /usr/java/    </code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>3.修改环境变量 <br>
+       因为笔者集群已经搭建好了,为了让大家不要经常修改环境变量,笔者在此处把所有安装包的环境变量都列出来,供大家参考。</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">操作：
+<span class="hljs-built_in">sudo</span> gedit /etc/profile
+
+在文件最后添加：
+<span class="hljs-keyword">export</span> JAVA_HOME=/usr/java/jdk1.<span class="hljs-number">7.0</span>_80
+<span class="hljs-keyword">export</span> JRE_HOME=/usr/java/jdk1.<span class="hljs-number">7.0</span>_80/jre
+<span class="hljs-keyword">export</span> SCALA_HOME=/spark/scala-<span class="hljs-number">2.11</span>.<span class="hljs-number">6</span>
+<span class="hljs-keyword">export</span> SPARK_HOME=/spark/spark-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">export</span> HADOOP_HOME=/spark/hadoop-<span class="hljs-number">2.6</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">export</span> HADOOP_OPTS=<span class="hljs-string">"-Djava.library.path=<span class="hljs-variable">$HADOOP_HOME</span>/lib:<span class="hljs-variable">$HADOOP_HOME</span>/lib/native"</span>
+<span class="hljs-keyword">export</span> HIVE_HOME=/spark/hive-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">export</span> IDEA_HOME=/usr/idea/idea-IC-<span class="hljs-number">141.178</span>.<span class="hljs-number">9</span>
+<span class="hljs-keyword">export</span> HBASE_HOME=/spark/hbase-<span class="hljs-number">1.1</span>.<span class="hljs-number">2</span>
+<span class="hljs-keyword">export</span> ZOOKEEPER_HOME=/spark/zookeeper-<span class="hljs-number">3.4</span>.<span class="hljs-number">6</span>
+<span class="hljs-keyword">export</span> PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$JAVA_HOME</span>/bin:<span class="hljs-variable">$HADOOP_HOME</span>/bin:<span class="hljs-variable">$HADOOP_HOME</span>/sbin:<span class="hljs-variable">$SCALA_HOME</span>/bin:<span class="hljs-variable">$SPARK_HOME</span>/bin:<span class="hljs-variable">$IDEA_HOME</span>/bin:<span class="hljs-variable">$HIVE_HOME</span>/bin:<span class="hljs-variable">$HBASE_HOME</span>/bin:<span class="hljs-variable">$ZOOKEEPER_HOME</span>/bin</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li></ul></pre>
+
+<p>刷新</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">source</span> /etc/profile</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>4.验证 <br>
+使用命令java -version，如果出现java version “1.7.0_80”,则安装成功 </p>
+
+<p>5.设置jdk默认 <br>
+如果Ubuntu上已经安装过openjdk纳闷需要设置默认jdk。若以上验证成功,可以跳过设置默认jdk。依次操作以下命令：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> update-alternatives --install /usr/bin/java java /usr/java/jdk1.<span class="hljs-number">7.0</span>_80/bin/java <span class="hljs-number">300</span>  
+<span class="hljs-built_in">sudo</span> update-alternatives --install /usr/bin/javac javac /usr/java/jdk1.<span class="hljs-number">7.0</span>_80/bin/javac <span class="hljs-number">300</span>  
+<span class="hljs-built_in">sudo</span> update-alternatives --install /usr/bin/jar jar /usr/java/jdk1.<span class="hljs-number">7.0</span>_80/bin/jar <span class="hljs-number">300</span> 
+<span class="hljs-built_in">sudo</span> update-alternatives --install /usr/bin/javah javah /usr/java/jdk1.<span class="hljs-number">7.0</span>_80/bin/javah <span class="hljs-number">300</span>   
+<span class="hljs-built_in">sudo</span> update-alternatives --install /usr/bin/javap javap /usr/java/jdk1.<span class="hljs-number">7.0</span>_80/bin/javap <span class="hljs-number">300</span>
+<span class="hljs-built_in">sudo</span> update-alternatives --config java  </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li></ul></pre>
+
+<hr>
+
+<pre><code>        第三部分 Hadoop-2.6.0+zookeeper-3.4.6集群搭建
+</code></pre>
+
+<hr>
+
+<p>　 <br>
+一.集群规划 <br>
+<img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/20151022185146623" alt="" title=""></p>
+
+<p>文字描述：本集群仅有三台机子：spark01、spark02和spark03。三台都安装hadoop-2.6.0,zookeeper-3.4.6。spark01和spark02共运行了两个namenode，两个datanode运行spark02和spark03上。</p>
+
+<p>二.zooekeeper配置</p>
+
+<p>1.建立spark文件夹</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> mkdir /spark
+修改权限：
+<span class="hljs-built_in">sudo</span> chmod -R <span class="hljs-number">777</span> /spark</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>2.解压</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">sudo tar -zxvf /home/huai/桌面/zookeeper-<span class="hljs-number">3.4</span><span class="hljs-number">.6</span><span class="hljs-preprocessor">.tar</span><span class="hljs-preprocessor">.gz</span> -C /spark/</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>3.修改zoo.cfg文件</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">cd /spark/zookeeper-<span class="hljs-number">3.4</span><span class="hljs-number">.6</span>/conf/
+mv zoo_sample<span class="hljs-preprocessor">.cfg</span> zoo<span class="hljs-preprocessor">.cfg</span>
+</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>4.配置zoo.cfg</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs profile has-numbering">gedit <span class="hljs-filename">zoo.cfg
+
+修改：
+dataDir=/spark/zookeeper-3.4.6/tmp
+添加：
+dataLogDir=/spark/zookeeper-3.4.6/logs
+在最后添加：
+server.1=spark01</span>:<span class="hljs-number">2888</span>:<span class="hljs-number">3888</span>
+<span class="hljs-filename">server.2=spark02</span>:<span class="hljs-number">2888</span>:<span class="hljs-number">3888</span>
+<span class="hljs-filename">server.3=spark03</span>:<span class="hljs-number">2888</span>:<span class="hljs-number">3888</span>
+
+保存退出</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li></ul></pre>
+
+<p>5.建立文件夹</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs perl has-numbering"><span class="hljs-keyword">mkdir</span> /spark/zookeeper-<span class="hljs-number">3.4</span>.<span class="hljs-number">6</span>/tmp
+<span class="hljs-keyword">mkdir</span> /spark/zookeeper-<span class="hljs-number">3.4</span>.<span class="hljs-number">6</span>/logs</code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>6.设置myid <br>
+   在5）中建立的tmp文件夹下创建一个空文件，并在其中写入”1“。</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">创建文件：
+touch myid
+
+写入<span class="hljs-string">"1"</span>:
+gedit myid</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul></pre>
+
+<p>7.修改环境变量</p>
+
+<p>虽然前面已经把所有的环境变量都设置好了,但这个步骤是环境配置必须的操作，所以在此处重复一遍</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">打开：
+<span class="hljs-built_in">sudo</span>  gedit /etc/profile
+添加：
+<span class="hljs-keyword">export</span> ZOOKEEPER_HOME=/spark/zookeeper-<span class="hljs-number">3.4</span>.<span class="hljs-number">6</span>
+<span class="hljs-keyword">export</span> PATH=:<span class="hljs-variable">$ZOOKEEPER_HOME</span>/bin:<span class="hljs-variable">$ZOOKEEPER_HOME</span>/conf
+刷新：
+<span class="hljs-built_in">source</span> /etc/profile</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul></pre>
+
+<p>8.将配置好的zookeeper拷贝到其他节点</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">scp -r /spark/zookeeper-<span class="hljs-number">3.4</span>.<span class="hljs-number">6</span>/ huai<span class="hljs-variable">@spark02</span><span class="hljs-symbol">:/spark/</span>
+scp -r /spark/zookeeper-<span class="hljs-number">3.4</span>.<span class="hljs-number">6</span>/ huai<span class="hljs-variable">@spark03</span><span class="hljs-symbol">:/spark/</span></code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>9.修改虚拟机的myid</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">执行：
+<span class="hljs-built_in">cd</span> /spark/zookeeper-<span class="hljs-number">3.4</span>.<span class="hljs-number">6</span>/tmp
+打开：
+gedit myid
+其中：
+在spark02 中写入<span class="hljs-string">"2"</span>
+在spark03 中写入<span class="hljs-string">"3"</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul></pre>
+
+<p>10.修改虚拟机的环境变量 <br>
+按7中的操作分别修改虚拟机spark02和spark03的环境变量。</p>
+
+<p>三.搭建hadoop集群 <br>
+1.下载hadoop <br>
+网址：<a href="http://mirror.bit.edu.cn/apache/hadoop/core/">http://mirror.bit.edu.cn/apache/hadoop/core/</a> <br>
+2.解压</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">sudo tar <span class="hljs-attribute">-zxvf</span> /home/huai<span class="hljs-subst">/</span>桌面/hadoop<span class="hljs-subst">-</span><span class="hljs-number">2.6</span><span class="hljs-number">.0</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz <span class="hljs-attribute">-C</span> /spark  
+修改权限：
+sudo chmod <span class="hljs-attribute">-R</span> <span class="hljs-number">777</span> /spark</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>3.配置hadoop环境文件</p>
+
+<p>注:在操作hadoop-env.sh,注释以下内容</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs vala has-numbering"><span class="hljs-preprocessor">#export HADOOP_OPTS="$HADOOP_OPTS -</span>
+Djava.net.preferIPv4Stack=<span class="hljs-literal">true</span><span class="hljs-string">"</span></code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">cd</span>到配置文件目录下：
+
+<span class="hljs-built_in">cd</span>  /spark/hadoop-<span class="hljs-number">2.6</span>.<span class="hljs-number">0</span>/etc/hadoop/
+
+依次操作:
+
+gedit hadoop-env.sh
+gedit yarn-env.sh
+gedit mapred-env.sh
+
+依次添加:
+
+<span class="hljs-keyword">export</span> JAVA_HOME=/usr/java/jdk1.<span class="hljs-number">7.0</span>_80
+<span class="hljs-keyword">export</span> HADOOP_OPTS=<span class="hljs-string">"-Djava.library.path=<span class="hljs-variable">$HADOOP_HOME</span>/lib:<span class="hljs-variable">$HADOOP_HOME</span>/lib/native"</span>
+
+依次保存退出</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li><li>16</li></ul></pre>
+
+<p>按以下操作依次修改hadoop其它配置文件，可以直接复制到配置文件。相关文件属性以及细节，可以查阅其他资料。</p>
+
+<p>4.gedit core-site.xml</p>
+
+<pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">configuration</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>fs.defaultFS<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>hdfs://ns1<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hadoop.tmp.dir<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>/spark/hadoop-2.6.0/tmp<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>ha.zookeeper.quorum<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark01:2181,spark02:2181,spark03:2181<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">configuration</span>&gt;</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li></ul></pre>
+
+<p>5.gedit hdfs-site.xml</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">configuration</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.nameservices<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>ns1<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.ha.namenodes.ns1<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>nn1,nn2<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn1<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark01:9000<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn1<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark01:50070<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn2<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark02:9000<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn2<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark02:50070<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.namenode.shared.edits.dir<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>  <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>qjournal://spark01:8485;spark02:8485;spark03:8485/ns1<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.journalnode.edits.dir<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>/spark/hadoop-2.6.0/journal<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.ha.automatic-failover.enabled<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.client.failover.proxy.provider.ns1<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.ha.fencing.methods<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>
+          sshfence
+          shell(/bin/true)
+        <span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.ha.fencing.ssh.private-key-files<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>/home/huai/.ssh/id_rsa<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.ha.fencing.ssh.connect-timeout<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>30000<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">configuration</span>&gt;</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li><li>19</li><li>20</li><li>21</li><li>22</li><li>23</li><li>24</li><li>25</li><li>26</li><li>27</li><li>28</li><li>29</li><li>30</li><li>31</li><li>32</li><li>33</li><li>34</li><li>35</li><li>36</li><li>37</li><li>38</li><li>39</li><li>40</li><li>41</li><li>42</li><li>43</li><li>44</li><li>45</li><li>46</li><li>47</li><li>48</li><li>49</li><li>50</li><li>51</li><li>52</li><li>53</li><li>54</li><li>55</li><li>56</li></ul></pre>
+
+<p>6.mv mapred-site.xml.template  mapred-site.xml <br>
+      gedit mapred-site.xml</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">configuration</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>mapreduce.framework.name<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>yarn<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">configuration</span>&gt;</span>    </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li></ul></pre>
+
+<p>7.gedit  yarn-site.xml</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">configuration</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>yarn.resourcemanager.ha.enabled<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>yarn.resourcemanager.cluster-id<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>yrc<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>yarn.resourcemanager.ha.rm-ids<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>rm1,rm2<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>yarn.resourcemanager.hostname.rm1<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark01<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>yarn.resourcemanager.hostname.rm2<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark02<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>yarn.resourcemanager.zk-address<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark01:2181,spark02:2181,spark03:2181<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>mapreduce_shuffle<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+     <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">configuration</span>&gt;</span>            </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li><li>19</li><li>20</li><li>21</li><li>22</li><li>23</li><li>24</li><li>25</li><li>26</li><li>27</li><li>28</li><li>29</li><li>30</li></ul></pre>
+
+<p>8.gedit slaves</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs  has-numbering">spark02
+spark03</code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>10.复制到其他节点</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">scp -r /spark/hadoop-<span class="hljs-number">2.6</span>.<span class="hljs-number">0</span> huai<span class="hljs-variable">@spark02</span><span class="hljs-symbol">:/spark</span> 
+scp -r /spark/hadoop-<span class="hljs-number">2.6</span>.<span class="hljs-number">0</span> huai<span class="hljs-variable">@spark03</span><span class="hljs-symbol">:/spark</span> </code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>11.修改环境变量,可略过</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">打开：
+<span class="hljs-built_in">sudo</span> gedit /etc/profile
+添加：
+<span class="hljs-keyword">export</span> HADOOP_HOME=/spark/hadoop-<span class="hljs-number">2.6</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">export</span> PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$JAVA_HOME</span>/bin:<span class="hljs-variable">$HADOOP_HOME</span>/bin:<span class="hljs-variable">$HADOOP_HOME</span>/sbin
+刷新：
+<span class="hljs-built_in">source</span> /etc/profile     </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul></pre>
+
+<p>12.验证 <br>
+输入以下命令，如果出现hadoop对应的版本，则hadoop配置成功。</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs livecodeserver has-numbering">hadoop <span class="hljs-built_in">version</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>三.集群启动（严格按照下面的步骤）</p>
+
+<p>1.启动zookeeper集群（分别在spark01、spark02、spark03上启动zk）</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">cd /spark/zookeeper-<span class="hljs-number">3.4</span><span class="hljs-number">.6</span>/bin/
+./zkServer<span class="hljs-preprocessor">.sh</span> start
+
+查看状态：一个leader，两个follower
+zkServer<span class="hljs-preprocessor">.sh</span> status</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul></pre>
+
+<p>2.启动journalnode（分别在spark01、spark02、spark03上启动journalnode）</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">在三台机子上执行：
+<span class="hljs-built_in">cd</span> /spark/hadoop-<span class="hljs-number">2.6</span>.<span class="hljs-number">0</span>/sbin
+hadoop-daemon.sh start journalnode
+</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>运行jps命令检验，spark01、spark02、spark03上多了JournalNode进程</p>
+
+<p>3.格式化HDFS <br>
+    在主节点spark01上执行命令</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs rsl has-numbering">hdfs namenode -<span class="hljs-built_in">format</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>格式化成功会生成tmp文件,其路径为core-site.xml中的hadoop.tmp.dir配置路径</p>
+
+<p>4.将tmp拷到其他节点 <br>
+注意tmp的路径：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">scp -r tmp   huai<span class="hljs-variable">@spark02</span><span class="hljs-symbol">:/spark/hadoop-</span><span class="hljs-number">2.6</span>.<span class="hljs-number">0</span>/
+scp -r tmp   huai<span class="hljs-variable">@spark03</span><span class="hljs-symbol">:/spark/hadoop-</span><span class="hljs-number">2.6</span>.<span class="hljs-number">0</span>/
+</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>5.格式化ZK</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">在spark01上执行：
+hdfs zkfc <span class="hljs-attribute">-formatZK</span></code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>6.启动HDFS</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs sql has-numbering">在spark01上执行：
+<span class="hljs-operator"><span class="hljs-keyword">start</span>-dfs.sh
+</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>7.启动YARN.resourcemanager</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs sql has-numbering"><span class="hljs-operator"><span class="hljs-keyword">start</span>-yarn.sh</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>8.验证  <br>
+通过以下IP用浏览器访问，一个处于active,一个处于standby，说明集群启动成功。</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs cs has-numbering">http:<span class="hljs-comment">//192.168.8.101:50070</span>
+NameNode <span class="hljs-string">'spark01:9000'</span> (active)
+http:<span class="hljs-comment">//192.168.8.102:50070</span>
+NameNode <span class="hljs-string">'spark02:9000'</span> (standby)</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>9.验证HDFS HA</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">向hdfs上传一个文件：
+hadoop fs <span class="hljs-attribute">-put</span> /etc/profile /profile
+hadoop fs <span class="hljs-attribute">-ls</span> <span class="hljs-subst">/</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs livecodeserver has-numbering"><span class="hljs-built_in">kill</span>掉active的NameNode
+<span class="hljs-built_in">kill</span> -<span class="hljs-number">9</span> &lt;pid <span class="hljs-operator">of</span> NN&gt;
+访问：<span class="hljs-keyword">http</span>://<span class="hljs-number">192.168</span><span class="hljs-number">.8</span><span class="hljs-number">.101</span>:<span class="hljs-number">50070</span> 无法打开
+访问:<span class="hljs-keyword">http</span>://<span class="hljs-number">192.168</span><span class="hljs-number">.8</span><span class="hljs-number">.102</span>:<span class="hljs-number">50070</span>
+NameNode <span class="hljs-string">'spark02:9000'</span> (active)</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul></pre>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">执行：
+hadoop fs <span class="hljs-attribute">-ls</span> <span class="hljs-subst">/</span>
+<span class="hljs-attribute">-rw</span><span class="hljs-attribute">-r</span><span class="hljs-subst">--</span>r<span class="hljs-subst">--</span>   <span class="hljs-number">3</span> root supergroup      <span class="hljs-number">1926</span> <span class="hljs-number">2015</span><span class="hljs-subst">-</span><span class="hljs-number">05</span><span class="hljs-subst">-</span><span class="hljs-number">024</span> <span class="hljs-number">15</span>:<span class="hljs-number">36</span> /profile</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">手动启动挂掉的那个NameNode，在spark01上执行
+hadoop<span class="hljs-attribute">-daemon</span><span class="hljs-built_in">.</span>sh start namenode
+访问：http:<span class="hljs-comment">//192.168.8.101:50070</span>
+显示：NameNode <span class="hljs-string">'spark01:9000'</span> (standby)
+
+删除上传文件：
+hadoop fs <span class="hljs-attribute">-rm</span> <span class="hljs-attribute">-r</span> /profile</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul></pre>
+
+<p>到这，hadoop集群相当于已经成功搭建，剩下的就是要搭建基于hadoop的其他组件，如spark,hive,hbase。相信通过自学搭建hadoop集群的人儿，一定受了不少折腾。作为不是技术大牛的人儿，唯有屡败屡战，才能祭奠内心那份对技术的热血澎湃。</p>
+
+<hr>
+
+<pre><code>                                        第四部分 Spark集群搭建
+</code></pre>
+
+<hr>
+
+<p>因为spark 源代码是使用Scala语言，所以需要安装Scala环境。 <br>
+一.安装 Scala <br>
+1.下载 <br>
+网址：<a href="http://www.scala-lang.org/download/">http://www.scala-lang.org/download/</a> <br>
+2.解压</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">sudo tar <span class="hljs-attribute">-zxf</span>  sudo tar <span class="hljs-attribute">-zxvf</span> /home/huai<span class="hljs-subst">/</span>桌面/scala<span class="hljs-subst">-</span><span class="hljs-number">2.11</span><span class="hljs-number">.6</span><span class="hljs-built_in">.</span>tgz  <span class="hljs-attribute">-C</span> /spark</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>3.修改环境变量</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">打开：
+<span class="hljs-built_in">sudo</span> gedit /etc/profile
+添加：
+<span class="hljs-keyword">export</span> SCALA_HOME=/spark/scala-<span class="hljs-number">2.11</span>.<span class="hljs-number">6</span>
+<span class="hljs-keyword">export</span> PATH=PATH:<span class="hljs-variable">$SCALA_HOME</span>/bin
+刷新：
+<span class="hljs-built_in">source</span> /etc/profile</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul></pre>
+
+<p>4.显示版本</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">huai<span class="hljs-variable">@spark01</span><span class="hljs-symbol">:~</span><span class="hljs-variable">$ </span>scala -version
+<span class="hljs-constant">Scala</span> code runner version <span class="hljs-number">2.11</span>.<span class="hljs-number">6</span> -- <span class="hljs-constant">Copyright</span> <span class="hljs-number">2002</span>-<span class="hljs-number">2013</span>, <span class="hljs-constant">LAMP</span>/<span class="hljs-constant">EPFL</span>
+</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<ol>
+<li>测试 <br>
+ 输入”scala”命令，进入scala交互界面</li>
+</ol>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">huai<span class="hljs-variable">@spark01</span><span class="hljs-symbol">:~</span><span class="hljs-variable">$ </span>scala
+scala&gt; <span class="hljs-number">8</span>*<span class="hljs-number">8</span>
+<span class="hljs-symbol">res0:</span> <span class="hljs-constant">Int</span> = <span class="hljs-number">64</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>6.将scala复制到其他节点</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">scp -r /spark/scala-<span class="hljs-number">2.11</span>.<span class="hljs-number">6</span>/ huai<span class="hljs-variable">@spark02</span><span class="hljs-symbol">:/spark/</span>
+scp -r /spark/scala-<span class="hljs-number">2.11</span>.<span class="hljs-number">6</span>/ huai<span class="hljs-variable">@spark03</span><span class="hljs-symbol">:/spark/</span></code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>7.重复  3修改其他节点的环境变量</p>
+
+<p>二.spark集群搭建 <br>
+1.下载 <br>
+网址：<a href="http://mirror.bit.edu.cn/apache/spark/">http://mirror.bit.edu.cn/apache/spark/</a></p>
+
+<p>2.解压 </p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">tar <span class="hljs-attribute">-zxf</span>   /home/huai<span class="hljs-subst">/</span>桌面/spark<span class="hljs-subst">-</span><span class="hljs-number">1.5</span><span class="hljs-number">.0</span><span class="hljs-attribute">-bin</span><span class="hljs-attribute">-hadoop2</span><span class="hljs-number">.6</span><span class="hljs-built_in">.</span>tgz <span class="hljs-attribute">-C</span> /spark</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>3.文件名修改为：spark-1.5.0</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">mv /spark/spark<span class="hljs-subst">-</span><span class="hljs-number">1.5</span><span class="hljs-number">.0</span><span class="hljs-attribute">-bin</span><span class="hljs-attribute">-hadoop2</span><span class="hljs-number">.6</span>  spark<span class="hljs-subst">-</span><span class="hljs-number">1.5</span><span class="hljs-number">.0</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>4.修改环境变量</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">打开：
+<span class="hljs-built_in">sudo</span> gedit  /etc/profile
+添加：
+<span class="hljs-keyword">export</span> SPARK_HOME=/spark/spark-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">export</span> PATH=PATH:<span class="hljs-variable">$SPARK_HOME</span>/bin
+刷新：
+<span class="hljs-built_in">source</span> /etc/profile  </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li></ul></pre>
+
+<p>5.配置spark-env.sh</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">进入spark的conf目录：
+<span class="hljs-built_in">cd</span> /spark/spark-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>/conf/
+mv  spark-env.sh.template spark-env.sh
+
+打开：
+<span class="hljs-built_in">sudo</span> gedit  spark-env.sh
+
+添加：
+
+<span class="hljs-keyword">export</span> JAVA_HOME=/usr/java/jdk1.<span class="hljs-number">7.0</span>_80
+<span class="hljs-keyword">export</span> SCALA_HOME=/spark/scala-<span class="hljs-number">2.11</span>.<span class="hljs-number">6</span>
+<span class="hljs-keyword">export</span> SPARK_MASTER_IP=<span class="hljs-number">192.168</span>.<span class="hljs-number">8.101</span>
+<span class="hljs-keyword">export</span> SPARK_WORKER_MEMORY=<span class="hljs-number">1</span>g
+<span class="hljs-keyword">export</span> HADOOP_CONF_DIR=/spark/hadoop-<span class="hljs-number">2.6</span>.<span class="hljs-number">0</span>/etc/hadoop
+<span class="hljs-keyword">export</span> HADOOP_OPTS=<span class="hljs-string">"-Djava.library.path=<span class="hljs-variable">$HADOOP_HOME</span>/lib:<span class="hljs-variable">$HADOOP_HOME</span>/lib/native"</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li></ul></pre>
+
+<p>6.配置slaves</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">在spark的conf目录下：
+
+mv slaves.template slaves
+
+打开：
+<span class="hljs-built_in">sudo</span> gedit  slaves
+添加：
+spark01
+spark02
+spark03     </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li></ul></pre>
+
+<p>7.把spark复制到其他节点</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">scp -r spark-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span> huai<span class="hljs-variable">@spark02</span><span class="hljs-symbol">:/spark/</span>
+scp -r spark-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span> huai<span class="hljs-variable">@spark03</span><span class="hljs-symbol">:/spark/</span>
+</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>8.修改虚拟阶环境变量</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> gedit /etc/profile
+添加：
+<span class="hljs-keyword">export</span> SPARK_HOME=/spark/spark-<span class="hljs-number">1.5</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">export</span> PATH=PATH:<span class="hljs-variable">$SPARK_HOME</span>/bin
+<span class="hljs-keyword">export</span> SCALA_HOME=/spark/scala-<span class="hljs-number">2.11</span>.<span class="hljs-number">6</span>
+<span class="hljs-keyword">export</span> PATH=PATH:<span class="hljs-variable">$SCALA_HOME</span>/bin
+刷新：
+<span class="hljs-built_in">source</span> /etc/profile</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li></ul></pre>
+
+<p>三.启动集群 <br>
+1.启动zookeeper</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs sql has-numbering">在每台运行：
+zkServer.sh <span class="hljs-operator"><span class="hljs-keyword">start</span></span></code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>2.启动hadoop集群，在hadoop的sbin目录下执行：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs sql has-numbering"><span class="hljs-operator"><span class="hljs-keyword">start</span>-<span class="hljs-keyword">all</span>.sh</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>3.启动spark集群</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs sql has-numbering">/spark/spark-1.5.0/bin$./<span class="hljs-operator"><span class="hljs-keyword">start</span>-<span class="hljs-keyword">all</span>.sh</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>5.Web管理界面 </p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs cs has-numbering">http:<span class="hljs-comment">//192.168.8.101:8080/</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>Spark有好几个模块，如SparkSQL,Graphx,MLlib。因为Mapreduce处理速率不如Spark快，Spark将成为Mapreduce的替代品。对于Spark，我主要学习了机器学习MLlib和SparkSQL。如果你对大数据感兴趣，那么建议好好研究一下Spark。</p>
+
+<hr>
+
+<pre><code>                                 第五部分 Hive集群搭建
+</code></pre>
+
+<hr>
+
+<p>一.概述 <br>
+ hive安装可分为四部分:</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs  has-numbering">1)安装mysql
+2)配置 Metastore
+3)配置HiveClient 
+4)配置hiveserver</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>搭建分布:mysql,Metastore安装配置在主节点spark01上, HiveClient客户端安装在spark02上。注：HiveClient客户端也可以不配置。</p>
+
+<p>三.安装mysql <br>
+mysql只需在物理机spark01上安装，Ubuntu软件中心下载安装mysql服务器</p>
+
+<p>1.配置mysql</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs oxygene has-numbering">运行：
+/usr/bin/mysql_secure_installation
+
+输入密码：
+删除匿名用户:
+<span class="hljs-keyword">Remove</span> anonymous users? [Y/n] Y
+允许用户远程连接:
+Disallow root login remotely? [Y/n]n
+移除test数据库:
+<span class="hljs-keyword">Remove</span> test database <span class="hljs-keyword">and</span> access <span class="hljs-keyword">to</span> it? [Y/n] Y</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li></ul></pre>
+
+<p>2.登陆mysql</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">  mysql <span class="hljs-attribute">-u</span> root <span class="hljs-attribute">-p</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>3.建立hive数据库,并对其授权,注’huai’为你设立的登录密码</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs oxygene has-numbering">mysql&gt;<span class="hljs-keyword">create</span> database hive;
+mysql&gt;GRANT ALL PRIVILEGES <span class="hljs-keyword">ON</span> *.* <span class="hljs-keyword">TO</span> <span class="hljs-string">'root'</span>@<span class="hljs-string">'%'</span> IDENTIFIED <span class="hljs-keyword">BY</span> <span class="hljs-string">'huai'</span> <span class="hljs-keyword">WITH</span> GRANT OPTION;
+mysql&gt;FLUSH PRIVILEGES; 
+</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>4.修改hive数据库字符 <br>
+一定要修改，不然hive建表时会报错。</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs livecodeserver has-numbering">mysql&gt;alter database hive <span class="hljs-keyword">character</span> <span class="hljs-built_in">set</span> latin1</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>5.修改允许远程登录mysql</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> gedit /etc/mysql/my.cnf
+注释：
+<span class="hljs-comment">#bind-address=127.0.0.1</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>三.安装Hive <br>
+1.下载 <br>
+网址：<a href="http://mirrors.cnnic.cn/apache/hive/">http://mirrors.cnnic.cn/apache/hive/</a> <br>
+2.解压</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">sudo tar <span class="hljs-attribute">-zxvf</span> /home/huai<span class="hljs-subst">/</span>桌面apache<span class="hljs-attribute">-hive</span><span class="hljs-subst">-</span><span class="hljs-number">1.2</span><span class="hljs-number">.0</span><span class="hljs-built_in">.</span>tar<span class="hljs-built_in">.</span>gz <span class="hljs-attribute">-C</span> /spark<span class="hljs-subst">/</span>
+
+文件名修改为hive<span class="hljs-subst">-</span><span class="hljs-number">1.2</span><span class="hljs-number">.0</span>
+mv apache<span class="hljs-attribute">-hive</span><span class="hljs-subst">-</span><span class="hljs-number">1.2</span><span class="hljs-number">.0</span>   hive<span class="hljs-subst">-</span><span class="hljs-number">1.2</span><span class="hljs-number">.0</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>3.修改配置文件名 <br>
+ 在hive-1.2.0/conf下</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">mv hive-default<span class="hljs-preprocessor">.xml</span><span class="hljs-preprocessor">.template</span> hive-site<span class="hljs-preprocessor">.xml</span>
+mv  hive-log4j<span class="hljs-preprocessor">.properties</span><span class="hljs-preprocessor">.template</span> hive-log4j<span class="hljs-preprocessor">.properties</span>
+mv  hive-exec-log4j<span class="hljs-preprocessor">.properties</span><span class="hljs-preprocessor">.template</span>  hive-exec-log4j<span class="hljs-preprocessor">.properties</span>
+mv hive-env<span class="hljs-preprocessor">.sh</span><span class="hljs-preprocessor">.template</span>   hive-env<span class="hljs-preprocessor">.sh</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>4.gedit  hive-env.sh</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-keyword">export</span> HADOOP_HOME=/spark/hadoop-<span class="hljs-number">2.6</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">export</span> HIVE_CONF_DIR=/spark/hive-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span>/conf</code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>5.gedit hive-log4j.properties <br>
+添加</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs rust has-numbering"> hive.<span class="hljs-keyword">log</span>.<span class="hljs-keyword">dir</span>=/spark/hive-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span>/logs</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>6.新建logs文件</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs perl has-numbering"><span class="hljs-keyword">mkdir</span> /spark/hive-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span>/logs</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>7.gedit hive-site.xml <br>
+   删除所有内容,添加如下内容.注意配置文件中的’huai’为mysql登录密码,记得修改</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">configuration</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hive.metastore.warehouse.dir<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>hdfs://ns1/hive/warehouse<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hive.exec.scratchdir<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>hdfs://ns1/hive/scratchdir<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hive.querylog.location<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>/spark/hive-1.2.0/logs<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>jdbc:mysql://localhost:3306/hive?createDatabaseIfNotExist=true<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>root<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>huai<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hive.zookeeper.quorum<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark01,spark02,spark03<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+     <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">configuration</span>&gt;</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li><li>19</li><li>20</li><li>21</li><li>22</li><li>23</li><li>24</li><li>25</li><li>26</li><li>27</li><li>28</li><li>29</li><li>30</li><li>31</li><li>32</li><li>33</li><li>34</li></ul></pre>
+
+<p>8.配置环境变量</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">打开：
+<span class="hljs-built_in">sudo</span> gedit /etc/profile
+添加：
+<span class="hljs-keyword">export</span>　HIVE_HOME=/spark/hive-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">export</span> PATH=:<span class="hljs-variable">$HIVE_HOME</span>/bin
+刷新：
+<span class="hljs-built_in">source</span> /etc/profile
+</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li></ul></pre>
+
+<p>9.在hive/lib下有个jline的jar，将hadoop内的这个jar包换成一致的，否则会启动hive会报错。</p>
+
+<p>10.hive和mysq安装完成后，将mysql-connector-java-5.1.25-bin.jar连接jar拷贝到hive-1.2.0/lib目录下，在hive-1.2.0/bin下，运行：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs  has-numbering"> ./hive</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>11.访问 <a href="http://192.168.8.101:50070/">http://192.168.8.101:50070</a> <br>
+    查看hadoop文件系统,多了个hive文件,证明安装成功。 <br>
+12.修改hive文件权限</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">hadoop fs <span class="hljs-attribute">-chmod</span> <span class="hljs-attribute">-R</span> <span class="hljs-number">777</span> /hive</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>四.配置hiveserver</p>
+
+<p>gedit hive-site.xml <br>
+  添加:</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hive.server2.thrift.min.worker.threads<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">description</span>&gt;</span>Minimum number of Thrift worker threads<span class="hljs-tag">&lt;/<span class="hljs-title">description</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hive.server2.thrift.max.worker.threads<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>100<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hive.server2.thrift.port<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>10000<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hive.server2.thrift.bind.host<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark01<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li><li>16</li><li>17</li></ul></pre>
+
+<p>五.Hive客户端配置 <br>
+1.将hive从Master节点(spark01)拷贝到Slave节点(spark02)上</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">scp -r /spark/hive-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span>  huai<span class="hljs-variable">@spark02</span><span class="hljs-symbol">:/spark/</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>2.配置Metastore的连接信息 <br>
+   在hive-1.2.0/conf下</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs xml has-numbering">gedit hive-site.xml
+添加：
+<span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hive.metastore.uris<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>thrift://spark01:9083<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li></ul></pre>
+
+<p>3.修改环境变量</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> gedit /etc/profile
+<span class="hljs-keyword">export</span> HIVE_HOME=/spark/hive-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">export</span> PATH=:<span class="hljs-variable">$HIVE_HOME</span>/bin
+<span class="hljs-built_in">source</span> /etc/profile</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<hr>
+
+<pre><code>                                       第五部分 Hbase集群搭建
+</code></pre>
+
+<hr>
+
+<p>一.配置hbase <br>
+1.下载 <br>
+网址：<a href="http://mirrors.hust.edu.cn/apache/hbase/">http://mirrors.hust.edu.cn/apache/hbase/</a> <br>
+2.解压</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering"> tar <span class="hljs-attribute">-zxf</span>  /home/huai<span class="hljs-subst">/</span>桌面/hbase<span class="hljs-subst">-</span><span class="hljs-number">1.1</span><span class="hljs-number">.2</span><span class="hljs-built_in">.</span>tgz <span class="hljs-attribute">-C</span> /spark</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>使用外部zk,配置hbase集群</p>
+
+<p>3.gedit hbase-env.sh</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-keyword">export</span> JAVA_HOME=/usr/java/jdk1.<span class="hljs-number">7.0</span>_80
+<span class="hljs-keyword">export</span> HBASE_MANAGES_ZK=<span class="hljs-literal">false</span>
+<span class="hljs-keyword">export</span> HBASE_PID_DIR=/spark/hbase-<span class="hljs-number">1.1</span>.<span class="hljs-number">2</span>/pids
+<span class="hljs-keyword">export</span> HBASE_CLASSPATH=/spark/hadoop-<span class="hljs-number">2.6</span>.<span class="hljs-number">0</span>/etc/hadoop
+<span class="hljs-keyword">export</span> HBASE_HOME=/spark/hbase-<span class="hljs-number">1.1</span>.<span class="hljs-number">2</span>
+</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li></ul></pre>
+
+<p>3.gedit  hbase-site.xml</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">configuration</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hbase.tmp.dir<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>/spark/hbase-1.1.2/tmp<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hbase.rootdir<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>hdfs://ns1/hbase<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hbase.cluster.distributed<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>zookeeper.session.timeout<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>120000<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hbase.zookeeper.property.tickTime<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>6000<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hbase.zookeeper.property.clientPort<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>2181<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hbase.zookeeper.quorum<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>spark01,spark02,spark03<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hbase.zookeeper.property.dataDir<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span> 
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>/spark/zookeeper-3.4.6/tmp<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>dfs.replication<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">property</span>&gt;</span> 
+       <span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>hbase.master.maxclockskew<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span> 
+       <span class="hljs-tag">&lt;<span class="hljs-title">value</span>&gt;</span>180000<span class="hljs-tag">&lt;/<span class="hljs-title">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">property</span>&gt;</span> 
+<span class="hljs-tag">&lt;/<span class="hljs-title">configuration</span>&gt;</span></code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li><li>19</li><li>20</li><li>21</li><li>22</li><li>23</li><li>24</li><li>25</li><li>26</li><li>27</li><li>28</li><li>29</li><li>30</li><li>31</li><li>32</li><li>33</li><li>34</li><li>35</li><li>36</li><li>37</li><li>38</li><li>39</li><li>40</li><li>41</li><li>42</li></ul></pre>
+
+<p>4.gedit regionservers</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs  has-numbering">spark02
+spark03</code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>5.把hadoop的hdfs-site.xml和core-site.xml 放到hbase/conf下</p>
+
+<p>6.拷贝hbase到其他节点</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">scp -r /spark/hbase-<span class="hljs-number">1.1</span>.<span class="hljs-number">0</span>  huai<span class="hljs-variable">@spark02</span><span class="hljs-symbol">:/spark/</span>
+scp -r /spark/hbase-<span class="hljs-number">1.1</span>.<span class="hljs-number">0</span>  huai<span class="hljs-variable">@spark03</span><span class="hljs-symbol">:/spark/</span></code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>7.修改环境变量</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-built_in">sudo</span> gedit /etc/profile
+<span class="hljs-keyword">export</span> HBASE_HOME=/spark/hbase-<span class="hljs-number">1.1</span>.<span class="hljs-number">0</span>
+<span class="hljs-keyword">export</span> PATH=<span class="hljs-variable">$HBASE_HOME</span>/bin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">source</span> /etc/profile</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>8.将配置好的hbase拷贝到每一个节点并同步时间和修改环境变量</p>
+
+<p>二.启动hbase <br>
+1.启动zk</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs sql has-numbering">zkServer.sh <span class="hljs-operator"><span class="hljs-keyword">start</span> </span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>2.启动hadoop集群</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs sql has-numbering"><span class="hljs-operator"><span class="hljs-keyword">start</span>-dfs.sh</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>3.启动hbase，在主节点上hbase-1.1.0/bin运行</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs sql has-numbering"><span class="hljs-operator"><span class="hljs-keyword">start</span>-hbase.sh</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>3.通过浏览器访问hbase  Web页面 <br>
+ HMaster　Web页面</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs cs has-numbering">http:<span class="hljs-comment">//192.168.8.101:16010 </span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>HRegionServer Web页面</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs cs has-numbering">http:<span class="hljs-comment">//192.168.8.101:16030</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>4.shell　验证 <br>
+  进入hbase bin目录下：</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs ruby has-numbering">huai<span class="hljs-variable">@spark01</span><span class="hljs-symbol">:/spark/hbase-</span><span class="hljs-number">1.1</span>.<span class="hljs-number">0</span>/bin<span class="hljs-variable">$ </span>./hbase shell</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>1）使用list验证:</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs haml has-numbering">hbase(main):001:0&gt; list
+     TABLE                                                                           
+     user                                                                            
+     1 row(s) in 1.4940 seconds
+     =<span class="ruby">&gt; [<span class="hljs-string">"user"</span>]
+</span>     hbase(main):002:0&gt; </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li></ul></pre>
+
+<p>2） 建表验证</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs sql has-numbering"><span class="hljs-operator"><span class="hljs-keyword">create</span> <span class="hljs-string">'user'</span>,<span class="hljs-string">'name'</span>,<span class="hljs-string">'sex'</span></span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>如果list和建表都没出现错误的话,就意味着Hbase 安装成功</p>
+
+<p>三.搭建错误排除</p>
+
+<p>1.当Hbase shell时出现这样的错误</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs applescript has-numbering"> SLF4J: Found binding <span class="hljs-keyword">in</span> [jar:<span class="hljs-type">file</span>:/usr/<span class="hljs-keyword">local</span>/hbase-<span class="hljs-number">1.1</span><span class="hljs-number">.0</span>/lib/slf4j-log4j12-<span class="hljs-number">1.6</span><span class="hljs-number">.4</span>.jar!/org/slf4j/impl/StaticLoggerBinder.<span class="hljs-type">class</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>这是因为hadoop和hbase的slf4j-log4j12 jar包冲突,将HBase中的slf4j-log4j12-1.7.5移除 <br>
+2.Hbase运行要在hadoop非安全模式下使用,使用以下命令查看hadoop安全模式和退出安全模式.</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">hdfs dfsadmin <span class="hljs-attribute">-safemode</span> get      <span class="hljs-comment">//查看</span>
+hdfs dfsadmin <span class="hljs-attribute">-safemode</span> leave    <span class="hljs-comment">//退出</span></code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>3.安装失败后,要删除hadoop文件系统下的Hbase文件,使用命令</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">hadoop fs <span class="hljs-attribute">-rm</span> <span class="hljs-attribute">-r</span> <span class="hljs-attribute">-f</span> /hbase</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>4.这是最关键的。hosts文件中localhost的IP为127.0.0.1,如果有127.0.1.1的话,要将其改为127.0.0.1,以下是笔者hosts文件中的内容:</p>
+
+<p>sudo gedit /etc/hosts</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs css has-numbering">127<span class="hljs-class">.0</span><span class="hljs-class">.0</span><span class="hljs-class">.1</span> <span class="hljs-tag">localhost</span>
+
+192<span class="hljs-class">.168</span><span class="hljs-class">.8</span><span class="hljs-class">.101</span>    <span class="hljs-tag">spark01</span>   
+192<span class="hljs-class">.168</span><span class="hljs-class">.8</span><span class="hljs-class">.102</span>    <span class="hljs-tag">spark02</span>
+192<span class="hljs-class">.168</span><span class="hljs-class">.8</span><span class="hljs-class">.103</span>    <span class="hljs-tag">spark03</span>
+
+<span class="hljs-id">#The</span> <span class="hljs-tag">following</span> <span class="hljs-tag">lines</span> <span class="hljs-tag">are</span> <span class="hljs-tag">desirable</span> <span class="hljs-tag">for</span> <span class="hljs-tag">IPv6</span> <span class="hljs-tag">capable</span> <span class="hljs-tag">hosts</span>
+<span class="hljs-pseudo">::1</span>     <span class="hljs-tag">ip6-localhost</span> <span class="hljs-tag">ip6-loopback</span>
+<span class="hljs-tag">fe00</span><span class="hljs-pseudo">::0</span> <span class="hljs-tag">ip6-localnet</span>
+<span class="hljs-tag">ff00</span><span class="hljs-pseudo">::0</span> <span class="hljs-tag">ip6-mcastprefix</span>
+<span class="hljs-tag">ff02</span><span class="hljs-pseudo">::1</span> <span class="hljs-tag">ip6-allnodes</span>
+<span class="hljs-tag">ff02</span><span class="hljs-pseudo">::2</span> <span class="hljs-tag">ip6-allrouters</span>
+</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li></ul></pre>
+
+<p>注:spark01,spark02,spark03为集群主机名</p>
+
+<p>5.修改hbase文件目录权限</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">hadoop fs <span class="hljs-attribute">-chmod</span> <span class="hljs-attribute">-R</span> <span class="hljs-number">777</span> /hbase  </code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>6.如果你多次安装过不同版本的hbase且使用外部zookeeper,记得清理zookeeper中Hbase中文件,笔者就是因为这个问题,苦苦折磨了一周.</p>
+
+<p>关闭hbase,在zookeeper的bin目录运行zkCli.sh <br>
+终端最后显示:</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs css has-numbering"><span class="hljs-tag">WATCHER</span>::
+<span class="hljs-tag">WatchedEvent</span> <span class="hljs-tag">state</span><span class="hljs-pseudo">:SyncConnected</span> <span class="hljs-tag">type</span><span class="hljs-pseudo">:None</span> <span class="hljs-tag">path</span><span class="hljs-pseudo">:null</span>
+<span class="hljs-attr_selector">[zk: localhost:2181(CONNECTED) 0]</span> </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>按以下操作删除Hbase</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering"><span class="hljs-preprocessor">[</span>zk: localhost:<span class="hljs-number">2181</span>(CONNECTED) <span class="hljs-number">1</span><span class="hljs-preprocessor">]</span><span class="hljs-markup"> ls /
+</span><span class="hljs-preprocessor">[</span>hbase, hadoop<span class="hljs-attribute">-ha</span>, yarn<span class="hljs-attribute">-leader</span><span class="hljs-attribute">-election</span>, zookeeper<span class="hljs-preprocessor">]</span><span class="hljs-markup"></span></code><ul class="pre-numbering"><li>1</li><li>2</li></ul></pre>
+
+<p>如果有hbase则进行下一步</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs  has-numbering">[zk: localhost:2181(CONNECTED) 2] rmr /Hbase</code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>重启hbase</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs sql has-numbering"><span class="hljs-operator"><span class="hljs-keyword">start</span>-hbase.sh</span></code><ul class="pre-numbering"><li>1</li></ul></pre>
+
+<p>7.单独启动HMaster，Hregionserve命令</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs avrasm has-numbering">hbase-daemon<span class="hljs-preprocessor">.sh</span>  start regionserver 
+hbase-daemon<span class="hljs-preprocessor">.sh</span>  stop master
+hbase-daemon<span class="hljs-preprocessor">.sh</span>  start  regionserver
+hbase-daemon<span class="hljs-preprocessor">.sh</span>  stop  regionserver</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>四.hbase安装总结</p>
+
+<p>1.Hbase与hadoop有版本兼容要求,一般的解决方式都是把Hbase中与hadoop相关的jar包,替换成hadoop版本的jar包。 <br>
+2.集群时间记得要同步,同步方式界面操作调整时区和格式。 <br>
+3.安装会因为环境不同,而出现不同的错误,但整个安装过程应该有这样的心态:屡败屡战,经折腾。</p>
+
+<hr>
+
+<p>作者后言： <br>
+ 满纸荒唐言，一把辛酸泪。都云作者痴，谁解其中味。第一篇博客到此结束，如果你看到，集群也配到这，证明你配置成功了，恭喜你了。由于是第一次写博客，加上学习时间也比较紧，文章或多或少有些瑕疵，还望见谅。</p></div>
+        <script type="text/javascript">
+            $(function () {
+                $('pre.prettyprint code').each(function () {
+                    var lines = $(this).text().split('\n').length;
+                    var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                    $(this).addClass('has-numbering').parent().append($numbering);
+                    for (i = 1; i <= lines; i++) {
+                        $numbering.append($('<li/>').text(i));
+                    };
+                    $numbering.fadeIn(1700);
+                });
+            });
+        </script>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox bdshare-button-style0-16" style="float: right;" data-bd-bind="1452753385152">
+<a href="http://blog.csdn.net/u013327467/article/details/45675705#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="http://blog.csdn.net/u013327467/article/details/45675705#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间" style="background-position:0 -52px !important"></a>
+<a href="http://blog.csdn.net/u013327467/article/details/45675705#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博" style="background-position:0 -104px !important"></a>
+<a href="http://blog.csdn.net/u013327467/article/details/45675705#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博" style="background-position:0 -260px !important"></a>
+<a href="http://blog.csdn.net/u013327467/article/details/45675705#" class="bds_renren" data-cmd="renren" title="分享到人人网" style="background-position:0 -208px !important"></a>
+<a href="http://blog.csdn.net/u013327467/article/details/45675705#" class="bds_weixin" data-cmd="weixin" title="分享到微信" style="background-position:0 -1612px !important"></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   <link rel="stylesheet" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/blog_detail.css">
+
+    
+<!--172.16.140.12-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/bds_s_v2.js"></script>
+
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+ 
+
+        <div id="digg" articleid="45675705">
+            <dl id="btnDigg" class="digg digg_enable">
+               
+                 <dt>顶</dt>
+                <dd>4</dd>
+            </dl>
+            <dl id="btnBury" class="digg digg_enable">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>
+            </dl>
+        </div>
+
+   <ul class="article_next_prev">
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+        <div class="similar_article" style="display:none">
+                <h4>我的同类文章</h4>
+                <div class="similar_c" style="margin:20px 0px 0px 0px">
+                    <div class="similar_c_t">
+                    </div>
+                   
+                    <div class="similar_wrap tracking-ad" data-mod="popu_141" style="max-height:195px;">
+                        <a href="http://blog.csdn.net/" style="display:none" target="_blank">http://blog.csdn.net</a>
+                        <ul class="similar_list fl"></ul>
+
+                        <ul class="similar_list fr"></ul>
+                    </div>
+                </div>
+            </div>    
+    <script type="text/javascript">
+        $(function () {
+            GetCategoryArticles('0', 'u013327467','foot','45675705');
+        });
+    </script>
+      
+</div>
+<div id="suggest">
+
+    <dl class="blog-associat-tag">
+        <dt>主题推荐</dt>
+        <dd>
+                <a href="http://www.csdn.net/tag/ubuntu" target="_blank" class="blog-tage-red">ubuntu</a> 
+                <a href="http://www.csdn.net/tag/vmware" target="_blank" class="blog-tage-red">vmware</a> 
+                <a href="http://www.csdn.net/tag/spark" target="_blank" class="blog-tage-red">spark</a> 
+                <a href="http://www.csdn.net/tag/hbase" target="_blank" class="blog-tage-red">hbase</a> 
+                <a href="http://www.csdn.net/tag/jdk" target="_blank" class="blog-tage-red">jdk</a> 
+                <a href="http://www.csdn.net/tag/pre" target="_blank" class="blog-tage-red">pre</a> 
+                <a href="http://www.csdn.net/tag/linux" target="_blank" class="blog-tage-red">linux</a> 
+                <a href="http://www.csdn.net/tag/hive" target="_blank" class="blog-tage-red">hive</a> 
+                <a href="http://www.csdn.net/tag/ssh" target="_blank" class="blog-tage-red">ssh</a> 
+                <a href="http://www.csdn.net/tag/pc" target="_blank" class="blog-tage-red">pc</a> 
+        </dd>        
+    </dl> 
+    <span style="display:none" id="tags">ubuntu,vmware,spark,hbase,jdk,pre,linux,hive,ssh,pc</span>
+
+</div>
+         <script language="javascript" type="text/javascript">     
+             $(function(){
+                 $.get("/u013327467/svc/GetSuggestContent/45675705",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+<style>
+.blog-ass-articl dd {
+color: #369;
+width: 99%; /*修改行*/
+float: left;
+overflow: hidden;
+font: normal normal 12px/23px "SimSun";
+height: 23px;
+margin: 0;
+padding: 0 0 0 10px;
+margin-right: 30px;
+background: url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;
+}
+</style>
+
+<dl class="blog-ass-articl" id="res-relatived"> 
+     <dt><span>猜你在找</span></dt>    
+
+
+   
+
+
+    <div id="adCollege" style="width: 42%;float: left;"> 
+        <script src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/job_reco.js" type="text/javascript"></script> 
+        <script type="text/javascript">
+            csdn.position.showEdu({
+                sourceType: "blog",
+                searchType: "detail",
+                searchKey: "45675705",
+                username: "lzrcoming",
+                recordcount: "5",
+                containerId: "adCollege" //容器DIV的id。 
+            });
+        </script> 
+    <div class="tracking-ad" data-mod="popu_84"><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;"><a href="http://edu.csdn.net/course/detail/1787" title="Spark零基础入门（3）：Scala函数" strategy="v4:content" target="_blank">Spark零基础入门（3）：Scala函数</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;"><a href="http://edu.csdn.net/course/detail/1781" title="Spark零基础入门（2）：解析Scala集合操作" strategy="v4:content" target="_blank">Spark零基础入门（2）：解析Scala集合操作</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;"><a href="http://edu.csdn.net/course/detail/1818" title="Spark零基础入门（4）：Scala 类和对象" strategy="v4:content" target="_blank">Spark零基础入门（4）：Scala 类和对象</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;"><a href="http://edu.csdn.net/course/detail/1780" title="Spark零基础入门（1）：Scala基本数据类型及程序控制" strategy="v4:content" target="_blank">Spark零基础入门（1）：Scala基本数据类型及程序控制</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;"><a href="http://edu.csdn.net/course/detail/795" title="Python自动化开发基础 JavaScript开发基础 Day10" strategy="v4:user-s" target="_blank">Python自动化开发基础 JavaScript开发基础&nbsp;Day10</a></dd></div></div>  
+
+    
+     <div id="res" data-mod="popu_36" class="tracking-ad" style="width: 42%; float: left; margin-right: 30px; display: block;"><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/xqj198404/article/details/11974861" title="hadoop 112和 hive 010 和hbase-09410-security整合" strategy="SearchAlgorithm" target="_blank">hadoop 112和 hive 010 和hbase-09410-security整合</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/u014574130/article/details/45899243" title="Hadoop 240+zookeeper346+hbase0983分布式集群搭建" strategy="SearchAlgorithm" target="_blank">Hadoop 240+zookeeper346+hbase0983分布式集群搭建</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/Pun_C/article/details/44118119" title="Hadoop 121升级260的一次崎岖之旅包括HiveHBase对应的升级" strategy="SearchAlgorithm" target="_blank">Hadoop 121升级260的一次崎岖之旅包括HiveHBase对应的升级</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/spring8743/article/details/41008131" title="hadoop121+zookeeper346+hbase094集群环境搭建" strategy="SearchAlgorithm" target="_blank">hadoop121+zookeeper346+hbase094集群环境搭建</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/javastart/article/details/46379815" title="hadoop252HA高可靠性集群搭建zookeeper346+hbase09811" strategy="SearchAlgorithm" target="_blank">hadoop252HA高可靠性集群搭建zookeeper346+hbase09811</a></dd></div>
+   
+</dl>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        setTimeout(function () {
+            var searchtitletags = 'Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建' + ',' + $("#tags").html();
+            searchService({
+                index: 'blog',
+                query: searchtitletags,
+                from: 5,
+                size: 5,
+                appendTo: '#res',
+                url: 'recommend',
+                his: 2,
+                client: "blog_cf_enhance",
+                tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+            });
+        }, 500);
+    });    
+
+ </script>   
+
+    <div id="ad_cen">        
+<!--AdForward Begin:-->
+<script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/s(1)" charset="gbk"></script><script type="text/javascript">
+/*博客频道内容页下方Banner728*90，创建于2014-7-3*/
+var cpro_id = "u1607657";
+</script>
+<script src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/c.js" type="text/javascript"></script><div id="BAIDU_EXP_UNION__wrapper_u1607657_0"><iframe id="iframeu1607657_0" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/acom.html" width="728" height="90" align="center,center" vspace="0" hspace="0" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" style="border:0; vertical-align:bottom;margin:0;" allowtransparency="true"></iframe></div>
+<!--AdForward End-->    </div>  
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list"><dl class="comment_item comment_topic" id="comment_item_5693455"><dt class="comment_head" floor="2">2楼 <span class="user"><a class="username" href="http://blog.csdn.net/free2000honey" target="_blank">free2000honey</a> <span class="ptime">2015-12-03 19:48发表</span>  <a href="http://blog.csdn.net/u013327467/article/details/45675705#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="5693455" username="free2000honey"> <a href="http://blog.csdn.net/u013327467/article/details/45675705#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="http://blog.csdn.net/u013327467/article/details/45675705#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/free2000honey" target="_blank"><img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/3_free2000honey.jpg" width="40" height="40"></a></dd><dd class="comment_body">高手，学习了，spark如何读取hbase数据再写写好了。</dd></dl><dl class="comment_item comment_topic" id="comment_item_5410337"><dt class="comment_head" floor="1">1楼 <span class="user"><a class="username" href="http://blog.csdn.net/u011659123" target="_blank">caojunxu</a> <span class="ptime">2015-09-13 21:14发表</span>  <a href="http://blog.csdn.net/u013327467/article/details/45675705#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="5410337" username="u011659123"> <a href="http://blog.csdn.net/u013327467/article/details/45675705#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="http://blog.csdn.net/u013327467/article/details/45675705#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/u011659123" target="_blank"><img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/3_u011659123.jpg" width="40" height="40"></a></dd><dd class="comment_body"><div class="dp-highlighter bg_plain"><div class="bar"><div class="tools"><b>[plain]</b> <a href="http://blog.csdn.net/u013327467/article/details/45675705#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command(&#39;ViewSource&#39;,this);return false;">view plain</a><a href="http://blog.csdn.net/u013327467/article/details/45675705#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command(&#39;CopyToClipboard&#39;,this);return false;">copy</a><a href="http://blog.csdn.net/u013327467/article/details/45675705#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command(&#39;PrintSource&#39;,this);return false;">print</a><a href="http://blog.csdn.net/u013327467/article/details/45675705#" class="About" title="?" onclick="dp.sh.Toolbar.Command(&#39;About&#39;,this);return false;">?</a><div style="position: absolute; left: 526px; top: 28783px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_1" src="http://static.blog.csdn.net/scripts/ZeroClipboard/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="18" height="18" name="ZeroClipboardMovie_1" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=1&amp;width=18&amp;height=18" wmode="transparent"></div></div></div><ol start="1"><li class="alt"><span><span>export&nbsp;SPARK_HOME=/spark/spark-1.3.1&nbsp;&nbsp;</span></span></li><li class=""><span>export&nbsp;PATH=PATH:$SPARK_HOME/bin&nbsp;&nbsp;&nbsp;</span></li></ol></div><pre name="code2" class="plain" style="display: none;">export SPARK_HOME=/spark/spark-1.3.1
+export PATH=PATH:$SPARK_HOME/bin 
+</pre><br>这里应该是export PATH=$PATH:$SPARK_HOME/bin <br>否则会有出事哦，<br>谢谢分享，非常实用</dd></dl><div class="clear"></div></div>
+    <div id="comment_bar" style="display: none;">
+    </div>
+    <div id="comment_form"><a name="commentbox"></a><a name="reply"></a><a name="quote"></a><form action="http://blog.csdn.net/u013327467/comment/submit?id=45675705" method="post" onsubmit="return subform(this);"><div class="commentform"><div class="panel_head">发表评论</div><ul><li class="left">用 户 名：</li><li class="right">lzrcoming</li></ul><ul><li class="left">评论内容：</li><li class="right" style="position:relative;"><div id="ubbtools"><a href="http://blog.csdn.net/u013327467/article/details/45675705#insertcode" code="code"><img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/code.gif" border="0" alt="插入代码" title="插入代码"></a></div><div id="lang_list" style="position: absolute; top: 28px; left: 0px; display: none;"><a class="long_name" href="http://blog.csdn.net/u013327467/article/details/45675705#html">HTML/XML</a><a class="long_name" href="http://blog.csdn.net/u013327467/article/details/45675705#objc">objective-c</a><a class="zhong_name" href="http://blog.csdn.net/u013327467/article/details/45675705#delphi">Delphi</a><a class="zhong_name" href="http://blog.csdn.net/u013327467/article/details/45675705#ruby">Ruby</a><a href="http://blog.csdn.net/u013327467/article/details/45675705#php">PHP</a><a class="duan_name" href="http://blog.csdn.net/u013327467/article/details/45675705#csharp">C#</a><a style=" border-right: none;" class="duan_name" href="http://blog.csdn.net/u013327467/article/details/45675705#cpp">C++</a><a style=" border-bottom:none;" class="long_name" href="http://blog.csdn.net/u013327467/article/details/45675705#javascript">JavaScript</a><a style=" border-bottom:none;" class="long_name" href="http://blog.csdn.net/u013327467/article/details/45675705#vb">Visual Basic</a><a style=" border-bottom:none;" class="zhong_name" href="http://blog.csdn.net/u013327467/article/details/45675705#python">Python</a><a style=" border-bottom:none;" class="zhong_name" href="http://blog.csdn.net/u013327467/article/details/45675705#java">Java</a><a style="border-bottom:none;" class="duan_name" href="http://blog.csdn.net/u013327467/article/details/45675705#css">CSS</a><a style="border-bottom:none;" class="duan_name" href="http://blog.csdn.net/u013327467/article/details/45675705#sql">SQL</a><a style="border:none;" class="duan_name" href="http://blog.csdn.net/u013327467/article/details/45675705#plain">其它</a></div><textarea class="comment_content" name="comment_content" id="comment_content" style="width: 400px; height: 200px;"></textarea></li></ul><ul><input type="hidden" id="comment_replyId" name="comment_replyId"><input type="hidden" id="comment_userId" name="comment_userId" value="521203"><input type="hidden" id="commentId" name="commentId" value=""><input type="submit" class="comment_btn" value="提交">&nbsp;&nbsp;<span id="tip_comment" style="color: Red; display: none;"></span></ul></div></form></div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '45675705';
+    var commentscount = 2;
+    var islock = false
+</script>
+<script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/comment.js"></script>
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top" style="bottom:60px;">
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/blog-icon-reply.png" alt="快速回复">
+        </a>    
+
+    <a id="d-top-a" class="btn btn-top backtop" style="display: none;" title="返回顶部" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_huidaodingbu&#39;])">         
+         <img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+<div class="tag_list" style="">
+
+    <h5>
+        <a href="http://www.csdn.net/tag/" target="_blank">核心技术类目</a></h5>
+    <div class="classify">
+<a title="全部主题" href="http://www.csdn.net/tag" target="_blank" onclick="LogClickCount(this,336);">全部主题</a>
+<a title="Hadoop" href="http://g.csdn.net/5272865" target="_blank" onclick="LogClickCount(this,336);">Hadoop</a>
+<a title="AWS" href="http://g.csdn.net/5272866" target="_blank" onclick="LogClickCount(this,336);">AWS</a>
+<a title="移动游戏" href="http://g.csdn.net/5272870" target="_blank" onclick="LogClickCount(this,336);">移动游戏</a>
+<a title="Java" href="http://g.csdn.net/5272871" target="_blank" onclick="LogClickCount(this,336);">Java</a>
+<a title="Android" href="http://g.csdn.net/5272872" target="_blank" onclick="LogClickCount(this,336);">Android</a>
+<a title="iOS" href="http://g.csdn.net/5272873" target="_blank" onclick="LogClickCount(this,336);">iOS</a>
+<a title="Swift" href="http://g.csdn.net/5272868" target="_blank" onclick="LogClickCount(this,336);">Swift</a>
+<a title="智能硬件" href="http://g.csdn.net/5272869" target="_blank" onclick="LogClickCount(this,336);">智能硬件</a>
+<a title="Docker" href="http://g.csdn.net/5272867" target="_blank" onclick="LogClickCount(this,336);">Docker</a>
+<a title="OpenStack" href="http://g.csdn.net/5272925" target="_blank" onclick="LogClickCount(this,336);">OpenStack</a>
+<a title="VPN" href="http://www.csdn.net/tag/vpn" target="_blank" onclick="LogClickCount(this,336);">VPN</a>
+<a title="Spark" href="http://g.csdn.net/5272924" target="_blank" onclick="LogClickCount(this,336);">Spark</a>
+<a title="ERP" href="http://www.csdn.net/tag/erp" target="_blank" onclick="LogClickCount(this,336);">ERP</a>
+<a title="IE10" href="http://www.csdn.net/tag/ie10" target="_blank" onclick="LogClickCount(this,336);">IE10</a>
+<a title="Eclipse" href="http://www.csdn.net/tag/eclipse" target="_blank" onclick="LogClickCount(this,336);">Eclipse</a>
+<a title="CRM" href="http://www.csdn.net/tag/crm" target="_blank" onclick="LogClickCount(this,336);">CRM</a>
+<a title="JavaScript" href="http://www.csdn.net/tag/javascript" target="_blank" onclick="LogClickCount(this,336);">JavaScript</a>
+<a title="数据库" href="http://www.csdn.net/tag/%E6%95%B0%E6%8D%AE%E5%BA%93" target="_blank" onclick="LogClickCount(this,336);">数据库</a>
+<a title="Ubuntu" href="http://www.csdn.net/tag/ubuntu" target="_blank" onclick="LogClickCount(this,336);">Ubuntu</a>
+<a title="NFC" href="http://www.csdn.net/tag/nfc" target="_blank" onclick="LogClickCount(this,336);">NFC</a>
+<a title="WAP" href="http://www.csdn.net/tag/wap" target="_blank" onclick="LogClickCount(this,336);">WAP</a>
+<a title="jQuery" href="http://www.csdn.net/tag/jquery" target="_blank" onclick="LogClickCount(this,336);">jQuery</a>
+<a title="BI" href="http://www.csdn.net/tag/bi" target="_blank" onclick="LogClickCount(this,336);">BI</a>
+<a title="HTML5" href="http://www.csdn.net/tag/html5" target="_blank" onclick="LogClickCount(this,336);">HTML5</a>
+<a title="Spring" href="http://www.csdn.net/tag/spring" target="_blank" onclick="LogClickCount(this,336);">Spring</a>
+<a title="Apache" href="http://www.csdn.net/tag/apache" target="_blank" onclick="LogClickCount(this,336);">Apache</a>
+<a title=".NET" href="http://www.csdn.net/tag/.net" target="_blank" onclick="LogClickCount(this,336);">.NET</a>
+<a title="API" href="http://www.csdn.net/tag/api" target="_blank" onclick="LogClickCount(this,336);">API</a>
+<a title="HTML" href="http://www.csdn.net/tag/html" target="_blank" onclick="LogClickCount(this,336);">HTML</a>
+<a title="SDK" href="http://www.csdn.net/tag/sdk" target="_blank" onclick="LogClickCount(this,336);">SDK</a>
+<a title="IIS" href="http://www.csdn.net/tag/iis" target="_blank" onclick="LogClickCount(this,336);">IIS</a>
+<a title="Fedora" href="http://www.csdn.net/tag/fedora" target="_blank" onclick="LogClickCount(this,336);">Fedora</a>
+<a title="XML" href="http://www.csdn.net/tag/xml" target="_blank" onclick="LogClickCount(this,336);">XML</a>
+<a title="LBS" href="http://www.csdn.net/tag/lbs" target="_blank" onclick="LogClickCount(this,336);">LBS</a>
+<a title="Unity" href="http://www.csdn.net/tag/unity" target="_blank" onclick="LogClickCount(this,336);">Unity</a>
+<a title="Splashtop" href="http://www.csdn.net/tag/splashtop" target="_blank" onclick="LogClickCount(this,336);">Splashtop</a>
+<a title="UML" href="http://www.csdn.net/tag/uml" target="_blank" onclick="LogClickCount(this,336);">UML</a>
+<a title="components" href="http://www.csdn.net/tag/components" target="_blank" onclick="LogClickCount(this,336);">components</a>
+<a title="Windows Mobile" href="http://www.csdn.net/tag/windowsmobile" target="_blank" onclick="LogClickCount(this,336);">Windows Mobile</a>
+<a title="Rails" href="http://www.csdn.net/tag/rails" target="_blank" onclick="LogClickCount(this,336);">Rails</a>
+<a title="QEMU" href="http://www.csdn.net/tag/qemu" target="_blank" onclick="LogClickCount(this,336);">QEMU</a>
+<a title="KDE" href="http://www.csdn.net/tag/kde" target="_blank" onclick="LogClickCount(this,336);">KDE</a>
+<a title="Cassandra" href="http://www.csdn.net/tag/cassandra" target="_blank" onclick="LogClickCount(this,336);">Cassandra</a>
+<a title="CloudStack" href="http://www.csdn.net/tag/cloudstack" target="_blank" onclick="LogClickCount(this,336);">CloudStack</a>
+<a title="FTC" href="http://www.csdn.net/tag/ftc" target="_blank" onclick="LogClickCount(this,336);">FTC</a>
+<a title="coremail" href="http://www.csdn.net/tag/coremail" target="_blank" onclick="LogClickCount(this,336);">coremail</a>
+<a title="OPhone " href="http://www.csdn.net/tag/ophone" target="_blank" onclick="LogClickCount(this,336);">OPhone </a>
+<a title="CouchBase" href="http://www.csdn.net/tag/couchbase" target="_blank" onclick="LogClickCount(this,336);">CouchBase</a>
+<a title="云计算" href="http://www.csdn.net/tag/%E4%BA%91%E8%AE%A1%E7%AE%97" target="_blank" onclick="LogClickCount(this,336);">云计算</a>
+<a title="iOS6" href="http://www.csdn.net/tag/iOS6" target="_blank" onclick="LogClickCount(this,336);">iOS6</a>
+<a title="Rackspace " href="http://www.csdn.net/tag/rackspace" target="_blank" onclick="LogClickCount(this,336);">Rackspace </a>
+<a title="Web App" href="http://www.csdn.net/tag/webapp" target="_blank" onclick="LogClickCount(this,336);">Web App</a>
+<a title="SpringSide" href="http://www.csdn.net/tag/springside" target="_blank" onclick="LogClickCount(this,336);">SpringSide</a>
+<a title="Maemo" href="http://www.csdn.net/tag/maemo" target="_blank" onclick="LogClickCount(this,336);">Maemo</a>
+<a title="Compuware" href="http://www.csdn.net/tag/compuware" target="_blank" onclick="LogClickCount(this,336);">Compuware</a>
+<a title="大数据" href="http://www.csdn.net/tag/%E5%A4%A7%E6%95%B0%E6%8D%AE" target="_blank" onclick="LogClickCount(this,336);">大数据</a>
+<a title="aptech" href="http://www.csdn.net/tag/aptech" target="_blank" onclick="LogClickCount(this,336);">aptech</a>
+<a title="Perl" href="http://www.csdn.net/tag/perl" target="_blank" onclick="LogClickCount(this,336);">Perl</a>
+<a title="Tornado" href="http://www.csdn.net/tag/tornado" target="_blank" onclick="LogClickCount(this,336);">Tornado</a>
+<a title="Ruby" href="http://www.csdn.net/tag/ruby" target="_blank" onclick="LogClickCount(this,336);">Ruby</a>
+<a title="Hibernate" href="http://www.csdn.net/hibernate" target="_blank" onclick="LogClickCount(this,336);">Hibernate</a>
+<a title="ThinkPHP" href="http://www.csdn.net/tag/thinkphp" target="_blank" onclick="LogClickCount(this,336);">ThinkPHP</a>
+<a title="HBase" href="http://www.csdn.net/tag/hbase" target="_blank" onclick="LogClickCount(this,336);">HBase</a>
+<a title="Pure" href="http://www.csdn.net/tag/pure" target="_blank" onclick="LogClickCount(this,336);">Pure</a>
+<a title="Solr" href="http://www.csdn.net/tag/solr" target="_blank" onclick="LogClickCount(this,336);">Solr</a>
+<a title="Angular" href="http://www.csdn.net/tag/angular" target="_blank" onclick="LogClickCount(this,336);">Angular</a>
+<a title="Cloud Foundry" href="http://www.csdn.net/tag/cloudfoundry" target="_blank" onclick="LogClickCount(this,336);">Cloud Foundry</a>
+<a title="Redis" href="http://www.csdn.net/tag/redis" target="_blank" onclick="LogClickCount(this,336);">Redis</a>
+<a title="Scala" href="http://www.csdn.net/tag/scala" target="_blank" onclick="LogClickCount(this,336);">Scala</a>
+<a title="Django" href="http://www.csdn.net/tag/django" target="_blank" onclick="LogClickCount(this,336);">Django</a>
+<a title="Bootstrap" href="http://www.csdn.net/tag/bootstrap" target="_blank" onclick="LogClickCount(this,336);">Bootstrap</a>
+    </div>
+
+</div>
+  <script language="javascript" type="text/javascript">     
+      $(function(){
+              setTimeout(function(){
+                  $.get("/u013327467/svc/GetTagContent",function(data){
+                      $(".tag_list").html(data).show();
+                  });     
+              });
+          },500);                       
+ </script> 
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });
+        },200);  
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }    
+
+</script>
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/u013327467" target="_blank">
+    <img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/1_u013327467.jpg" title="访问我的空间" style="max-width:90%">
+    </a>
+    <br>
+    <span><a href="http://my.csdn.net/u013327467" class="user_name" target="_blank">Hspark</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter" title="[发私信]" onclick="window.open(&#39;http://msg.csdn.net/letters/model?receiver=u013327467&#39;,&#39;_blank&#39;,&#39;height=350,width=700&#39;);_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_sixin&#39;])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>1548次</span></li>
+    <li>积分：<span>290</span> </li>    
+    <li>等级： <span style="position:relative;display:inline-block;z-index:1">
+            <img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/blog2.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：290 </div>
+        </span>  </li>
+    <li>排名：<span>千里之外</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>1篇</span></li>
+    <li>转载：<span>0篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>2条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search" target="_blank">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字"></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog">
+        <input type="hidden" name="q" id="inputQ">
+        <input type="hidden" name="t" value="blog">
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";
+            window.location.href = url;
+        }   
+    });
+</script><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="http://blog.csdn.net/u013327467/article/category/3207467" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">spark</a><span>(1)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="http://blog.csdn.net/u013327467/article/month/2015/05">2015年05月</a><span>(1)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET.html" title="Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建">Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建</a><span>(1545)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET.html" title="Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建">Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建</a><span>(2)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/baimafujinji/article/details/50467970" target="_blank">*机器学习与数据挖掘网上资源搜罗——良心推荐</a></li>
+<li><a href="http://blog.csdn.net/foruok/article/details/50416725" target="_blank">*架构设计：系统间通信（17）——服务治理与Dubbo 中篇（分析）</a></li>
+<li><a href="http://blog.csdn.net/u011225629/article/details/50492403" target="_blank">*数据库性能优化之SQL语句优化</a></li>
+<li><a href="http://blog.csdn.net/yanbober/article/details/46417531" target="_blank">*Android应用开发allowBackup敏感信息泄露的一点反思</a></li>
+<li><a href="http://blog.csdn.net/nk_test/article/details/50449470" target="_blank">*Linux多线程实践（四 ）线程的特定数据</a></li>
+<li><a href="http://blog.csdn.net/u013142781/article/details/50507607" target="_blank">* Spring+EhCache缓存实例（详细讲解+源码下载）</a></li>
+
+</ul></ul>
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="http://blog.csdn.net/u013327467/article/details/45675705#comments">Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/free2000honey" class="user_name">free2000honey</a>:
+高手，学习了，spark如何读取hbase数据再写写好了。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/u013327467/article/details/45675705#comments">Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/u011659123" class="user_name">caojunxu</a>:
+export SPARK_HOME=/spark/spark-1.3.1export PATH=PA...
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+ </div>   
+            <div class="clear">
+            </div>
+        </div>
+        
+
+<script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/cnick.js"></script>
+<script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/newblog.min.js"></script>
+
+
+<script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/showblogmedal.ashx"></script>
+<script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/JavaScript1.js"></script><link rel="stylesheet" type="text/css" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/pub_footer_2014.css"><div class="pub_fo"><div id="pub_footerall" class="pub_footer_new"><dl><dt></dt> <dd class="foot_sub_menu"><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a><span>|</span><a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a><span>|</span><a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a><span>|</span><a href="http://www.csdn.net/company/account.html" target="_blank">银行汇款帐号</a><span>|</span><a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a><span>|</span><a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a><span>|</span><a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a><span>|</span><a href="mailto:webmaster@csdn.net">问题报告</a><span>|</span><a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a><span>|</span><a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd class="foot_contact"><a href="http://wpa.qq.com/msgrd?v=3&uin=2355263776&site=qq&menu=yes" target="_blank" class="qq">网站客服</a><a href="http://wpa.qq.com/msgrd?v=3&uin=2251809102&site=qq&menu=yes" target="_blank" class="qq">杂志客服</a><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a><a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a><span class="phone" title="服务热线">400-600-2320</span><span class="interval">|</span><span>北京创新乐知信息技术有限公司 版权所有</span><span class="interval">|</span><span>江苏乐知网络技术有限公司 提供商务支持</span></dd><dd class="foot_copyright"><span>京&nbsp;ICP&nbsp;证&nbsp;09002463&nbsp;号</span><span class="interval">|</span><span>Copyright © 1999-2014, CSDN.NET, All Rights Reserved&nbsp;</span><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div></div><div id="note1" class="csdn_note" style="display:none; position:absolute; z-index:9999; width:440px">  <span class="notice_top_arrow"><span class="inner"></span></span>  <div class="box"></div></div><div class="csdn_notice_tip" style="position: absolute; z-index: 9990; width: 170px; left: -72px; top: 18px; display: block;">  <iframe src="about:blank" frameborder="0" scrolling="no" style="z-index:-1;position:absolute;top:0;left:0;width:100%;height:100%;background:transparent"></iframe>  <div class="tip_text">您有<strong>87</strong>条新通知</div>  <a href="javascript:void 0" class="close2"></a></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/notify.js"></script>
+
+<script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=24 border=0 width=0 height=0>");</script><img src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/pv.aspx" border="0" width="0" height="0">
+<script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/counter.js"></script><script type="text/javascript" charset="UTF-8" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/msg.popup.js"></script>
+<script type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/ad-blog.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a>"
+                    + "<a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+    </div><input type="hidden" id="aa_g_data_ids" value="15010130|14991723|14961701|14955592|14670603|">
+      <!--new top-->
+    
+    <script id="csdn-toolbar-id" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/toolbar.js"></script>
+     <!--new top-->
+   
+    <link href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/ask_float_block.css" type="text/css" rel="stylesheet">
+    <script language="JavaScript" type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/wmd.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/showdown.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/prettify.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/ask_float_block.js"></script>
+   
+
+   
+ <div id="tag-suggest-pop">
+  <div class="relative">
+    <div class="close"></div>
+    <div class="content"></div>
+  </div>
+</div><link rel="stylesheet" type="text/css" media="screen" href="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/ask_float_fonts_css-6b30a53970eb5c3a2a045e3df585b475.css"><div data-mod="popu_64" class="tracking-ad" chg-blk="0"><a id="com-appcode-float-block" href="http://www.csdn.net/app/" target="_blank" title="APP二维码" style="top:255px"><span id="appcode-close"></span></a><a id="com-app-float-block" href="http://www.csdn.net/app/" title="APP下载" style="top:339px"></a><a id="com-quick-reply" title="快速回复" style="top:377px"></a><a id="com-d-top-a" style="top: 415px; display: none;" title="返回顶部" onclick=""></a> </div><div class="pop_edit ask_second comm_ask_second"><h3>提问</h3><span class="ask_float_span">您的问题将会被发布在“<a class="ask_float_channel" href="http://ask.csdn.net/" target="_blank" style="cursor:pointer">技术问答</a>”频道</span><a href="http://blog.csdn.net/u013327467/article/details/45675705#" nodetype="close" class="close">×</a><div class="context"><div class="err_div"><span class="err_ico"></span><span class="err_txt">该问题已存在，请勿重复提问</span></div><div class="input_div"><input id="askInputSecond" type="text" style="font-size:14px;" placeholder="问题标题"></div><div class="cm_box"><div class="cm_dialog"></div> <div class="pop_cm cm_add_link"><input type="text" placeholder="链接内容" id="af_cm_link_txt"><input type="text" placeholder="链接地址" id="af_cm_link_url"><input type="text" placeholder="链接提示" id="af_cm_link_tit"><div class="text-right"><span class="btn btn-default btn-sm" id="add_link_btn">插入链接</span> </div> </div><div class="pop_cm cm_add_img"><div class="nav-tabs"><a class="img_tab active" href="http://blog.csdn.net/u013327467/article/details/45675705#tab_upload">本地上传</a><a class="img_tab" href="http://blog.csdn.net/u013327467/article/details/45675705#tab_weburl">网络图片</a></div><div class="tab_panel active" id="tab_upload"><div class="set_img"><iframe src="./Hadoop-2.6.0+Zookeeper-3.4.6+Spark-1.5.0+Hbase-1.1.2+Hive-1.2.0集群搭建 - 杯子 - 博客频道 - CSDN.NET_files/upload.html"></iframe></div></div><div class="tab_panel" id="tab_weburl"><input type="text" placeholder="图片地址" id="af_cm_img_url"><input type="text" placeholder="图片说明" id="af_cm_img_alt"><div class="text-right"><span class="btn btn-default btn-sm" id="add_img_btn">插入图片</span> </div></div> </div></div> <textarea id="editor_all" rows="8" style="display: none;"></textarea><div class="editor-toolbar"><i class="separator">|</i><a class="icon-headline" title="标题一（Ctrl+Alt+1）"></a><a class="icon-heading" title="标题二（Ctrl+Alt+2）"></a><a class="icon-bold" title="粗体（Ctrl+B）"></a><a class="icon-italic" title="斜体（Ctrl+I）"></a><i class="separator">|</i><a class="icon-quote-left" title="引用（Ctrl+’）"></a><a class="icon-code" title="插入代码片（Ctrl+,）"></a><a class="icon-list-ul" title="无序列表（Ctrl+L）"></a><a class="icon-list-ol" title="有序列表（Ctrl+Alt+L）"></a><i class="separator">|</i><a class="icon-link" title="添加链接（Ctrl+K）"></a><a class="icon-picture" title="添加图片（Ctrl+Alt+I）"></a><i class="separator">|</i><a class="icon-reply" title="撤退（Ctrl+Z）"></a><a class="icon-share-alt" title="前进（Ctrl+Shift+Z）"></a><i class="separator">|</i><a class="icon-info" href="http://ask.csdn.net/pages/markdown" target="_blank" title="markdown语法参考"></a><a class="icon-preview" title="预览"></a><i class="separator">|</i></div><div class="CodeMirror cm-s-paper CodeMirror-focused"><div style="overflow: hidden; position: relative; width: 3px; height: 0px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none; font-size: 4px;" tabindex="0"></textarea></div><div class="CodeMirror-hscrollbar"><div style="height: 1px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="min-width: 33px;"><div style="position: relative;"><div class="CodeMirror-lines"><div style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre>&nbsp;<span style="display: inline-block; width: 1px; margin-right: -1px;">&nbsp;</span></pre></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code"></div><div class="CodeMirror-cursor">&nbsp;</div><div class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px;"></div><div class="CodeMirror-gutters" style="display: none;"></div></div></div><div class="editor-statusbar"><span class="lines">0</span><span class="words">0</span><span class="cursor">0:0</span></div><div class="div_tags clearfix"><div id="divSearchTags" class="tags_con"><input type="text"></div><input type="hidden" name="txtSearchTags"></div><div id="ask2_tagRecomm_div" class="drt_tagRecomm tracking-ad" data-mod="popu_73"><span class="drt_tit">推荐标签：</span></div></div><div class="success"><div class="left_area"><input id="chk_cb" type="checkbox"><span class="wyxs">我要悬赏</span><input id="cb_num" class="cb_num" readonly="true"><span class="phib_rii"><span> 币</span></span></div><a href="http://blog.csdn.net/u013327467/article/details/45675705#" nodetype="cancel" class="cancel">取消</a><a href="http://blog.csdn.net/u013327467/article/details/45675705#" nodetype="ok" class="ok">发布</a></div></div><div id="common_ask_div_sc" class="searchContainer"><div class="sTitle">可能存在类似的问题：</div><div class="sFooter"><a class="sFirstNewAsk">我想提一个新问题</a></div></div></body></html>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databases>
+	<database type="AS400">
+		<url>jdbc:as400://</url> 
+		<drive>com.ibm.as400.access.AS400JDBCDriver</drive> 
+	</database> 
+	<database type="Mysql">
+		<url>jdbc:mysql://</url> 
+		<drive>com.mysql.jdbc.Driver</drive> 
+	</database> 
+	<database type="Oracle">
+		<url>jdbc:oracle:thin:@</url> 
+		<drive>oracle.jdbc.driver.OracleDriver</drive> 
+	</database> 
+	<database type="SQLServer">
+		<url>jdbc:sqlserver://</url> 
+		<drive>com.microsoft.sqlserver.jdbc.SQLServerDriver</drive> 
+	</database> 
+	<database type="DB2">
+		<url>jdbc:db2://</url> 
+		<drive>com.ibm.db2.jcc.DB2Driver</drive> 
+	</database> 
+	<database type="Sybase">
+		<url>jdbc:sybase:Tds:</url> 
+		<drive>com.sybase.jdbc2.jdbc.SybDriver</drive> 
+	</database> 
+	<database type="Postgresql">
+		<url>jdbc:postgresql://</url> 
+		<drive>org.postgresql.Driver</drive> 
+	</database> 
+	<database type="Greenplum">
+		<url>jdbc:postgresql://</url> 
+		<drive>org.postgresql.Driver</drive> 
+	</database> 
+	<database type="Derby">
+		<url>jdbc:derby://</url> 
+		<drive>org.apache.derby.jdbc.ClientDriver</drive> 
+	</database> 
+	<database type="Firebird">
+		<url>jdbc:firebirdsql:</url> 
+		<drive>org.firebirdsql.jdbc.FBDriver</drive> 
+	</database> 
+	<database type="H2">
+		<url>jdbc:h2:tcp://</url> 
+		<drive>org.h2.Driver</drive> 
+	</database>
+	<database type="HadoopHive">
+		<url>jdbc:hive://</url> 
+		<drive>org.apache.hadoop.hive.jdbc.HiveDriver</drive> 
+	</database>
+	<database type="Impala">
+		<url>jdbc:hive2://</url> 
+		<drive>org.apache.hive.jdbc.HiveDriver</drive> 
+	</database>
+	<database type="MSSQL">
+		<url>jdbc:sqlserver://</url> 
+		<drive>org.apache.hive.jdbc.HiveDriver</drive> 
+	</database>
+	<database type="Sqlite">
+		<url>jdbc:sqlite:</url> 
+		<drive>org.sqlite.JDBC</drive> 
+	</database>
+</databases>

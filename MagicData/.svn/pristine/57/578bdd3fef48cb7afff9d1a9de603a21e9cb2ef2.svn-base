@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-30 18:47:12 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.integrity.system.dataType.bean.DataType" table="DataType" >
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="ObjId" type="string">
+            <column name="ObjId" length="50">
+                <comment>父对象id</comment>
+            </column>
+        </property>
+        <property name="ProName" type="string">
+            <column name="ProName" length="50">
+                <comment>属性名</comment>
+            </column>
+        </property>
+        <property name="ProType" type="string">
+            <column name="ProType" length="50">
+                <comment>属性类型</comment>
+            </column>
+        </property>
+        <property name="ProNum" type="string">
+            <column name="ProNum" length="50">
+                <comment>属性号</comment>
+            </column>
+        </property>
+        <property name="isIndex" type="string">
+            <column name="isIndex" length="50" not-null="true" default='0'>
+                <comment>索引标识1为可索引</comment>
+            </column>
+        </property>
+        <property name="remarkes1" type="string">
+            <column name="Remarkes1" length="500">
+                <comment>备用1</comment>
+            </column>
+        </property>
+        <property name="remarkes2" type="string">
+            <column name="Remarkes2" length="1000">
+                <comment>备用2</comment>
+            </column>
+        </property>
+        <property name="remarkes3" type="java.lang.Integer">
+            <column name="Remarkes3">
+                <comment>备用3</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

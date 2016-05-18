@@ -1,0 +1,326 @@
+html,body{
+	width: 100%;
+	height: 100%;
+	font-family: "Microsoft YaHei";
+	background-image:url(../../images/img/userlistBg.png);
+	overflow: hidden;
+}
+.userBox{
+	width: 100%;
+	height: 100%;
+	background-image:url(../../images/img/userlistBg.png);
+}
+.container1{
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+}
+.userlistlogoBox{
+	height: 10%;
+	padding: 20px 0px 0px 30px;
+	background: #010206;
+}
+.logoSpan{
+	float: left;
+}
+/*10月10日修改 -马 */
+ .p1{
+	line-height:26px;
+	padding-left: 15px;
+	margin-left: 15px;
+	background: url(../../images/img/lineP.png) left center no-repeat;
+	float: left;
+	color:#fff;
+}
+
+.topRight{
+	float: right;
+}
+.topRight li{
+	display: inline-block;
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    margin: 0px 25px 0 0;
+    color: #fff;
+    padding-left: 30px;
+	background: url(../../images/img/listIcon.png) 0px 8px no-repeat;
+}
+.topRight li a{
+	color: #fff;
+}
+.topRight li.curUser{
+	padding-left: 35px;
+	background-position: 0px -27px;
+	cursor: pointer;
+}
+.userCon{
+	width: 100%;
+	/* background:url(../../images/img/userConBg.png) 0px 0px repeat;  */
+	height: 90%;
+	padding-top: 20px;
+}
+.userCon .userconTop{
+	width: 96%;
+	height: 10%;
+	/* background: #0c182b; */
+	margin: 0 auto;
+	color: #fff;
+}
+
+/*娣诲姞鐢ㄦ埛鎸夐挳*/
+.spanBtn{
+	width: 7%;
+	padding:4px 8px;
+	color: #fff;
+	font-size: 14px;
+	margin:12px 30px 0px 5px;
+	background: #009cff;
+	border: 1px solid #009cff;
+	border-radius: 5px;
+	float:left;
+	cursor: pointer;
+}
+/*鏌ユ壘鐢ㄦ埛*/
+.userSearch{
+	width: 96%;
+	padding-top: 30px;
+	margin: 0 auto;
+}
+.searchDiv span{
+	line-height: 32px;
+	color: #fff;
+}
+.searchDiv .form-control{
+	width: 80%;
+	border: 1px solid #0d669e;
+	background: #01122a;
+	color: #fff;
+}
+.ssBtn .btn{
+	background: #012548;
+	border: 1px solid #009cff;
+	padding: 6px 20px;
+	color: #fff;
+}
+.ssBtn .czBtn{
+	margin-left: 10px;
+}
+.ssBtn .btn:hover{
+	background: #00538e;
+	border: 1px solid #009cff;
+}
+.tableBox{
+	width: 96%;
+	height:55%;
+	overflow:auto;
+	color: #fff;
+	margin: 30px auto;
+	border: 1px solid #052857;
+	background:url(../../images/img/userlistBg1.png) 0px 0px repeat;
+}
+.tableBox td,.tableBox th{
+	text-align: center;
+}
+.tableBox >.table > thead{
+	background: #0c182c;
+}
+.tableBox >.table > thead > tr > th{
+	border: none;
+}
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th{
+	vertical-align:middle;
+	border: none;
+	color: #fff;
+	font-size: 14px;
+	text-align:center;
+}
+.tableBox .table td a.a,.tableBox_r .table td a{
+	width: 32px;
+	height: 26px;
+	display: inline-block;
+	background:url(../../images/img/listIcon.png) 0px -153px no-repeat;
+}
+.tableBox .table td a.delA{
+	background-position: 0px -61px;
+}
+
+.tableBox .table td a.openA{
+	background-position: 0px -92px;
+}
+.tableBox .table td a.closeA{
+	background-position: 0px -123px;
+}
+.tableBox .table td a.nodel{
+	background:url(../../images/img/shanchu.png) 0px 7px no-repeat;
+}
+.pageDiv {
+	width: 60%;
+	margin: 0 auto;
+}
+.pagecon li{
+	float: left;
+}
+.pagecon li a{
+	color: #fff;
+	padding: 4px 6px;
+}
+.pagecon .nextPage{
+	margin:0px 15px;
+}
+.pagecon li b{
+	color: #009cff;
+	margin: 0px 4px;
+	display: inline-block;
+}
+.pagecon li span{
+	float: left;
+	color: #fff;
+}
+.pagecon input.inputText{
+	width: 30px;
+	display: inline-block;
+	height: 26px;
+	line-height: 26px;
+	float: left;
+	margin:0px 5px;
+	padding:5px 3px;
+	margin-top: -2px;
+	color: #fff;
+	background: #01122a;
+	border: 1px solid #0d669e;
+}
+.divA a{
+	color: #009cff;
+	padding: 4px 15px;
+	background: #01122a;
+	border: 1px solid #013f67;
+	margin-left: 5px;
+	border-radius: 4px;
+}
+.divA a:hover{
+	color: #009cff;
+	background: #012649;
+	border: 1px solid #009cff;
+}
+/*添加用户弹出层*/
+/*弹出层的背景*/
+.adduserBox .bg{
+  background:#000;
+  opacity:0.6;
+  filter:alpha(opacity=60);
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0px;
+  left:0px;
+  z-index:9;
+}
+.adduserBox{
+	display: none;
+}
+.adduser{
+	padding: 0px;
+	position: fixed;
+	top: 20%;
+	left: 50%;
+	margin-left: -221px;
+	margin-top: -20px;
+	z-index: 999;
+	background: #f1f1f1;
+	border-radius:6px;
+	height: 55%;
+}
+.adduserCon h3{
+	color: #fff;
+	background: #273238;
+	font-size: 20px;
+	border:1px solid #273238;
+	border-radius: 6px 6px 0px 0px;
+	line-height: 60px;
+	padding-left: 25px;
+	margin-bottom: 20px;
+	margin-top: 0px;
+}
+.adduserCon label{
+	width: 30%;
+	text-align: right;
+	float: left;
+	line-height: 34px;
+}
+.adduserCon .form-control{
+	width: 50%;
+}
+.adduserCon .yzm{
+	width: 30%;
+	float:left;
+}
+.adduserCon img{
+	width:80px;
+	height:25px;
+	margin:6px 0px 0px 10px;
+	float:left;
+}
+/*注册按钮*/
+.adduserCon .btn{
+	width:20%;
+	line-height:36px;
+	font-size:14px;
+	padding:0px;
+	color:#fff;
+	background: #006ab2;
+	border-radius: 6px;
+}
+.adduserCon .closeBtn{
+	margin-left:50px;
+}
+/*10月9日加--马*/
+.conBox{
+	width: 100%;
+	background:url(../../images/img/userConBg.png) 0px 0px repeat;
+	height: 90%;
+	/* padding-top: 20px; */
+}
+.userTab{
+	width: 96%;
+	margin: 0 auto;
+	border-bottom: 1px solid #009cff;
+}
+.userTab span{
+	color: #fff;
+	margin-right: 10px;
+	cursor: pointer;
+	background: #012548;
+	border: 1px solid #009cff;
+	padding: 6px 20px;
+	border-radius: 5px 5px 0px 0px;
+	border-bottom: none;
+	display: inline-block;
+}
+.userTab span.spanSeton{
+	background: #00538e;
+	border: 1px solid #009cff;
+}
+.userconBox{
+	padding-top:20px;
+}
+.hideUsercon{
+	display: none;
+}
+/*10月10日  */
+.tableBox_r .table td a.bjA{
+	background-position: 12px -153px;
+	cursor:pointer; 
+}
+.tableBox_r .table td a.delA{
+	background-position: 8px -61px;
+	cursor:pointer; 
+}
+
+
+
+
+
+
+
+

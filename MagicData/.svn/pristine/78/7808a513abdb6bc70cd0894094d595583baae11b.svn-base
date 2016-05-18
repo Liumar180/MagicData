@@ -1,0 +1,37 @@
+package com.integrity.dataSmart.titanGraph.service;
+
+import java.util.List;
+
+import com.integrity.dataSmart.common.page.PageModel;
+import com.integrity.dataSmart.titanGraph.bean.GraphHistory;
+import com.integrity.dataSmart.titanGraph.dao.GraphHistoryDao;
+
+public class GraphHistoryService {
+	private GraphHistoryDao graphHistoryDao;
+
+	public void setGraphHistoryDao(GraphHistoryDao graphHistoryDao) {
+		this.graphHistoryDao = graphHistoryDao;
+	}
+
+	/**
+	 * 获取分页历史版本
+	 * @param page
+	 * @param graphHistory 
+	 * @return
+	 */
+	public PageModel<GraphHistory> getHisPageModel(PageModel<GraphHistory> pageModel, GraphHistory graphHistory) {
+		List<GraphHistory> lst = graphHistoryDao.getHistoryList(pageModel,graphHistory);
+		pageModel.setTotalRecords(graphHistoryDao.getRowCount());
+		pageModel.setTotalPage(pageModel.getTotalPages());
+		pageModel.setList(lst);
+		return pageModel;
+	}
+
+	public void saveGraphHistory(GraphHistory graphHistory) {
+		graphHistoryDao.getHibernateTemplate().save(graphHistory);
+	}
+	
+	
+	
+	
+}

@@ -1,0 +1,15 @@
+package com.integrity.dataSmart.titanGraph.dao;
+
+import java.util.List;
+
+import com.integrity.dataSmart.titanGraph.bean.QqGroupsBeans;
+import com.integrity.dataSmart.titanGraph.bean.qqBeans;
+import com.tinkerpop.blueprints.Vertex;
+
+public interface SearchQqRelationDao{
+	List<qqBeans> queryQqFriends(String qq);
+	List<QqGroupsBeans> queryQqGroups(String qq);
+	
+    List<List<Vertex>> findGroupRelativeByqqNum(String qq);
+    List<Object> getRelativeById(long personId);
+}

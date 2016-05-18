@@ -1,0 +1,109 @@
+package com.integrity.dataSmart.test.twData;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class ParseHtmlMain {
+	public static void main(String[] args) {
+//		getTWPerson();
+		getTWParent();
+	}
+	
+	/**
+	 * TW-人员信息
+	 * @return
+	 */
+	public static List<PersonTemp> getTWPerson(){
+		List<PersonTemp> list = new ArrayList<PersonTemp>();
+		try {
+			File input = new File("C:\\Users\\cs\\Desktop\\date\\20160127_haitao\\tw_人员信息/人员信息.html");
+			Document doc = Jsoup.parse(input, "UTF-8");
+			Elements links = doc.select("tr:gt(0)");
+			for (Element element : links) {
+				System.out.println("person-------------------------------------");
+				PersonTemp p = new PersonTemp();
+				Elements idcard = element.select("td:eq(0)");
+				System.out.println("idcard--->"+idcard.text());
+				p.setIdcard(idcard.text());
+				
+				Elements name = element.select("td:eq(1)");
+				System.out.println("name--->"+name.text());
+				p.setName(name.text());
+				
+				Elements masterIdcard = element.select("td:eq(4)");
+				System.out.println("masterIdcard--->"+masterIdcard.text());
+				p.setMasterIdcard(masterIdcard.text());
+				
+				Elements masterName = element.select("td:eq(6)");
+				System.out.println("masterName--->"+masterName.text());
+				p.setMasterName(masterName.text());
+				
+				Elements d1 = element.select("td:eq(8)");
+				Elements d2 = element.select("td:eq(11)");
+				String address = d1.text()+d2.text();
+				System.out.println("address--->"+address);
+				p.setAddress(address);
+				
+				Elements spouseName = element.select("td:eq(13)");
+				System.out.println("spouseName--->"+spouseName.text());
+				p.setSpouseName(spouseName.text());
+				Elements fatherName = element.select("td:eq(14)");
+				System.out.println("fatherName--->"+fatherName.text());
+				p.setFatherName(fatherName.text());
+				
+				Elements motherName = element.select("td:eq(15)");
+				System.out.println("motherName--->"+motherName.text());
+				p.setMotherName(motherName.text());
+				
+				list.add(p);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * TW-父母档
+	 * @return
+	 */
+	public static List<PersonTemp> getTWParent(){
+		List<PersonTemp> list = new ArrayList<PersonTemp>();
+		try {
+			File input = new File("C:\\Users\\cs\\Desktop\\date\\20160127_haitao\\tw_人员信息/父母档.html");
+			Document doc = Jsoup.parse(input, "UTF-8");
+			Elements links = doc.select("tr:gt(0)");
+			for (Element element : links) {
+				System.out.println("person-------------------------------------");
+				PersonTemp p = new PersonTemp();
+				Elements idcard = element.select("td:eq(0)");
+				System.out.println("idcard--->"+idcard.text());
+				p.setIdcard(idcard.text());
+				
+				Elements name = element.select("td:eq(1)");
+				System.out.println("name--->"+name.text());
+				p.setName(name.text());
+				
+				Elements fatherName = element.select("td:eq(4)");
+				System.out.println("fatherName--->"+fatherName.text());
+				p.setFatherName(fatherName.text());
+				
+				Elements motherName = element.select("td:eq(5)");
+				System.out.println("motherName--->"+motherName.text());
+				p.setMotherName(motherName.text());
+				
+				list.add(p);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+}

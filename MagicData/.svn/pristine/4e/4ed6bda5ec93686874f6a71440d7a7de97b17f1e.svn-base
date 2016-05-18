@@ -1,0 +1,534 @@
+html,body{
+	width: 100%;
+	height: 100%;
+	font-family: "微软雅黑";
+	background: url(../../../images/lawCase/bodyBg.jpg) top center no-repeat;
+	/*overflow: hidden;*/
+}
+.navbar{
+	min-height: 60px;
+	margin-bottom: 0px;
+	color: #fff;
+}
+.navbar-link{
+	color: #fff;
+	margin-left: 8px;
+}
+.container{
+	width: 100%;
+	height: 100%;
+}
+@media (min-width: 1366px) {
+  .container {
+    width: 100%;
+  }
+}
+.mainCon{
+	height: 88%;
+	padding: 20px 0px 0px 0px;
+}
+.leftCon{
+	width: 18%;
+	height: 100%;
+	border:2px solid #1141b0;	
+	-webkit-box-shadow:inset 0 0 25px #1141b0;  
+  	-moz-box-shadow:inset 0 0 25px #1141b0;  
+  	box-shadow:inset 0 0 25px #1141b0; 
+  	border-radius: 4px;
+  	padding: 10px;
+}
+.leftInner1{
+	width: 98%;
+	height: 100%;
+	border: 1px solid #000000;
+	margin: 0 auto;
+}
+.leftInner2{
+	width: 99%;
+	height: 100%;
+	border: 1px solid #182fba;
+	margin: 0 auto;
+	padding-top: 30px;
+}
+.leftInner2 ul li a{
+	text-align: center;
+	line-height: 50px;
+	background: url(../../../images/lawCase/leftIcon.png) 22px 11px no-repeat;
+	margin-bottom: 20px;
+	display: block;
+}
+.leftInner2 ul li a{
+	color: #fff;
+	font-size: 14px;
+}
+.leftInner2 ul li.zz a{
+	background-position: 22px -63px;
+}
+.leftInner2 ul li.ry a{
+	background-position: 22px -139px;
+}
+.leftInner2 ul li.wj a{
+	background-position: 22px -215px;
+}
+.leftInner2 ul li.zj a{
+	background-position: 22px -290px;
+}
+.leftInner2 ul li.gz a{
+	background-position: 22px -363px;
+}
+@media (min-width: 1400px) {
+  .leftInner2 ul li a{
+	text-align: center;
+	line-height: 50px;
+	background: url(../../../images/lawCase/leftIcon.png) 82px 11px no-repeat;
+	margin-bottom: 20px;
+	display: block;
+	}
+	.leftInner2 ul li.zz a{
+		background-position: 82px -63px;
+	}
+	.leftInner2 ul li.ry a{
+		background-position: 82px -139px;
+	}
+	.leftInner2 ul li.wj a{
+		background-position: 82px -215px;
+	}
+	.leftInner2 ul li.zj a{
+		background-position: 82px -290px;
+	}
+	.leftInner2 ul li.gz a{
+		background-position: 82px -363px;
+	}
+}
+.leftInner2 ul li:hover,.leftInner2 ul li.setOn{
+	background: #2a3fc1;
+}
+.rightCon{
+	width: 80%;
+	height: 100%;
+	border:2px solid #1141b0;	
+	-webkit-box-shadow:inset 0 0 25px #1141b0;  
+  	-moz-box-shadow:inset 0 0 25px #1141b0;  
+  	box-shadow:inset 0 0 25px #1141b0; 
+  	border-radius: 4px;
+  	padding: 10px 15px;
+}
+/*tab*/
+.userconBox{
+	height: 90%;
+	padding: 0px 5px 10px 5px;
+	border: 2px solid #1b31b6;
+	overflow-y: auto;
+}
+.userTab{
+	width: 100%;
+}
+.userTab span{
+	/*width: 177px;*/
+	height: 50px;
+	line-height: 52px;
+	text-align: center;
+	color: #27baea;
+	font-size: 16px;
+	margin-right: 10px;
+	cursor: pointer;
+	padding: 0px 40px;
+	border: 2px solid #1b31b6;
+	border-bottom: none;
+	border-radius: 5px 5px 0px 0px;
+	display: inline-block;
+}
+.userTab span.spanSeton{	
+	color: #fff;
+	background: #20349a;
+}
+/*卡片列表*/
+.imglistBox{
+	padding-left: 12px;
+	margin-top: 10px;
+}
+.img_box a.imgA{
+	display: inline-block;
+}
+.img_box img{
+	border: 3px solid #1b31b6;
+}
+.imgList{
+	width: 13%;
+	overflow: hidden;
+	margin-right: 12px;
+	position: relative;
+	float: left;
+}
+/*.img_box{
+	height: 100%;
+}*/
+.imgList p.imgTitle{
+	text-align: center;
+	line-height: 26px;
+	color: #27baea;
+	font-size: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.hoverbox{
+	background:url(../../../images/lawCase/fcBg.png) 0px 0px repeat;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 80%;
+	padding-top: 8px;
+	display: none;
+}
+.hoverbox p{
+	color: #fff;
+	padding-left: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+/*隐藏的tab*/
+.hideUsercon{
+	display: none;
+	padding: 6px;
+}
+.topbar{
+	width: 100%;
+	height: 50px;
+	margin: 0 auto;
+	background: url(../../../images/lawCase/topbarBg.png) 0px 0px repeat-x;
+}
+.topbar li{
+	float: left;
+	margin-right: 10px;
+}
+
+.topbar ul li a{
+	text-align: center;
+	line-height: 50px;
+	background: url(../../../images/lawCase/listIcon.png) 10px 14px no-repeat;
+	display: inline-block;
+	padding-left: 40px;
+}
+.topbar ul li a{
+	color: #d6e7fa;
+}
+.topbar ul li.bj a{
+	background-position: 14px -22px;
+}
+.topbar ul li.delete a{
+	background-position: 14px -61px;
+}
+.topbar ul li.dc a{
+	background-position: 14px -96px;
+}
+/*下拉复选框*/
+#mainForm{
+	position: relative;
+}
+
+/*案件管理---基本信息页面样式*/
+.xxinnerCon{
+	padding: 10px;
+}
+.xxselect_box{
+	width: 150px;
+	border: 1px solid #8e6d41;
+	color: #d7a733;
+	background: url(../../../images/lawCase/xqIcon.png) 10px 10px no-repeat;
+	padding-left: 20px;
+	float: left;
+	line-height: 29px;
+	margin-right: 20px;
+	position: relative;
+	border-radius: 4px;
+}
+
+.xxselect_box span,.xxselect_box1 span{
+	width: 105px;
+	display:block; 
+	float:left; 
+	padding-left:10px;
+}
+
+.xxselect_box .ajoption,.xxselect_box1 .ajoption{ 
+	width: 150px;
+	background: #06183a;
+	border: 1px solid #11647c;
+	color: #fff;
+	border-top:none; 
+	position:absolute; 
+	top:31px; 
+	left:-1px; 
+	display:none; 
+	z-index: 999;
+}
+.xxselect_box .ajoption span,.xxselect_box1 .ajoption span{
+	width: 148px;
+	cursor: pointer;
+}
+.xxselect_box .ajoption span:hover,.xxselect_box1 .ajoption span:hover{
+	background: #0f3789;
+}
+.xxselect_box a.selet_open{
+	height:30px; 
+	display:block; 
+	width:17px; 
+	float:left;
+	background: url(../../../images/lawCase/xqIcon.png) 4px -17px no-repeat;
+}
+/*添加对象详情*/
+.xxselect_box1{
+	border: 1px solid #0ea19d;
+	color: #13ffe2;
+	background: url(../../../images/lawCase/xqIcon.png) 10px -41px no-repeat;	
+}
+.xxselect_box1 a.selet_open{
+	background: url(../../../images/lawCase/xqIcon.png) 4px -65px no-repeat;
+}
+/*案件详情编辑*/
+.ajxqBj,.ajxqDel{
+	float: left;
+	padding: 4px 20px 5px 30px;
+	border: 1px solid #909fb6;
+	border-radius: 4px;
+	cursor: pointer;
+	color: #d6e7fa;
+	background: #233251;
+	background: url(../../../images/lawCase/xqIcon.png) 12px -90px no-repeat;
+}
+/*案件详情删除*/
+.ajxqDel{
+	background-position: 13px -116px;
+	margin-left: 20px;
+}
+/*案件详情表格*/
+.xxinnerCon .tableDiv{
+	padding: 0px;
+	margin: 10px 0px;
+	background: url(../../../images/lawCase/tableBg.png) 0px 0px repeat;
+	color: #fff;
+}
+.tableDiv .table-bordered{
+	border: 1px solid #116278;	
+}
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td{
+	border: 1px solid #116278;
+}
+.tableDiv td img{
+	display: block;
+	margin: 0 auto;
+}
+.tableDiv .table{
+	margin-bottom: 0px;
+}
+/*案件详情--相关人员以及相关组织*/
+.xgpersonBox h3,.xgzzBox h3{
+	font-size: 16px;
+	color: #27baea;
+	background: #0c2b6e;
+	border: 1px solid #11657d;
+	margin:0px 0px 10px 0px;
+	line-height: 30px;
+	border-radius: 4px;
+	padding-left: 10px;
+}
+.personImg li,.zzImg li{
+	float:left;
+	margin-left: 10px;
+}
+.personImg li img,.zzImg li img{
+	width: 92px;
+	height: 108px;
+}
+.personImg li p,.zzImg li p{
+	font-size: 14px;
+	line-height: 30px;
+	color: #fff;
+}
+.personImg li p span,.zzImg li p span{
+	width: 65px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	float: left;
+}
+.personImg li p a,.zzImg li p a{
+	font-size: 12px;
+	color: #27baea;
+	float: right;
+	text-decoration: underline;
+}
+/*----工作记录以及工作配置----*/
+.hideworkcon{
+	display: none;
+	/* height: 86%; */
+}
+.workJl,.workPz{
+	height: 100%;
+	padding: 6px;
+}
+.workLeft{
+	width: 30%;
+	height: 100%;
+}
+.workleftTop{
+	/*border: 1px solid #2f3647;*/
+	height: 10%;
+}
+.workleftTop span{
+	width: 33%;
+	text-align: center;
+	line-height: 36px;
+	float: left;	
+	display: inline-block;
+	background: url(../../../images/lawCase/workconBg.png) 0px 0px repeat;
+	border: 1px solid #2f3647;
+}
+.workleftTop .addSpan,.workleftTop .addpzSpan{
+	border-left: none;
+}
+.workleftTop span a{
+	width: 70%;
+	color: #e5f2f7;
+	font-size: 14px;
+	display: inline-block;
+	background: url(../../../images/lawCase/workjlIcon.png) 10px 11px no-repeat;
+	padding-left: 20px;
+}
+.workleftTop span a.addBtn,.workleftTop span a.addpzSpan{
+	background-position: 6px -17px;
+}
+.workleftTop span.deljlSpan a,.workleftTop span.delpzSpan a{
+	background-position: 6px -44px;
+}
+.workleftTop span:hover{
+	background: #05142b;
+}
+.workleftTab{
+	height: 83%;
+	background:url(../../../images/lawCase/workconBg.png) 0px 0px repeat;
+	border: 1px solid #2f3648;
+	overflow-y: auto;
+}
+.workleftTab ul{
+	margin-bottom:0px;
+}
+.workleftTab li{
+	cursor: pointer;
+	border-bottom: 1px solid #313849;
+}
+.liTop{
+	border-bottom: 1px solid #113a95;
+	margin: 0px 5px;
+}
+.liTop h3{
+	width: 45%;
+	font-size: 12px;
+	color: #fff;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 6px 0px 6px 5px;
+	line-height: 26px;
+}
+.liTop span{
+	margin: 6px 5px 0px 0px;
+	line-height: 26px;
+	color: #fff;
+	font-size: 12px;
+}
+.liContent{
+	width: 96%;
+	line-height: 26px;
+	color: #9194a7;
+	font-size: 12px;
+	margin: 10px 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.liCur,.workleftTab li:hover{
+	background: #0f3789;
+}
+/*右侧*/
+.workrightCon{
+	width: 68%;
+	height: 100%;
+	margin-left: 15px;
+}
+.hideworkrightCon{
+	display: none;
+}
+.workrightTop {
+	height: 10%;
+}
+.workrightTop h1{
+	font-size:18px;
+	color: #2cc4c6;
+	line-height: 36px;
+	margin: 0px;
+	float: left;
+}
+.workrightTop span{
+	font-size: 14px;
+	color: #2cc4c6;
+	float: right;
+	line-height: 36px;
+}
+.workrightBottom{
+	border: 1px solid #2f3545;
+	background: url(../../../images/lawCase/workconBg.png) 0px 0px no-repeat;
+	padding: 15px;
+	height: 90%;
+	overflow-y: auto;
+}
+.workrightBottom p{
+	text-align: left;
+	line-height: 26px;
+	color: #d4e3ff;
+	font-size: 14px;
+}
+/*----- 工作配置------*/
+.workpzrightBottom{
+	font-size: 14px;
+	color: #d4e3ff;
+	line-height: 26px;
+}
+.workpzrightBottom p.pzP1 span{
+	width: 32%;
+	display: inline-block;
+}
+.workpzrightBottom .pzh3{
+	font-size: 14px;
+	color: #d4e3ff;
+}
+/*加载更多的样式*/
+.workLeft{
+	position:relative;
+}
+.loadMore{
+	width:100%;
+	line-height:30px;
+	text-align:center;
+	color:#fff;
+	font-size:14px;
+	position:absolute;
+	bottom:0px;
+	cursor: pointer;
+	background:#000;
+	opacity:0.4;
+  	filter:alpha(opacity=40);
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+           
+	<!-- 字典表        -->
+	<bean id="dictionaryDao" class="com.integrity.lawCase.common.init.dao.DictionaryDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="dictionaryService" class="com.integrity.lawCase.common.init.service.DictionaryService">
+        <property name="dictionaryDao" ref="dictionaryDao"/>
+    </bean>
+    
+	 <!-- caseManage-Spring -->
+	<bean id="caseManageDao" class="com.integrity.lawCase.caseManage.dao.CaseManageDao" >
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="caseManageService" class="com.integrity.lawCase.caseManage.service.CaseManageService" >
+		<property name="allRelationService" ref="allRelationService"/>
+		<property name="caseManageDao" ref="caseManageDao"/>
+	</bean>
+	<bean id="caseManageAction" class="com.integrity.lawCase.caseManage.action.CaseManageAction" scope="prototype">
+		<property name="caseManageService" ref="caseManageService"/>
+		<property name="userService" ref="authUserService"/>
+	</bean>
+	
+	<!-- hostManage-Spring -->
+	<bean id="hostManageDao" class="com.integrity.lawCase.hostManage.dao.HostManageDao" >
+	      <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="hostManageService" class="com.integrity.lawCase.hostManage.service.HostManageService" >
+		<property name="allRelationService" ref="allRelationService"/>
+		<property name="hostManageDao" ref="hostManageDao"/>
+	</bean>
+	<bean id="hostManageAction" class="com.integrity.lawCase.hostManage.action.HostManageAction" scope="prototype">
+	    <property name="hostManageService" ref="hostManageService"/>
+	    <property name="userService" ref="authUserService"/>
+	</bean>
+	<!-- Org组织管理 -->
+	<bean id="organizationDao" class="com.integrity.lawCase.organizationManage.dao.OrganizationManageDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="orgInfoManageService" class="com.integrity.lawCase.organizationManage.service.OrgInfoManageService">
+        <property name="orgDao" ref="organizationDao"/>
+        <property name="userService" ref="authUserService"/>
+    </bean>
+    <bean id="orgEditService" class="com.integrity.lawCase.organizationManage.service.OrgEditService">
+        <property name="orgDao" ref="organizationDao"/>
+        <property name="allRelationService" ref="allRelationService"/>
+    </bean>
+    <bean id="orgSearchPreWapper" class="com.integrity.lawCase.organizationManage.wapper.OrgSearchPreWapper" scope="prototype">
+	</bean>
+    <bean id="orgInfoManagerAction" class="com.integrity.lawCase.organizationManage.action.OrgInfoManagerAction" scope="prototype">
+		<property name="orgInfoManageService" ref="orgInfoManageService"/>
+		<property name="orgSearchPreWapper" ref="orgSearchPreWapper"/>
+		<property name="allRelationService" ref="allRelationService"/>
+	</bean>
+	<bean id="orgInfoManagerAjaxAction" class="com.integrity.lawCase.organizationManage.action.OrgInfoManagerAjaxAction" scope="prototype">
+		<property name="orgInfoManageService" ref="orgInfoManageService"/>
+	</bean>
+	<bean id="orgEditManagerAction" class="com.integrity.lawCase.organizationManage.action.OrgEditManagerAction" scope="prototype">
+		<property name="orgEditService" ref="orgEditService"/>
+		<property name="userService" ref="authUserService"/>
+		<property name="orgInfoManageService" ref="orgInfoManageService"/>
+	</bean>
+	<bean id="orgEditManagerAjaxAction" class="com.integrity.lawCase.organizationManage.action.OrgEditManagerAjaxAction" scope="prototype">
+		<property name="orgEditService" ref="orgEditService"/>
+		<property name="allRelationService" ref="allRelationService"/>
+		<property name="orgInfoManageService" ref="orgInfoManageService"/>
+	</bean>
+    
+     <!-- peopleManage-Spring -->
+	<bean id="peopleManageAction" class="com.integrity.lawCase.peopleManage.action.PeopleManageAction" scope="prototype">
+		<property name="peopleManageService" ref="peopleManageService"/>
+		<property name="userService" ref="authUserService"/>
+	</bean>
+	<bean id="peopleManageDao" class="com.integrity.lawCase.peopleManage.dao.PeopleManageDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="peopleManageService" class="com.integrity.lawCase.peopleManage.service.PeopleManageService">
+        <property name="allRelationService" ref="allRelationService"/>
+        <property name="peopleManageDao" ref="peopleManageDao"/>
+    </bean>
+    <!-- fileManage-Spring -->
+	<bean id="fileManageAction" class="com.integrity.lawCase.fileManage.action.FileManageAction" scope="prototype">
+		<property name="fileManageService" ref="fileManageService"/>
+		<property name="userService" ref="authUserService"/>
+	</bean>
+	<bean id="fileDownloadAction" class="com.integrity.lawCase.fileManage.action.FileDownloadAction" scope="prototype">
+		<property name="fileManageService" ref="fileManageService"/>
+	</bean>
+	<bean id="fileManageDao" class="com.integrity.lawCase.fileManage.dao.FileManageDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="fileManageService" class="com.integrity.lawCase.fileManage.service.FileManageService">
+        <property name="allRelationService" ref="allRelationService"/>
+        <property name="fileManageDao" ref="fileManageDao"/>
+    </bean>
+    
+    <!-- 关联关系 -->
+    <bean id="allRelationDao" class="com.integrity.lawCase.relation.dao.AllRelationDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="allRelationService" class="com.integrity.lawCase.relation.service.AllRelationService">
+        <property name="arDao" ref="allRelationDao"/>
+    </bean>
+	<bean id="allRelationWapper" class="com.integrity.lawCase.relation.wapper.AllRelationWapper" scope="prototype"/>
+    <bean id="allRelationAction" class="com.integrity.lawCase.relation.action.AllRelationAction" scope="prototype">
+		<property name="arService">
+			<ref bean="allRelationService" />
+		</property>
+		<property name="cmService">
+			<ref bean="caseManageService" />
+		</property>
+		<property name="fmService">
+			<ref bean="fileManageService" />
+		</property>
+		<property name="hmService">
+			<ref bean="hostManageService"/>
+		</property>
+		<property name="omService">
+			<ref bean="orgInfoManageService" />
+		</property>
+		<property name="pmService">
+			<ref bean="peopleManageService" />
+		</property>
+	</bean>
+	<bean id="allRelationAjaxAction" class="com.integrity.lawCase.relation.action.AllRelationAjaxAction" scope="prototype">
+	   <property name="arService">
+			<ref bean="allRelationService" />
+		</property>
+	</bean>
+	
+	<!-- 数据导出 -->
+	<bean id="exportLCService" class="com.integrity.lawCase.exportLaw.service.ExportLCService">
+	   <property name="userService" ref="authUserService"/>
+	</bean>
+	<bean id="exportLCAjaxAction" class="com.integrity.lawCase.exportLaw.action.ExportLCAjaxAction" scope="prototype">
+	    <property name="arService">
+			<ref bean="allRelationService" />
+		</property>
+		<property name="cmService">
+			<ref bean="caseManageService" />
+		</property>
+		<property name="fmService">
+			<ref bean="fileManageService" />
+		</property>
+		<property name="hmService">
+			<ref bean="hostManageService"/>
+		</property>
+		<property name="omService">
+			<ref bean="orgInfoManageService" />
+		</property>
+		<property name="pmService">
+			<ref bean="peopleManageService" />
+		</property>
+		<property name="exportLCService">
+			<ref bean="exportLCService" />
+		</property>
+	</bean>
+</beans>

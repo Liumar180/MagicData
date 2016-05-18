@@ -1,0 +1,17 @@
+#\u6839Logger\uff0c\u53ca\u65e5\u5fd7\u8f93\u51fa\u7ea7\u522b\uff0c\u5927\u4e8e\u7b49\u4e8e\u8be5\u7ea7\u522b\u7684\u65e5\u5fd7\u5c06\u88ab\u8f93\u51fa\uff08 DEBUG < INFO < WARN < ERROR < FATAL \uff09 \u8bbe\u4e3aOFF\u53ef\u4ee5\u5173\u95ed\u65e5\u5fd7   
+log4j.rootLogger=WARN, A1,A2   
+#log\u8f93\u51fa\u76ee\u7684
+log4j.appender.A1=org.apache.log4j.FileAppender   
+log4j.appender.A1.File=${catalina.home}/logs/magicData.log   
+#\u6307\u5b9a\u65e5\u5fd7\u4fe1\u606f\u7684\u683c\u5f0f   
+log4j.appender.A1.layout=org.apache.log4j.PatternLayout    
+log4j.appender.A1.layout.ConversionPattern=%r %d{yyyy-MM-dd HH\:mm\:ss} %c %p -%m%n   
+  
+#\u628aA2\u8f93\u51fa\u5230\u63a7\u5236\u53f0   
+log4j.appender.A2=org.apache.log4j.ConsoleAppender   
+#log4j.appender.A2.layout=org.apache.log4j.SimpleLayout  
+log4j.appender.A2.layout=org.apache.log4j.PatternLayout  
+log4j.appender.A2.layout.ConversionPattern=%r %d{yyyy-MM-dd HH\:mm\:ss} %c %p -%m%n 
+  
+#\u5355\u72ec\u6307\u5b9a\u8f93\u51fa\u67d0\u4e2a\u5305\u7684\u65e5\u5fd7\u7ea7\u522b   
+#log4j.logger.com.integrity.search.action=INFO  

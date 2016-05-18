@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.integrity.login.bean">
+
+    <class name="User" table="user">
+        <id name="id" column="id" type="long">
+            <generator class="identity" />
+        </id>
+        <property name="userName" column="username" not-null="true" length="255" />
+        <property name="password" column="password" not-null="true" length="40" />
+        <property name="phone" column="phone" not-null="false" length="40" />
+        <property name="nickName" column="nickname" not-null="false" length="40" />
+        <property name="name" column="name" not-null="false" length="40" />
+        <property name="sex" column="sex" not-null="true" length="40" />
+        <property name="roleType" column="roleType" not-null="true" length="40" />
+        <property name="status" column="status" not-null="true" length="40" />
+        <property name="cdate" column="cdate" not-null="false" length="40" />
+        <property name="mdate" column="MDATE" not-null="false" length="40" />
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,63 @@
+package com.integrity.dataSmart.titanGraph.action;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import com.integrity.dataSmart.titanGraph.bean.QqGroupsBeans;
+import com.integrity.dataSmart.titanGraph.service.SearchQqRelationService;
+import com.opensymphony.xwork2.ActionSupport;
+
+/**
+ * @author liubf
+ * 查询qq关联信息action
+ *
+ */
+public class SearchQqRelationAction extends ActionSupport{
+	private static final long serialVersionUID = 1L;
+	private SearchQqRelationService searchQqRelationService;
+	private String qq;
+	private List<QqGroupsBeans> groups;
+
+
+	private Logger logger = Logger.getLogger(SearchQqRelationAction.class);
+	
+	public String searchFriendsByQq(){
+		searchQqRelationService.queryQqFriends(qq);
+		return SUCCESS;
+	}
+	public String searchgGroupsByQq(){
+		//List<List<Vertex>> titanGroup = searchQqRelationService.findGroupRelativeByqqNum(qq);
+		try {
+			groups = searchQqRelationService.queryQqGroups(qq);
+		} catch (Exception e) {
+			logger.error("查询异常："+e.getMessage());
+		}
+		return SUCCESS;
+	}
+	
+	public SearchQqRelationService getSearchQqRelationService() {
+		return searchQqRelationService;
+	}
+	public void setSearchQqRelationService(
+			SearchQqRelationService searchQqRelationService) {
+		this.searchQqRelationService = searchQqRelationService;
+	}
+	public String getQq() {
+		return qq;
+	}
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+	public List<QqGroupsBeans> getGroups() {
+		return groups;
+	}
+	public void setGroups(List<QqGroupsBeans> groups) {
+		this.groups = groups;
+	}
+	
+
+	
+	
+
+}

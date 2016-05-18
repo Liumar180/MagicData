@@ -1,0 +1,8 @@
+package com.integrity.dataSmart.titanGraph.dao;
+
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+public class DataShowDaoImp extends HibernateDaoSupport implements DataShowDao{
+	
+
+}

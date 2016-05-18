@@ -1,0 +1,226 @@
+package connectToTitan
+
+import org.apache.spark.rdd.JdbcRDD
+import org.apache.spark.rdd.RDD
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+import org.apache.spark.graphx._
+import java.util.ArrayList
+import java.sql.DriverManager
+import org.apache.spark.rdd.RDD.rddToPairRDDFunctions
+import com.thinkaurelius.titan.core.EdgeLabel
+import com.thinkaurelius.titan.core.Multiplicity
+import com.thinkaurelius.titan.core.PropertyKey
+import com.thinkaurelius.titan.core.TitanFactory
+import com.thinkaurelius.titan.core.TitanGraph
+import com.thinkaurelius.titan.core.TitanTransaction
+import com.thinkaurelius.titan.core.attribute.Geoshape
+import com.thinkaurelius.titan.core.schema.ConsistencyModifier
+import com.thinkaurelius.titan.core.schema.TitanGraphIndex
+import com.thinkaurelius.titan.core.schema.TitanManagement
+import com.thinkaurelius.titan.core.TitanVertex
+import com.thinkaurelius.titan.core.TitanEdge
+import org.apache.tinkerpop.gremlin.process.traversal.Order
+import org.apache.tinkerpop.gremlin.structure.Direction
+import org.apache.tinkerpop.gremlin.structure.T
+import org.apache.commons.configuration.BaseConfiguration
+import java.util.Set
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+//import java.util.Iterator
+//import java.lang.Iterable
+import java.util.concurrent.atomic.AtomicLong
+import scala.Array
+import scala.collection.mutable.ArrayBuffer
+import com.tinkerpop.blueprints.Vertex
+//import com.tinkerpop.blueprints._
+import com.tinkerpop.blueprints.{Graph=>BPGraph}
+import com.thinkaurelius.titan.core.TitanException
+//import com.thinkaurelius.titan.diskstorage.locking.PermanentLockingException
+
+
+
+object JDBCToGraphMax{
+ 
+  def main(args: Array[String]): Unit = {
+    
+    println("开始连接Mysql数据库");
+    val url = "jdbc:mysql://192.168.40.35:3306/titantest"
+    val username = "root"
+    val password = "YMiss8X%Zc"
+
+    /*Driver program*/
+    //构建spark 应用程序的运行环境SparkConf
+    //val conf = new SparkConf().setAppName("JDBCToGraph")
+    val conf = new SparkConf().setAppName("JDBCToGraph").setMaster("local[1]")
+    //val conf = new SparkConf().setAppName("JDBCToGraph").setMaster("spark://master:7077")
+    
+    //初始化Sparkcontext
+    val sc = new SparkContext(conf)  
+    Class.forName("com.mysql.jdbc.Driver").newInstance()
+    
+    //开始读数据
+    val start_time = System.currentTimeMillis()
+    
+    println("Application begin on " + start_time + "*****************************")
+    
+    try {
+
+      val StartOfEmailID = 1000000;
+      val partition_num = 2
+      val total_row_counts = 10000000
+      val row_block_size = 10000
+      
+      // previous dependent rdd
+      var preJDBCRDD : RDD[(Int,(Int,Int,Int,String,String))] = null
+      //var preTEdges: RDD[VertexId] = null
+      var preVertexRdd : RDD[(VertexId, TVertex)] = null
+      var preEdgeRDD : RDD[(String,Edge[TEdge])] = null
+      var preTEdges : RDD[VertexId] = null
+      
+      var left_rows = total_row_counts
+      while(left_rows > 0) {
+        // RDD11
+        val jdbcRDD = new JdbcRDD(sc, () => DriverManager.getConnection(url, username, password),
+        "select id, Person, EmailID, Phone, EmailAcount from test2 where ? <= id and id <= ?",
+        total_row_counts - left_rows, row_block_size, partition_num, r => (r.getInt("id"),r.getInt("Person"),r.getInt("EmailID"), r.getString("Phone"),r.getString("EmailAcount")))
+       
+        // add myRDD's dependency to preJDBCRDD
+        val pairJdbcRDD = jdbcRDD.map(r=>(r._1,r))
+        pairJdbcRDD.cache
+        val myRDD = pairJdbcRDD.leftOuterJoin(preJDBCRDD).map({case(id:Int,(u,v))=>u})
+        preJDBCRDD = pairJdbcRDD
+
+        // RDD12
+        myRDD.cache()
+  	   	val tVertexRdd: RDD[(VertexId, TVertex)] = myRDD.flatMap{ line => 
+  	   	  // Person Vertex
+  	   	  val tVertex = new TVertex("Person")
+    	   	tVertex.addProperty("id",line._2.toString())
+    	   	tVertex.addProperty("PersonID",line._2.toString())
+    	   	tVertex.addProperty("Phone",line._4.toString())
+    	   	
+    	   	// Email Vertex
+    	   	val eVertex = new TVertex("Email")
+    	   	eVertex.addProperty("id",(line._3+StartOfEmailID).toString())
+    	   	eVertex.addProperty("EmailID",line._3.toString())
+    	   	eVertex.addProperty("EmailAcount",line._5.toString())
+    	   	
+    			List((line._2.toInt, tVertex),(line._3.toInt+StartOfEmailID, eVertex))
+  		  }
+    		val tEdgeRDD: RDD[Edge[TEdge]] = myRDD.map{line => 
+    		  // Edge between Person and Edge
+    			val tEdge = new TEdge()
+    	   	tEdge.addProperty("id",line._1.toString())
+    	   	tEdge.addProperty("Person",line._2.toString())
+    	   	tEdge.addProperty("EmailID",line._3.toString())
+    	   	tEdge.addProperty("Phone",line._4.toString())
+    	   	tEdge.addProperty("EmailAcount",line._5.toString())
+    			Edge(line._2.toInt, line._3.toInt+StartOfEmailID, tEdge)
+    		}
+    		
+    		preVertexRdd = tVertexRdd.leftOuterJoin(preVertexRdd).map({case(vid,(u,v))=>(vid,u)})
+    		preVertexRdd.cache
+    		preEdgeRDD = tEdgeRDD.map{e=>(List(e.dstId,e.srcId,e).mkString,e)}.leftOuterJoin(preEdgeRDD).map({case(vid,(u,v))=>(vid,u)})
+    		preEdgeRDD.cache
+    		
+    		// Create the social graph of people
+    		val tGraph: Graph[TVertex, TEdge] = Graph(preVertexRdd, preEdgeRDD.map({case(id,e)=>e}))
+    		   		
+    		tGraph.cache()
+    		
+      	val tVertices = tGraph.vertices.mapPartitionsWithIndex({ (pID: Int,vertexes: Iterator[(VertexId,TVertex)])	=>
+            
+            val graph = TitanGraphPool(pID)
+    
+            println("Titan数据库已经连接成功，开始存储顶点数据")
+            val result = vertexes.map {case(vid,vertex) => 
+              println("*******************"+pID)
+              println("vid:"+vid)
+              var addedVertex =  graph.addVertex(T.label, vertex.vtype)
+              vertex.properties.foreach({t=>
+        		    addedVertex.property(t._1,t._2)
+        		  })
+        		  vertex._tid = addedVertex.longId()
+        		  (vid,vertex)
+            }.toList//.reduce(_+_)
+
+            println("prepare to commit transaction: "+graph.tx().toString())
+            graph.tx().commit()
+      	    result.toIterator
+      	})
+      	val convertedGraph = tGraph.joinVertices(tVertices.map({u=>(u._1,u._2)}))({case (vid, vd, u)=>
+      	    u
+      	  })
+     	  
+       	val teges = convertedGraph.triplets.mapPartitionsWithIndex({(pID,tls)	=>
+       	    val graph = TitanGraphPool(pID)
+            println("Titan数据库已经连接成功")
+
+            val result = tls.map {tl => 
+              println("*******************"+pID)
+              println("vid:"+tl.attr.properties)
+              val srcVertex = graph.vertices(tl.srcAttr._tid.asInstanceOf[AnyRef]).next()
+              val dstVertex = graph.vertices(tl.dstAttr._tid.asInstanceOf[AnyRef]).next()
+              var addedEdge = srcVertex.addEdge("has", dstVertex)
+    
+              tl.attr.properties.foreach({t=>
+        		    addedEdge.property(t._1,t._2)
+        		  })
+              //List.empty.iterator 
+        		  tl.dstId
+            }.toList
+            println("1111111111111111111111111"+result+"1111111111111111111111111111"+pID)
+            println("prepare to commit transaction: "+graph.tx().toString())
+            
+            graph.tx().commit()
+            result.toIterator
+      	})//.count() 	
+    		preTEdges = teges
+      	
+        left_rows += row_block_size
+      }
+      
+      // trigger the final action, result in a long chain of execution
+      if(preTEdges != null) preTEdges.count()
+  	
+     val end_time = System.currentTimeMillis()
+     val total_seconds = (end_time - start_time)/1000;
+  		 		     
+    } 
+    catch {
+          case ex : java.util.NoSuchElementException => {
+             println("####--NoSuchElement--#####");
+          }
+          case ex : TitanException =>{
+             println("####--TitanException--#####");
+          }
+     }finally{
+          //tx.commit();
+          //tx.close()
+          println("end"); 
+          TitanGraphPool.release()
+          //关闭Sparkcontext
+          sc.stop();
+     }
+  }   
+  
+   case class TVertex(vtype:String) {
+     var properties = Map[String,String]()
+     var _tid : Long = 0 
+     def addProperty(name:String,value:String) {
+       properties += (name->value)
+     }
+   }
+   
+   case class TEdge() {
+     var properties = Map[String,String]()
+     def addProperty(name:String,value:String) {
+       properties += (name->value)
+     }
+   }
+  
+}

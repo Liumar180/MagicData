@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.integrity.lawCase.organizationManage.bean.Organizationobject" table="organizationobject">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="orgCName" type="java.lang.String">
+            <column name="orgCName" length="64" not-null="true">
+                <comment>组织名称</comment>
+            </column>
+        </property>
+        <property name="orgSpell" type="java.lang.String">
+            <column name="orgSpell" length="128">
+                <comment>组织拼音</comment>
+            </column>
+        </property>
+        <property name="orgEName" type="java.lang.String">
+            <column name="orgEName" length="128">
+                <comment>组织英文名称</comment>
+            </column>
+        </property>
+        <property name="orgAlias" type="java.lang.String">
+            <column name="orgAlias" length="64">
+                <comment>组织别名</comment>
+            </column>
+        </property>
+        <property name="orgLocation" type="java.lang.String">
+            <column name="orgLocation"  length="256">
+                <comment> 组织所在地</comment>
+            </column>
+        </property>
+         <property name="orgDirectionCodes" type="java.lang.String">
+            <column name="orgDirectionCodes" length="256">
+                <comment>所属方向</comment>
+            </column>
+        </property>
+        <property name="orgStatus" type="java.lang.String">
+            <column name="orgStatus" length="256">
+                <comment>组织状态</comment>
+            </column>
+        </property>
+        <property name="orgControlStatus" type="java.lang.String">
+            <column name="orgControlStatus" length="256">
+                <comment>组织控制状态</comment>
+            </column>
+        </property>
+        <property name="orgImportLevel" type="java.lang.String">
+            <column name="orgImportLevel" length="256">
+                <comment>重要等级</comment>
+            </column>
+        </property>
+        <property name="orgImage" type="java.lang.String">
+            <column name="orgImage" length="512">
+                <comment>关联图片</comment>
+            </column>
+        </property>
+        <property name="orgDescription" type="java.lang.String">
+            <column name="orgDescription" length="65535">
+                <comment>简介</comment>
+            </column>
+        </property>
+        <property name="orgRemark" type="java.lang.String">
+            <column name="orgRemark" length="65535">
+                <comment>组织纲领</comment>
+            </column>
+        </property>
+        <property name="orgInputPersonId" type="java.lang.String">
+            <column name="orgInputPersonId" length="64">
+                <comment> 录入人id</comment>
+            </column>
+        </property>
+        <property name="orgDutyPersonIds" type="java.lang.String">
+            <column name="orgDutyPersonIds" length="256">
+                <comment> 负责人ids</comment>
+            </column>
+        </property>
+        <property name="createTime" type="java.util.Date">
+            <column name="createTime">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="orgSearchKey" type="java.lang.String">
+            <column name="orgSearchKey" length="65535">
+                <comment>关键字</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

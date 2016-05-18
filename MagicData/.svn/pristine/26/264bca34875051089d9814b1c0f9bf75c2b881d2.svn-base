@@ -1,0 +1,22 @@
+generate-mapping -u root -p 123456  -o story.ttl jdbc:mysql:///story 
+dump-rdf -f RDF/XML -o story-dump.rdf story.ttl 
+start fuseki and load data from story-dump.rdf
+
+truncate table story.location;
+
+CALL story.generate_location_test_data(100);
+
+select * from story.location where dst_name = 'HMJD';
+
+select * from story.location;
+
+
+truncate table story.covert_channel;
+
+CALL story.generate_test_data(100);
+
+select * from story.covert_channel where imei = '011472001975695';
+
+select * from story.covert_channel;
+
+mysqldump -h localhost -u root -p 123456 story > backup_story.sql　

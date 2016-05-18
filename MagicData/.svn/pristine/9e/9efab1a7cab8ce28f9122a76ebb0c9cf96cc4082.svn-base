@@ -1,0 +1,26 @@
+package com.integrity.dataSmart.titanGraph.bean;
+
+/**
+ * @author liuBf
+ * qq实体
+ *
+ */
+public class qqBeans {
+	private String qqNum;//qq号
+	private String friendRrmark;
+	public String getQqNum() {
+		return qqNum;
+	}
+	public void setQqNum(String qqNum) {
+		this.qqNum = qqNum;
+	}
+	public String getFriendRrmark() {
+		return friendRrmark;
+	}
+	public void setFriendRrmark(String friendRrmark) {
+		this.friendRrmark = friendRrmark;
+	}
+	
+
+
+}

@@ -1,0 +1,6 @@
+#swf startPATH
+
+openoffice.ip=127.0.0.1
+#swf.exe=E:/SWFtools/pdf2swf.exe
+swf.exe=/usr/local/swfTools/bin/pdf2swf
+

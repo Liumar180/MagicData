@@ -1,0 +1,196 @@
+html,body{
+	width: 100%;
+	height: 100%;
+	font-family: "微软雅黑";
+	background: url(../img/bodyBg.jpg) top center no-repeat;
+	/*overflow: hidden;*/
+	min-width:1280px;
+}
+.clear{
+	clear: both;
+}
+.navbar{
+	min-height: 60px;
+	margin-bottom: 0px;
+	color: #fff;
+}
+.navbar-link{
+	color: #fff;
+	margin-left: 8px;
+}
+.navbar-link:hover{
+	color: #fff;
+}
+.rightNav{
+	padding-right: 30px;
+}
+.navIcon{
+	line-height: 56px;
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	/* margin-top:11px; */
+}
+.navIcon .icon img{
+	float:left;
+	margin:10px 0px 0px 0px;
+}
+.navIcon .icon em{
+	font-style:normal;
+	float:left;
+	padding-top:1px;
+}
+.navList{
+	width: 148px;
+	border: 1px solid #0f284d;
+	position: absolute;
+	right: 0px;
+	top: 46px;
+	background:url(../img/tmBg3.png) 0px 0px repeat;
+	display: none;
+}
+.navList ul{
+	width: 146px;
+	border: 1px solid #0f304e;
+	padding: 20px 0px;
+	margin-bottom: 0px;
+}
+.navList li a{
+	display: block;
+	color: #fff;
+	font-size: 18px;
+	line-height: 40px;
+	text-align: center;
+	background: url(../img/homeIcon.png) 10px 13px no-repeat;
+	display: block;
+}
+.navList li.caseLi a{
+	background-position: 10px -23px;
+}
+.navList li.systemLi a{
+	background-position: 10px -59px;
+}
+.container{
+	width: 100%;
+	height: 100%;
+	min-width:1280px;
+}
+@media (min-width: 1366px) {
+  .container {
+    width: 100%;
+    min-width:1280px;
+  }
+}
+.mainCon{
+	height: 60%;
+	margin-bottom: 7px;
+	overflow: hidden;
+}
+.mainCon img{
+	width: 100%;
+	height: 100%;
+	display: block;
+	margin: 0 auto;
+}
+.bottomDiv{
+	width: 1280px;
+	margin: 0 auto;
+	position: relative;
+	padding: 13px 0px;
+}
+.bottomDiv span{
+	width: 15px;
+	height: 15px;
+	display: block;
+	background: url(../img/indexIcon1.png) 0px 0px no-repeat;
+	position: absolute;
+}
+.bottomDiv span.lefttopIcon{
+	left: 0px;
+	top: 0px;
+}
+.bottomDiv span.leftdownIcon{
+	background-position: 0px -30px;
+	left: 0px;
+	bottom: 0px;
+}
+.bottomDiv span.righttopIcon{
+	background-position: 0px -60px;
+	right: 0px;
+	top: 0px;
+}
+.bottomDiv span.rightdownIcon{
+	background-position: 0px -90px;
+	right: 0px;
+	bottom: 0px;
+}
+.cardDiv{
+	width: 288px;
+	height: 154px;
+	border:1px solid #196bbc;
+	margin-left: 25px;
+	float: left;
+}
+.cardDiv h3{
+	height: 30px;
+	line-height: 30px;
+	color: #00a2ff;
+	font-size: 14px;
+	margin: 0px;
+	text-align: center;
+	background: url(../img/tmBg1.png) 0px 0px repeat-x;
+}
+.cardDiv h3 span{
+	width: 30px;
+	height: 30px;
+	margin-left: -30px;
+	display: inline-block;
+	background: url(../img/indexIcon.png) 3px 6px no-repeat;
+}
+.cardDiv h3 span.shopping{
+	background-position: 3px -28px;
+}
+.cardDiv h3 span.kd{
+	background-position: 0px -59px;
+}
+.cardDiv h3 span.lt{
+	background-position: 3px -92px;
+}
+.cardCon{
+	height: 124px;
+	padding: 13px 10px;
+	background: url(../img/tmBg2.png) 0px 0px repeat;
+}
+.cardCon p{
+	color: #fff;
+	line-height: 26px;
+	font-size: 16px;
+	margin-bottom: 0px;
+}
+
+/*12月28日加*/
+.navbar-text{
+	margin-top:0px;
+	margin-bottom:0px;
+	line-height: 56px;
+}
+.exit img{float:left; margin-top: 18px;}
+.navbar-text .exitText{
+	float:left;
+}
+/*4月6日加*/
+.exit{
+	margin-left:0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

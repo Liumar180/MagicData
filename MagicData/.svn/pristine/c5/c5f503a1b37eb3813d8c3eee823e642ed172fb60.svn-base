@@ -1,0 +1,85 @@
+package com.integrity.dataSmart.particple.code;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.integrity.dataSmart.particple.util.WordCount;
+public class WordsStatistics {
+    class Obj { 
+        int count ; 
+        Obj(int count){ 
+            this.count = count; 
+        } 
+    } 
+    public List<WordCount> statistics(String word) { 
+        List<WordCount> rs = new ArrayList<WordCount>(); 
+        Map <String,Obj> map = new HashMap<String,Obj>(); 
+
+        if(word == null ) { 
+            return null; 
+        } 
+        word = word.replaceAll("，", "");
+        word = word.replaceAll("；", "");
+        word = word.replaceAll("。", "");
+        word = word.replaceAll("、", "");
+        word = word.replaceAll("！", "");
+        word = word.replaceAll("“", "");
+        word = word.replaceAll("”", "");
+        word = word.replaceAll("  ", " ");
+        word = word.replaceAll("的", "");
+        word = word.replaceAll("  ", " ");
+        word = word.replaceAll("是", "");
+        word = word.replaceAll("  ", " ");
+        word = word.replaceAll("在", "");
+        word = word.replaceAll("  ", " ");
+        word = word.replaceAll("了", "");
+        word = word.replaceAll("  ", " ");
+        word = word.replaceAll("一", "");
+        word = word.replaceAll("  ", " ");
+        
+        
+        String [] wordArray = word.split(" "); 
+        for(String simpleWord : wordArray) {
+            simpleWord = simpleWord.trim();  
+            if (simpleWord != null && !simpleWord.equalsIgnoreCase("")) { 
+                Obj cnt = map.get(simpleWord); 
+                if ( cnt!= null ) { 
+                    cnt.count++; 
+                }else { 
+                    map.put(simpleWord, new Obj(1)); 
+                } 
+            } 
+        } 
+
+        for(String key : map.keySet()) { 
+            WordCount wd = new WordCount(key,map.get(key).count); 
+            rs.add(wd); 
+        } 
+
+        Collections.sort(rs, new java.util.Comparator<WordCount>(){ 
+            @Override
+            public int compare(WordCount o1, WordCount o2) { 
+                int result = 0 ; 
+                if (o1.getCount() > o2.getCount() ) { 
+                    result = -1; 
+                }else if (o1.getCount() < o2.getCount()) { 
+                    result = 1; 
+                }else { 
+                    int strRs = o1.getWord().compareToIgnoreCase(o2.getWord()); 
+                    if ( strRs > 0 ) { 
+                        result = 1; 
+                    }else { 
+                        result = -1 ; 
+                    } 
+                } 
+                return result; 
+            } 
+
+        }); 
+        return rs; 
+    } 
+
+}

@@ -1,0 +1,90 @@
+#MENU_LV1=1connect,2process,3openList,4clear(\u6E05\u7A7A),5delete,6map,7group,8search
+#MENU_LV1=1search,1search,1search,1search,1search,1search
+QQ_MENU_LV1=1qq,2qq,3qq,4qq,5qq,6qq
+GROUP_MENU_LV1=1group,2group,3group,4group,5group,6group
+PERSON_MENU_LV1=1search,2connect,3openList,4clear,5delete,6map
+#8search.MENU_LV2=81all,82object,83event,84net  
+#8search.MENU_LV2=82object,83event,84net
+1search.MENU_LV2=11object,12event,13net
+#83event.MENU_LV3=831all,832bbs,833doctor,834talk,835login,836mail//121bbs,122doctor,123talk,124login,125mail
+#832bbs,833doctor,834talk,835login,836mail
+12event.MENU_LV3=121bbs,122doctor,123talk,124login,125mail,126hotel
+
+###############LV1#################
+1searchMe.ICO_CLASS = customicon-1searchMe
+1search.HREF=
+
+1search.ICO_CLASS = customicon-1search
+1qq.ICO_CLASS = customicon-todo-0
+1group.ICO_CLASS = customicon-todo-0
+
+2connect.ICO_CLASS = customicon-2connect
+2connect.HREF=2connect
+2qq.ICO_CLASS = customicon-todo-1
+2qq.HREF=2connect
+2group.ICO_CLASS = customicon-todo-1
+2group.HREF=2connect
+
+3openList.ICO_CLASS = customicon-3openList
+3openList.HREF=3openList
+3qq.ICO_CLASS = customicon-todo-2
+3qq.HREF=3openList
+3group.ICO_CLASS = customicon-todo-2
+3group.HREF=3openList
+
+4clear.ICO_CLASS = customicon-4clear
+4clear.HREF=4clear
+4qq.ICO_CLASS = customicon-todo-3
+4qq.HREF=4clear
+4group.ICO_CLASS = customicon-todo-3
+4group.HREF=4clear
+
+5delete.ICO_CLASS = customicon-5delete
+5delete.HREF=5delete
+5qq.ICO_CLASS = customicon-5friend
+5qq.HREF=5delete
+5group.ICO_CLASS = customicon-todo-4
+5group.HREF=5delete
+
+6map.ICO_CLASS = customicon-6map
+6map.HREF=6map
+6qq.ICO_CLASS = customicon-6group
+6qq.HREF=6map
+6group.ICO_CLASS = customicon-6inGroup
+6group.HREF=6map
+
+###############LV2#################
+#81all.ICO_CLASS = customicon-81all
+#81all.HREF=81all
+
+11object.ICO_CLASS = customicon-11object
+11object.HREF=11object
+
+12event.ICO_CLASS = customicon-12event
+12event.HREF=
+
+13net.ICO_CLASS = customicon-13net
+13net.HREF=13net
+
+###############LV3#################
+#831all.ICO_CLASS = customicon-831all
+#831all.HREF=831all
+
+121bbs.ICO_CLASS = customicon-121bbs
+121bbs.HREF=832bbs
+
+122doctor.ICO_CLASS = customicon-122doctor
+122doctor.HREF= 833doctor
+
+123talk.ICO_CLASS = customicon-123talk
+123talk.HREF=834talk
+
+124login.ICO_CLASS = customicon-124login
+124login.HREF=835login
+
+125mail.ICO_CLASS = customicon-125mail
+125mail.HREF=836mail
+
+126hotel.ICO_CLASS = customicon-126hotel
+126hotel.HREF=837hotel
+

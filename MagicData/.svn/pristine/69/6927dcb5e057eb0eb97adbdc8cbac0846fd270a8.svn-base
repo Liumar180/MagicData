@@ -1,0 +1,408 @@
+@charset "utf-8";
+
+/*
+ * Copyright 2005-2015 shopxx.net. All rights reserved.
+ * Support: http://www.shopxx.net
+ * License: http://www.shopxx.net/license
+ * 
+ * Style - Common
+ * Version: 4.0
+ */
+
+/* ---------- Reset ---------- */
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, fieldset, legend, input, textarea, select, button, th, td, p, hr, blockquote, pre, code {
+	padding: 0px;
+	margin: 0px;
+}
+
+html {
+	_width: 100%;
+	_height: 100%;
+	color: #666666;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	_filter: expression(document.execCommand("BackgroundImageCache", false, true));
+	background-color: #ffffff;
+	_background-image: url(about: blank);
+	_background-attachment: fixed;
+}
+
+body {
+	_width: 100%;
+	_height: 100%;
+	min-width: 960px;
+	_width: expression(document.body.clientWidth <= 1190 ? "1190px" : "auto");
+}
+
+body, input, textarea, select, button {
+	font: 12px "Microsoft YaHei", tahoma, Arial, Verdana, sans-serif;
+}
+
+input, textarea, select, button {
+	font-size: 100%;
+	vertical-align: middle;
+	outline: none;
+}
+
+input[type=checkbox] {
+	margin-right: 2px;
+}
+
+textarea {
+	resize: none;
+}
+
+button {
+	cursor: pointer;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+
+th {
+	text-align: left;
+}
+
+a {
+	color: #666666;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #ff6600;
+	text-decoration: none;
+}
+
+img {
+	vertical-align: middle;
+	image-rendering: optimizeQuality;
+	-ms-interpolation-mode: bicubic;
+	border: 0px;
+}
+
+ul, ol {
+	list-style-type: none;
+}
+
+h1, h2, h3, h4, h5, h6, strong, em, b {
+	font-size: 100%;
+	font-style: normal;
+	font-weight: bold;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+/* ---------- Base ---------- */
+
+.black {
+	color: black;
+}
+
+.white {
+	color: white;
+}
+
+.gray {
+	color: gray;
+}
+
+.silver {
+	color: silver;
+}
+
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
+
+.blue {
+	color: blue;
+}
+
+.left {
+	_display: inline;
+	float: left;
+}
+
+.right {
+	_display: inline;
+	float: right;
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.hidden {
+	display: none;
+}
+
+.clearfix {
+	*zoom: 1;
+}
+
+.clearfix:before, .clearfix:after {
+	display: table;
+	content: "";
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+.dialogOverlay {
+	width: 100%;
+	height: 100%;
+	display: none;
+	position: fixed;
+	_position: absolute;
+	top: 0px;
+	_top: expression(documentElement.scrollTop + documentElement.clientHeight - this.offsetHeight);
+	left: 0px;
+	z-index: 80;
+	filter: alpha(opacity = 30);
+	opacity: 0.3;
+	*zoom: 1;
+	background: url(../images/dialog_overlay.png);
+}
+
+
+
+
+
+/* ---------- Header ---------- */
+
+.header {
+	position: relative;
+	z-index: 200;
+	background-color: #ffffff;
+	background-color: rgba(255, 255, 255, 0.9);
+}
+
+.header .top {
+	height: 50px;
+	line-height: 36px;
+	background-color: #333333;
+}
+
+.header .topNav {
+	width: 960px;
+	margin: 0px auto;
+}
+
+.header .topNav li {
+	float: left;
+	color: #aaaaaa;
+}
+
+.header .topNav li span {
+	margin-right: 30px;
+	color: #bbbbbb;
+}
+
+.header .topNav li .phone {
+	padding-left: 20px;
+	color: #ffffff;
+	background: url(../images/common.gif) -270px -210px no-repeat;
+}
+
+.header .topNav li strong {
+	color: #ff6600;
+	font-weight: bold;
+}
+
+.header .topNav li a {
+	margin: 0px 10px;
+	color: #bbbbbb;
+}
+
+.header .topNav li a:hover {
+	text-decoration: underline;
+}
+
+.header .topNav li .qrCode {
+	padding-left: 20px;
+	margin: 0px 0px 0px 20px;
+	position: relative;
+	background: url(../images/common.gif) -270px -240px no-repeat;
+}
+
+.header .topNav li .qrCode img {
+	position: absolute;
+	z-index: 200;
+	top: 10px;
+	right: 0px;
+	display: none;
+}
+
+.header .main {
+	width: 1190px;
+	height: 60px;
+	margin: 0px auto;
+}
+
+.header .logo {
+	float: left;
+	padding-top: 10px;
+}
+
+.header .mainNav {
+	float: right;
+	position: relative;
+	-webkit-border-radius: 0px 0px 3px 3px;
+	-moz-border-radius: 0px 0px 3px 3px;
+	border-radius: 0px 0px 3px 3px;
+	-webkit-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.08);
+	-moz-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.08);
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.08);
+	border-left: solid 1px #dddddd;
+	border-bottom: solid 1px #dddddd;
+}
+
+.header .mainNav li {
+	float: left;
+	border-right: solid 1px #dddddd;
+}
+
+.header .mainNav li a {
+	height: 49px;
+	line-height: 49px;
+	display: block;
+	padding: 0px 25px;
+	font-size: 16px;
+	-webkit-transition: 0.5s;
+	-moz-transition: 0.5s;
+	transition: 0.5s;
+}
+
+.header .navHighlight {
+	width: 84px;
+	height: 3px;
+	position: absolute;
+	left: -1px;
+	bottom: -1px;
+	z-index: 100;
+	-webkit-transition: 0.5s;
+	-moz-transition: 0.5s;
+	transition: 0.5s;
+	overflow: hidden;
+	background-color: #ff6600;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+	background-color: #333333;
+}
+
+.footer .main {
+	width: 960px;
+	height: 230px;
+	margin: 0px auto;
+	border-bottom: 1px solid #666666;
+}
+
+.footer .contact {
+	width: 500px;
+	float: left;
+	padding-top: 40px;
+}
+
+.footer .contact span {
+	line-height: 30px;
+	display: block;
+	padding-left: 30px;
+	margin-bottom: 10px;
+	color: #999999;
+	font-size: 14px;
+	text-shadow: 1px 1px #000000;
+	background: url(../images/common.gif) no-repeat;
+}
+
+.footer .contact .phone {
+	color: #dddddd;
+	font-size: 18px;
+	background-position: -270px -270px;
+}
+
+.footer .contact .qq {
+	background-position: -270px -300px;
+}
+
+.footer .contact .email {
+	background-position: -270px -330px;
+}
+
+.footer .contact .address {
+	background-position: -270px -360px;
+}
+
+.footer .info {
+	width: 690px;
+	float: right;
+	padding-top: 20px;
+}
+
+.footer .info dl {
+	width: 200px;
+	float: left;
+}
+
+.footer .info dt {
+	line-height: 40px;
+	color: #999999;
+	font-size: 14px;
+	text-shadow: 1px 1px #000000;
+}
+
+.footer .info dd a {
+	line-height: 26px;
+	color: #666666;
+}
+
+.footer .info dd a:hover {
+	color: #cccccc;
+}
+
+.footer .bottom {
+	padding: 20px 0px;
+}
+
+.footer .bottomNav {
+	line-height: 30px;
+	text-align: center;
+}
+
+.footer .bottomNav ul {
+	display: inline-block;
+	*zoom: 1;
+	*display: inline;
+}
+
+.footer .bottomNav li {
+	float: left;
+}
+
+.footer .bottomNav li a {
+	margin: 0px 10px;
+	color: #888888;
+}
+
+.footer .bottomNav li a:hover {
+	color: #dddddd;
+}
+
+.footer .copyright {
+	line-height: 30px;
+	text-align: center;
+}

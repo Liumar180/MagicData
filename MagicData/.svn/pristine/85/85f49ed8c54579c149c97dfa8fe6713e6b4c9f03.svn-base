@@ -1,0 +1,47 @@
+package com.integrity.dataSmart.titanGraph.action;
+
+import org.apache.log4j.Logger;
+
+import com.integrity.dataSmart.titanGraph.service.SearchQqRelationService;
+import com.opensymphony.xwork2.ActionSupport;
+
+/**
+ * @author liubf
+ * 查询qq关联信息action
+ *
+ */
+public class SearchQqRelationAction extends ActionSupport{
+	private static final long serialVersionUID = 1L;
+	private SearchQqRelationService searchQqRelationService;
+	private String qq;
+
+
+	private Logger logger = Logger.getLogger(SearchQqRelationAction.class);
+	
+	public String searchFriendsByQq(){
+		searchQqRelationService.queryQqFriends(qq);
+		return SUCCESS;
+	}
+	public String searchgGroupsByQq(){
+		searchQqRelationService.queryQqGroups(qq);
+		return SUCCESS;
+	}
+	
+	public SearchQqRelationService getSearchQqRelationService() {
+		return searchQqRelationService;
+	}
+	public void setSearchQqRelationService(
+			SearchQqRelationService searchQqRelationService) {
+		this.searchQqRelationService = searchQqRelationService;
+	}
+	public String getQq() {
+		return qq;
+	}
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+
+	
+	
+
+}

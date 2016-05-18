@@ -1,0 +1,40 @@
+package com.integrity.dataSmart.test;
+
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.junit.Test;
+
+import com.integrity.dataSmart.test.hibernate.ReservationRoomSharer;
+
+public class ConnDBForLZR {
+	
+	@Test
+	public void dbTest(){
+		List<ReservationRoomSharer> list = getList(2,3);
+		for(ReservationRoomSharer r:list){
+			System.out.println(r.getId()+"========");
+		}
+	}
+	
+	//调这个方法，传pageNo(第几页)和pageSize(每页条数)
+	public List<ReservationRoomSharer> getList(int pageNo,int pageSize){
+		Configuration conf = new Configuration().configure();
+		SessionFactory sf = conf.buildSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria c = session.createCriteria(ReservationRoomSharer.class);
+		c.setFirstResult((pageNo-1)*pageSize);
+		c.setMaxResults(pageSize);
+		List<ReservationRoomSharer> list = c.list();
+		tx.commit();
+		session.close();
+		sf.close();
+		return list;
+	}
+
+}

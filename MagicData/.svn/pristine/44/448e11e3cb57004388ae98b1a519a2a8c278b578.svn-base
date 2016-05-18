@@ -1,0 +1,25 @@
+# \u6570\u636e\u6e90\u5206\u7c7b\u5bf9\u5e94\u7684 titan\u5b57\u6bb5\u914d\u7f6e
+# \u6570\u636e\u6e90\u5206\u7c7b\u540d\u79f0\u5bf9\u5e94 DadaType\u4e2d\u7684\u5e38\u91cf
+# \u683c\u5f0f\uff1a\u6570\u636e\u6e90\u5206\u7c7b\u540d\u79f0.name \u6570\u636e\u6e90\u5206\u7c7b\u540d\u79f0.type  \u6570\u636e\u6e90\u5206\u7c7b\u540d\u79f0.typeNum
+# name\u8868\u793a\u5bf9\u5e94\u7684titan\u5b57\u6bb5  \uff1b  type\u8868\u793a\u5b57\u6bb5\u7c7b\u578b\uff1b typeNum\u8868\u793a\u5b57\u6bb5\u7c7b\u578b\u5bf9\u5e94kettle\u7684\u4ee3\u7801\uff08\u53d6\u503c\u5982\u4e0b\u6570\u7ec4\u4e0b\u6807\uff09
+# { "-", "Number", "String", "Date", "Boolean", "Integer","String", "Serializable", "Binary", }
+
+email.name=password,email,title,content,from,to,cc,createtime
+email.type=String,String,String,String,String,String,String,String
+email.typeNum=2,2,2,2,2,2,2,2
+account.name=uid,username,password,createtime,domain,regip,email,lastvisit,lastip,phonenum,model,question,place,address,name,idcard,country
+account.type=String,String,String,String,String,String,String,String,String,String,String,String,String,String,String,String,String
+account.typeNum=2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+phone.name=model,phonenum,from,to,name,idcard,country,time,eventtime,long
+phone.type=String,String,String,String,String,String,String,String,String,String
+phone.typeNum=2,2,2,2,2,2,2,2,2,2
+phoneEvent.name=model,phonenum,to,name,tname,idcard,tidcard,idcard,tcountry,time,eventtime,long
+phoneEvent.type=String,String,String,String,String,String,String,String,String,String,String,String
+phoneEvent.typeNum=2,2,2,2,2,2,2,2,2,2,2
+qq.name=domain,numid,friendNum,nickname,name,idcard,idcard
+qq.type=String,String,String,String,String,String,String
+qq.typeNum=2,2,2,2,2,2,2
+hotels.name=hotelname,hotelid,orderno,arrivaldate,departuredate,roomno,name,idcard,idcard,address,place
+hotels.type=String,String,String,String,String,String,String,String,String,String,String
+hotels.typeNum=2,2,2,2,2,2,2,2,2,2,2
+

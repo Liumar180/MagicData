@@ -1,0 +1,5 @@
+ 
+ ¿‡≥ÂÕªºÏ≤‚π§æﬂ£∫
+ java -jar jarfish-1.0-rc6.jar dupes lib/
+ java -Xmx512m -jar tattletale.jar [-exclude=<excludes>] <scan-directory> [output-directory]
+ 

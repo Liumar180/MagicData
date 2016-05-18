@@ -1,0 +1,4 @@
+BAIDU_EXP_UNION_define({"tuid" : "u2485278_0","queryid" : "ac8c7500a195b259","placement" : {"basic" : {"cname":"25094026_cpr","flowType":1,"rspFormat":1,"sellType":2,"sspId":1,"tuId":9223372032562293790,"userId":1956170}
+,"container" : {"anchoredType":1,"floated":{},"height":100,"sizeType":1,"slide":{},"width":1024}
+,"fillstyle" : {"cloudTheme":{"skin":5,"stid":5},"elements":[5],"layout":[3],"lu":{},"search":{},"txt":{},"video":{}}
+,"userdefine" : "cpro_template=baiduCustSTagLinkUnit|cpro_cpro_lu=1,#dfe4f9,#000000,宋体|cpro_layout_filter=rank,image|cpro_version=2.0","complement_type" : 2},"extends" : "","pdb_deliv" : {"deliv_id" : "0","deliv_des" : {},"brandad" : 0},"order_deliv" : {"deliv_id" : "0","demand_id" : "0"},"rtb_deliv" : {"deliv_id" : "0","demand_id" : "2485278"}});

@@ -1,0 +1,54 @@
+package com.integrity.system.auth.action;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import com.integrity.system.auth.service.PermissionService;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class PermissionAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+	private Logger logger = Logger.getLogger(PermissionAction.class);
+	private PermissionService permissionService;
+	private List<Map<String,String>> treeData;
+	private Long roleId;
+	
+	/**
+	 * 获取资源树
+	 * @return
+	 */
+	public String loadPermissionTree(){
+		try {
+			treeData = permissionService.getPermissionTree(roleId);
+		} catch (Exception e) {
+			logger.error("获取资源树异常",e);
+		}
+		return SUCCESS;
+	}
+	
+	public void setPermissionService(PermissionService permissionService) {
+		this.permissionService = permissionService;
+	}
+
+	public List<Map<String, String>> getTreeData() {
+		return treeData;
+	}
+
+	public void setTreeData(List<Map<String, String>> treeData) {
+		this.treeData = treeData;
+	}
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+
+	
+	
+}

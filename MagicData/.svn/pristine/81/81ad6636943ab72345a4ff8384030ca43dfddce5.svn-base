@@ -1,0 +1,96 @@
+package com.integrity.dataSmart.dataImport.service;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.integrity.dataSmart.dataImport.bean.DataImportTask;
+import com.integrity.dataSmart.dataImport.bean.ImportTablesAndPropertys;
+import com.integrity.dataSmart.dataImport.bean.TDatabase;
+import com.integrity.dataSmart.dataImport.dao.DBDao;
+import com.integrity.login.action.Encryption;
+import com.integrity.login.util.PageInfo;
+
+public class DBService {
+
+	private DBDao dBDao;
+
+	public DBDao getdBDao() {
+		return dBDao;
+	}
+
+	public void setdBDao(DBDao dBDao) {
+		this.dBDao = dBDao;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public List findAllDB(String database) {
+		List<TDatabase> alldb= dBDao.findAllDB(database);
+		for (TDatabase object : alldb) {
+			try {
+				object.setConnectionDBPasswordBak(Encryption.Decrypt(object.getConnectionDBPassword()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return  alldb;
+	}
+	
+	public ImportTablesAndPropertys findImportTablesAndPropertys(long id) {
+		return  dBDao.findImportTablesAndPropertys(id);
+	}
+	public TDatabase findDB(long id) throws Exception {
+		TDatabase tDatabase=dBDao.findDB(id);
+		tDatabase.setConnectionDBPasswordBak(Encryption.Decrypt(tDatabase.getConnectionDBPassword()));
+		return  tDatabase;
+	}
+	public TDatabase findDBByConnName(String connectionName) throws Exception{
+		TDatabase tDatabase=dBDao.findDBByConnName(connectionName);
+		tDatabase.setConnectionDBPasswordBak(Encryption.Decrypt(tDatabase.getConnectionDBPassword()));
+		return  tDatabase;
+	}
+	public List getDBbyConnName(String connname){
+		return dBDao.getDBbyConnName(connname);
+	}
+	public void save(TDatabase t) throws Exception {
+		try {
+			t.setConnectionDBPassword(Encryption.Encrypt(t.getConnectionDBPassword()));
+			dBDao.save(t);
+		} catch (Exception e) {
+			throw e; 
+		}
+	}
+	public void edit(TDatabase t) throws Exception {
+		try {
+			t.setConnectionDBPassword(Encryption.Encrypt(t.getConnectionDBPassword()));
+			dBDao.edit(t);
+		} catch (Exception e) {
+			throw e; 
+		}
+	}
+	public void delete(TDatabase t) throws Exception {
+		try {
+			dBDao.delete(t);
+		} catch (Exception e) {
+			throw e; 
+		}
+	}
+	public void save(ImportTablesAndPropertys t) throws Exception {
+		try {
+			dBDao.save(t);
+		} catch (Exception e) {
+			throw e; 
+		}
+	}
+	//clear data
+	public void clearData(String tablename){
+		dBDao.clearData(tablename);
+	}
+	@SuppressWarnings("rawtypes")
+	public List getcolumnsByDBTab(String sql){
+		return dBDao.getcolumnsByDBTab(sql);
+	}
+
+}

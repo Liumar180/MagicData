@@ -1,0 +1,780 @@
+.clear{
+	clear: both;
+}
+em{
+	font-style: normal;
+	display: inline-block;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+/*表格超出出现省略号*/
+.table tr td{
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	font-size: 14px;
+}
+html,body{
+	width: 100%;
+	height: 100%;
+	font-family: "Microsoft YaHei","Arial";
+	background: #f7f9fb;
+	color: #3f3f3f;
+}
+.container{
+	padding: 0px;
+}
+.headerBox{
+	background: #000;
+}
+.navbar{
+	min-height: 60px;
+	margin-bottom: 0px;
+	color: #fff;
+}
+.navbar-brand{
+	height: 60px;
+	padding-top: 18px;
+}
+.container{
+	width: 98%;
+	height: 100%;
+}
+.dataSpan {
+    color: #fff;
+    float: left;
+    line-height: 60px;
+    margin-left: 13px;
+}
+.dataSpan em {
+    margin-right: 13px;
+}
+.navMenu{
+	float: left;
+	margin-left: 120px;
+}
+.navMenu ul{
+	margin-bottom: 0px;
+}
+.navMenu li{
+	color: #fff;
+	display: inline-block;
+	line-height: 60px;
+	margin-right: 10px;
+	padding: 0px 20px;
+	cursor: pointer;
+}
+.navMenu li.li-seton{
+	background: #0081d7;
+}
+/*头部结束*/
+.mainCon{
+	height: 90%;
+	padding: 20px 0px 0px 0px;
+	overflow-x: hidden;
+}
+.mainCon-top h3,.mainCon-top2 h3{
+	font-family: "Arial";
+	font-size: 16px;
+	font-weight: bold;
+	color: #3f3f3f;
+	display: inline-block;
+	margin: 0px;
+}
+.mainCon-top .borderSpan{
+	width: 76%;
+	height: 1px;
+	display: inline-block;
+	border: 1px dashed #d2d2d2;
+	margin: 0px 16px;
+}
+@media (min-width: 1400px) {
+  .mainCon-top .borderSpan{
+		width: 88%;
+	}
+}
+.mainCon-top .addSpan{
+	display: inline-block;
+	background: #0081d7;
+	width: 100px;
+	height: 24px;
+	line-height: 24px;
+	border-radius: 3px;
+	text-align: center;
+}
+.mainCon-top .addSpan a{
+	width: 90px;
+	display: inline-block;
+	padding-left: 14px;
+	color: #fff;
+	font-family: "Arial";
+	background: url(../images/import/addIcon.png) 9px 6px no-repeat;
+}
+.mainCon-top .iconSpan{
+	display: inline-block;
+	margin-left: 10px;
+	cursor: pointer;
+}
+/*第二部分*/
+.mainCon-top2{
+	margin-top: 10px;
+}
+.mainCon-top2 .borderSpan2{
+	width: 88%;
+	height: 1px;
+	display: inline-block;
+	border: 1px dashed #d2d2d2;
+	margin: 0px 16px;
+}
+@media (min-width: 1400px) {
+  .mainCon-top2 .borderSpan2{
+		width: 90%;
+	}
+}
+/*表格*/
+.tableDiv{
+	margin-top: 15px;
+}
+.tableDiv .table{
+	margin-bottom: 0px;
+}
+.tableDiv .table > thead > tr > th{
+	border-bottom: 0px;
+	background: #0f4970;
+	color: #fff;
+}
+.tableDiv .table > thead > tr > th,.tableDiv .table > tbody > tr > th,.tableDiv .table > tfoot > tr > th,.tableDiv .table > thead > tr > td,.tableDiv .table > tbody > tr > td,.tableDiv .table > tfoot > tr > td{
+	border: none;
+	text-align: center;
+}
+.tableDiv .table tbody{
+	background: #6eb6e4;
+	color: #fff;
+}
+.tableDiv .table tbody tr{
+	border-bottom: 1px solid #4f98c7;
+}
+/*第三部分*/
+.maincon-third{
+	height: 68%;
+	margin-top: 20px;
+}
+.thirdleft{
+	width: 50%;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+.thirdleft img{
+	/*width: 100%;*/
+	height: 100%;
+}
+/*中间*/
+.thirdcenter{
+	width: 23%;
+	margin: 0px 10px;
+}
+.thirdcenter h3, .thirdleft h3, #previewNodeName, #previewNodeType{
+	font-family: "Arial";
+	font-size: 16px;
+	font-weight: bold;
+	color: #3f3f3f;
+	margin: 0px 0px 10px 0px;
+}
+.thirdcenterCon{
+	height: 530px;
+	border: 1px solid #dadada;
+	padding: 10px 0px 10px 10px;	
+}
+.modelMapDBS{
+	max-height: 520px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.thirdcenterCon .labelTit{
+	float: left;
+    font-weight: normal;
+    line-height: 34px;
+    margin-right: 20px;
+    text-align: left;
+    width: 28%;
+}
+.thirdcenterCon .form-control{
+	width: 63%;
+}
+.more a{
+	display: block;
+	color: #1094dc;
+	margin: 0px 16px 0px 0px;
+	float: right;
+}
+/*右侧*/
+.thirdright{
+	width: 24%;
+}
+.thirdright-top {
+	margin-bottom: 7px;
+}
+.thirdright-top .leftP{
+	width: 40%;
+	white-space:nowrap; 
+	overflow:hidden; 
+	text-overflow:ellipsis;
+	margin-bottom: 0px;
+}
+.thirdright-top .rightP{
+	width: 40%;
+	white-space:nowrap; 
+	overflow:hidden; 
+	text-overflow:ellipsis;
+	margin-bottom: 0px;
+}
+.thirdrightCon{
+	height: 530px;
+	border: 1px solid #dadada;
+	padding: 10px 2px 10px 10px;
+}
+.thirdrightinnerCon{
+	max-height: 508px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.thirdrightinnerCon h3{
+	font-family: "Arial";
+	font-size: 16px;
+	font-weight: bold;
+	color: #0081d7;
+	margin: 0px 0px 10px 0px;
+}
+.topTable .table > thead > tr > th{
+	border-bottom: 0px;
+	background: #71c6ff;
+	color: #fff;
+}
+.topTable .table > thead > tr > th.firstTh{
+	border-right: 1px solid #0081d7;
+	width: 50%;
+}
+.topTable .table tbody{
+	background: #fff;
+	color: #3f3f3f;
+}
+
+/*第四部分按钮*/
+.mainCon-foot{
+	margin: 10px 0px;
+}
+.mainCon-foot a{
+	display: inline-block;
+	background: #3eac46;
+	color: #fff;
+	font-family: "Arial";
+	font-weight: bold;
+	padding: 0px 15px;
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	border-radius: 3px;
+	margin-left: 20px;
+}
+.mainCon-foot .leftBtn{
+	width: 20%;
+}
+.mainCon-foot .centerBtn{
+	width: 40%;
+	margin-left: 140px;
+}
+.mainCon-foot .rightBtn{
+	width: 22%;
+	margin-right: 20px;
+}
+/*表格的hover以及选中效果*/
+.tableDiv .table tr:hover{
+	background: #b3e1ff;
+}
+.tableDiv .table tr.setontr{
+	background: #0081d7;
+}
+/*下面按钮的hover效果*/
+.mainCon-foot a:hover{
+	background:#18721f;
+	text-decoration: none;
+}
+/*保存弹出层样式*/
+.savemodal-content,.savetemplate-content{
+	background: #f7f9fb;
+}
+.savemodal-content .modal-header,.savetemplate-content .modal-header{
+	border-bottom: none;
+}
+.savemodal-body,.savetemplate-body{
+	padding-left: 110px;
+}
+.savemodal-body .inputdiv,.savetemplate-body .inputdiv{
+	margin-bottom: 20px;
+}
+
+.savemodal-body .inputdiv input,.savetemplate-body .inputdiv input{
+	width: 45%;
+	height: 36px;
+	line-height: 36px;
+	border: 1px solid #dadada;
+	background: #fff;
+	padding-left: 3px;
+}
+.savemodal-body .inputdiv span,.savetemplate-body .inputdiv span{
+	color: #ff2929;
+}
+.savemodal-body textarea,.savetemplate-body textarea{
+	width: 80%;
+	height: 50%;
+	border: 1px solid #dadada;
+	background: #fff;
+	padding-left: 3px;
+}
+/*按钮*/
+.modal-footer{
+	text-align: center;
+}
+.btn:hover,.btn:focus{
+	color: #fff;
+}
+.bcBtn{
+	background: #3eac46;
+	color: #fff;
+	margin-right: 30px;
+}
+.qxBtn{
+	background: #ec4b4b;
+	color: #fff;
+}
+/*返回按钮*/
+.backBtn{
+	background: #4092ef;
+	color: #fff;
+	margin-right: 30px;
+}
+/*添加模型的弹出层*/
+.addmodal-dialog,.adddatamodal-dialog,.databasemodal-dialog,.addsqlmodal-dialog{
+	width: 80%;
+	height: 90%;
+}
+.addmodal-body,.adddatamodal-body{
+	height: 83%;
+}
+.addmodal-body .lefttitlep,.addmodal-body .righttitlep,.adddatamodal-body .leftdatatitlep{
+	width:78%;
+	text-align: center;
+	display: inline-block;
+}
+.addmodal-body .leftaddBtn,.addmodal-body .rightaddBtn,.nodeconDiv .topnode li .addnodeBtn,.nodeattrconDiv .topnodeattr li .addnodeattrBtn,.adddatamodal-body .leftadddataBtn{
+	display: inline-block;
+	background: #0081d7;
+	width: 120px;
+	height: 24px;
+	line-height: 24px;
+	border-radius: 3px;
+	text-align: center;
+}
+.addmodal-body .leftaddBtn a,.addmodal-body .rightaddBtn a,.nodeconDiv .topnode li .addnodeBtn a,.nodeattrconDiv .topnodeattr li .addnodeattrBtn a,.adddatamodal-body .leftadddataBtn a{
+	width: 114px;
+	display: inline-block;
+	padding-left: 14px;
+	color: #fff;
+	/*font-family: "Arial";*/
+	background: url(../images/import/addIcon.png) 9px 6px no-repeat;
+}
+.addmodal-content,.adddatamodal-content,.adddatabasemodal-content{
+	height: 100%;
+	background: #f7f9fb;
+	padding: 0px 15px;
+}
+.leftaddCon{
+	width: 40%;
+	max-height: 90%;
+	overflow-y: auto;
+}
+.commTable .table > thead > tr > th{
+	border-bottom: none;
+	background: #71c6ff;
+	color: #fff;
+}
+.commTable .table > tbody{
+	background: #fff;
+}
+.commTable .table > tbody > tr > th,.commTable .table > tbody > tr > td{
+	vertical-align:middle;
+}
+.commTable .table span{
+	cursor: pointer;
+}
+.commTable .table .editSpan{
+	margin: 0px 16px 0px 20px;
+}
+.rightaddCon{
+	width: 56%;
+	max-height: 90%;
+	overflow-y: auto;
+}
+/*4月21日修改以及添加*/
+.commTable .table tr:hover{
+	background: #90d2ff;
+} 
+.commTable .table tr.setontr1{
+	background: #daedff;
+}
+/*添加节点*/
+.nodemodal-dialog,.nodeattrmodal-dialog{
+	width: 80%;
+	height: 90%;
+}
+.addnodemodal-content,.addnodeattrmodal-content{
+	height: 100%;
+	background: #f7f9fb;
+}
+.modal-header h4 em{
+	color: #0081d7;
+	margin: 0px 8px;
+	font-size: 14px;
+}
+.modal-header h4 span{
+	font-size: 16px;
+	color: #3f3f3f;
+}
+.modalnameDiv,.databasenameDiv{
+	width: 85%;
+	margin: 0 auto;
+	border-bottom: 1px dashed #dadada;
+}
+.modalnameDiv .labelTit,.databasenameDiv .labelTit{
+	width: 8%;
+	float: left;
+	line-height: 34px;
+	text-align: center;
+}
+#modalName,#connectionName{
+	width: 30%;
+	float: left;
+}
+.nodeconDiv,.nodeattrconDiv,.databaseconDiv{
+	margin-top: 30px;
+}
+.nodeconDiv .topnode,.nodeattrconDiv .topnodeattr{
+	width: 85%;
+	margin:0 auto;
+}
+.nodeconDiv .topnode li,.nodeattrconDiv .topnodeattr li,.databaseconDiv .topdatabase li{
+	width: 24%;
+	float: left;
+	line-height: 30px;
+	text-align: center;
+}
+.topnode li.sq,.topnode li.sy,.topnode li.add,.topnodeattr li.sq,.topnodeattr li.sy,.topnodeattr li.add{
+	width: 8%;
+}
+.attributeName,.attributeType,.attributeCardinality {
+	width: 90%;
+	height: 34px;
+	line-height: 34px;
+	border: 1px solid #dadada;
+	background: #fff;
+}
+.delnode img,.delnode1 img{
+	cursor: pointer;
+}
+
+.nodeattrmodal-dialog .modal-header h4 span b{
+	font-size: 16px;
+	color: #0081d7;
+	font-weight: normal;
+	margin: 0px 5px;
+}
+
+/*添加数据源弹出层*/
+.adddatamodal-body {
+	position: relative;
+}
+.leftadddataCon{
+	width: 40%;
+	height: 100%;
+}
+.leftadddataCon .table{
+	margin-bottom: 0px;
+}
+.leftadddataCon .commTable{
+	height: 90%;
+	overflow-y: auto;
+}
+.rightadddataCon{
+	width: 49%;
+	height: 100%;
+}
+.rightadddataCon .rightdatatitlep{
+	text-align: center;
+}
+.dataMessage{
+	max-height: 90%;
+	min-height: 90%;
+	background: #fff;
+	border: 1px solid #DADADA;
+	overflow-y: auto;
+	padding: 30px 30px 0px 40px;
+}
+.dataMessage p{
+	text-align: left;
+	color: #3f3f3f;
+}
+.arrowdiv{
+	position: absolute;
+	width: 105px;
+	height: 80px;
+	background: url(../images/import/arrows.png) 0px 0px no-repeat;
+	top: 30%;
+	left: 40.5%;
+}
+
+.arrowdiv p{
+	width: 100%;
+	display:block;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	text-align: center;
+	color: #fff;
+	margin-bottom: 0px;
+	line-height: 78px;
+	padding: 0px 10px;
+}
+.datatabDiv{
+	height: 100%;
+}
+.datatabDiv ul{
+	border-bottom: 1px solid #dadada;
+}
+.datatabDiv ul li{
+	width: 72px;
+	height: 34px;
+	line-height: 34px;
+	text-align: center;
+	float: left;
+	background: #dadada;
+	border-radius: 4px 4px 0px 0px;
+	margin-right: 10px;
+	color: #fff;
+	cursor: pointer;
+}
+.datatabDiv ul.tabUl li.licur{
+	background: #3eac46;
+}
+.hidetabCon{
+	display: none;
+}
+@media (min-width: 1400px) {
+  	.rightadddataCon{
+		width: 52%;
+		height: 100%;
+	}
+}
+.datatabCon{
+	height: 88%;
+}
+/*4月22日添加数据源--添加数据库*/
+.databasenameDiv .labelTit{
+ 	width: 10%;
+ }
+.databaseconDiv .topdatabase{
+	width: 100%;
+	margin:0 auto;
+}
+.databaseconDiv .topdatabase li{
+	width: 14%;
+}
+.topdatabaseCon li input,#connectionDB {
+	width: 90%;
+	height: 34px;
+	line-height: 34px;
+	border: 1px solid #dadada;
+	background: #fff;
+	padding-left: 2px;
+}
+
+/*添加数据源--SQL语句与表结构弹出层*/
+.addsqlmodal-content{
+	height: 100%;
+	background: #f7f9fb;
+}
+.addsqlmodal-body{
+	height: 80%;
+}
+.sqltabDiv{
+	width: 80%;
+	height: 100%;
+	margin: 0 auto;
+}
+.sqltabDiv ul.sqlUl{
+	border-bottom: 1px solid #dadada;
+}
+.sqltabDiv ul.sqlUl li{
+	width: 72px;
+	height: 34px;
+	line-height: 34px;
+	text-align: center;
+	float: left;
+	background: #dadada;
+	border-radius: 4px 4px 0px 0px;
+	margin-right: 10px;
+	color: #fff;
+	cursor: pointer;
+}
+.sqltabDiv ul.sqlUl li.sqllicur{
+	background: #3eac46;
+}
+.hidesqltabCon{
+	display: none;
+}
+.sqltabCon p{
+	color: #3f3f3f;
+	padding: 20px 0px;
+}
+.sqltabCon textarea{
+	width: 100%;
+	border: 1px solid #DADADA;
+	padding: 5px;
+}
+/*4月25日*/
+.commondel-body em{
+	margin: 0px 10px;
+}
+
+/*4月27日*/
+/*添加数据源--csv-开始*/
+.importP{
+	margin-top: 20px;
+}
+.importSpan{
+	line-height: 28px;
+}
+.file {
+    position: relative;
+    display: inline-block;
+    background: #0081d7;
+    border: 1px solid #0081d7;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #fff;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    float: left;
+    cursor: pointer;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #0081d7;
+    border-color: #0081d7;
+    color: #fff;
+    text-decoration: none;
+}
+.fieldP{
+	margin:20px 0px;
+}
+.csvUl li{
+	width: 16%;
+	float: left;
+	margin-bottom: 20px;
+}
+.csvUl li .fieldSpan{
+	width: 40%;
+	display: inline-block;
+}
+.gobackBtn{
+	background: #4092ef;
+	color: #fff;
+	margin-right: 30px;
+}
+/*添加数据源--csv-结束*/
+
+/*SQL语句与表结构--表结构--开始*/
+.lefttableDef{
+	width: 20%;
+	float: left;
+}
+.lefttableDef h3,.righttableDef h3{
+	font-size: 14px;
+}
+.lefttableDef li{
+	display: block;
+	margin-bottom: 15px;
+	font-size: 14px;
+	padding-left: 25px;
+	background:url(../images/import/tableIcon.png) 0px 5px no-repeat;
+}
+.righttableDef{
+	width: 70%;
+	float: left;
+}
+.righttableDef li{
+	width: 24%;
+	float: left;
+	margin-bottom: 15px;
+}
+.righttableDef li .tablefieldSpan{
+	width: 40%;
+	display: inline-block;
+}
+/*SQL语句与表结构--表结构--结束*/
+
+/*选择模板弹出层*/
+.choosetemplate-dialog{
+	width: 80%;
+	height: 90%;
+}
+.choosetemplate-content{
+	background: #f7f9fb;
+    height: 100%;
+    padding: 0 15px;
+}
+.choosetemplate-body{
+	height: 75%;
+}
+.choosetemplate-body ul{
+	width: 80%;
+	margin: 0 auto;
+	height: 95%;
+    overflow-y: auto;
+}
+.choosetemplateUl li{
+	width: 33%;
+	float: left;
+}
+.choosetemplateUl li h3{
+	font-size: 16px;
+	text-align: center;
+}
+.choosetemplateUl li .callImg{
+	margin: 25px auto;
+}
+.choosetemplateUl li .callImg img{
+	display: block;
+	margin: 0 auto;
+}
+.choosetemplateUl li p{
+	text-align: center;
+}
+
+
+
+
+

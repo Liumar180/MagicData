@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-30 18:47:12 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.integrity.lawCase.peopleManage.bean.Peopleobject" table="peopleobject">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="pocnname" type="string">
+            <column name="pocnname">
+                <comment>&#208;&#213;&#195;&#251;</comment>
+            </column>
+        </property>
+        <property name="ponamespell" type="string">
+            <column name="ponamespell">
+                <comment>&#198;&#180;&#210;&#244;</comment>
+            </column>
+        </property>
+        <property name="poenname" type="string">
+            <column name="poenname">
+                <comment>&#211;&#162;&#206;&#196;&#195;&#251;</comment>
+            </column>
+        </property>
+        <property name="pocontrolstatus" type="string">
+            <column name="pocontrolstatus">
+                <comment>&#191;&#216;&#214;&#198;&#215;&#180;&#204;&#172;</comment>
+            </column>
+        </property>
+        <property name="poalias" type="string">
+            <column name="poalias">
+                <comment>&#177;&#240;&#195;&#251;</comment>
+            </column>
+        </property>
+        <property name="posex" type="string">
+            <column name="posex">
+                <comment>&#208;&#212;&#177;&#240;</comment>
+            </column>
+        </property>
+        <property name="pobirthday" type="date">
+            <column name="pobirthday" length="10">
+                <comment>&#179;&#246;&#201;&#250;&#200;&#213;&#198;&#218;</comment>
+            </column>
+        </property>
+        <property name="pocreateday" type="date">
+            <column name="pocreateday" length="10">
+                <comment>&#180;&#180;&#189;&#168;&#200;&#213;&#198;&#218;</comment>
+            </column>
+        </property>
+        <property name="pocountry" type="string">
+            <column name="pocountry">
+                <comment>&#185;&#250;&#188;&#210;</comment>
+            </column>
+        </property>
+        <property name="ponational" type="string">
+            <column name="ponational">
+                <comment>&#195;&#241;&#215;&#229;</comment>
+            </column>
+        </property>
+        <property name="pohukou" type="string">
+            <column name="pohukou">
+                <comment>&#187;&#167;&#188;&#174;&#181;&#216;</comment>
+            </column>
+        </property>
+        <property name="polocation" type="string">
+            <column name="polocation">
+                <comment>&#203;&#249;&#212;&#218;&#181;&#216;</comment>
+            </column>
+        </property>
+        <property name="podutyman" type="string">
+            <column name="podutyman">
+                <comment>&#212;&#240;&#200;&#206;&#200;&#203;</comment>
+            </column>
+        </property>
+        <property name="popersonstatus" type="string">
+            <column name="popersonstatus">
+                <comment>&#200;&#203;&#212;&#177;&#215;&#180;&#204;&#172;</comment>
+            </column>
+        </property>
+        <property name="poimportantlevel" type="string">
+            <column name="poimportantlevel">
+                <comment>&#214;&#216;&#210;&#170;&#181;&#200;&#188;&#182;</comment>
+            </column>
+        </property>
+        <property name="podirectionof" type="string">
+            <column name="podirectionof">
+                <comment>&#203;&#249;&#202;&#244;&#183;&#189;&#207;&#242;</comment>
+            </column>
+        </property>
+        <property name="poimage" type="string">
+            <column name="poimage">
+                <comment>&#213;&#213;&#198;&#172;</comment>
+            </column>
+        </property>
+        <property name="podescription" type="string">
+            <column name="podescription" length="65535">
+                <comment>&#195;&#232;&#202;&#246;</comment>
+            </column>
+        </property>
+        <property name="poremark" type="string">
+            <column name="poremark" length="65535">
+                <comment>&#177;&#184;&#215;&#162;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,58 @@
+package com.integrity.dataSmart.dataImport.action;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.integrity.dataSmart.dataImport.util.TitanStructureUtil;
+import com.opensymphony.xwork2.ActionSupport;
+
+/**
+ * Titan结构维护action
+ * @author RenSx
+ *
+ */
+public class TitanStruAction extends ActionSupport{
+
+	private static final long serialVersionUID = 1L;
+
+	
+	List<Map<String, List<Map<String, Object>>>> titanList = null;
+	
+	HttpServletRequest request = ServletActionContext.getRequest();
+	
+	/**
+	 * 添加节点
+	 * @return String
+	 */
+	public String addTitanVertex(){
+		String vertexName = request.getParameter("vertexName");
+		String vertexJson = request.getParameter("vertexJson");
+		titanList = TitanStructureUtil.addTitanVertex(vertexName, vertexJson);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 添加边
+	 * @return String
+	 */
+	public String addTitanEdge(){
+		String edgeName = request.getParameter("edgeName");
+		String edgeJson = request.getParameter("edgeJson");
+		titanList = TitanStructureUtil.addTitanEdge(edgeName, edgeJson);
+		return SUCCESS;
+	}
+	
+	public List<Map<String, List<Map<String, Object>>>> getTitanList() {
+		return titanList;
+	}
+
+	public void setTitanList(List<Map<String, List<Map<String, Object>>>> titanList) {
+		this.titanList = titanList;
+	}
+	
+	
+}

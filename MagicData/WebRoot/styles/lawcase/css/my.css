@@ -1,0 +1,56 @@
+.multi_select,.multi_select1,.multi_select2{
+	margin:0 auto;
+	position: relative;
+}
+.multi_select input:first-child,.multi_select1 input:first-child,.multi_select2 input:first-child{
+	margin: 2px;
+	background: none;
+}
+/*.multi_select em{
+	width: 12px;
+	height: 12px;
+	background: url(../../../images/lawCase/down1.png) 0px 0px no-repeat;
+	position: absolute;
+	right: 12px;
+	top: 15px;
+}*/
+.container1 {
+    width: 56%;
+	border: 1px solid gray;
+	position: absolute;
+	left: 42%;
+	top: 34px;
+	z-index:9999;
+}
+
+.top {
+    background: #DBEAF9;
+	border-bottom: 1px solid gray;
+    height: 22px;
+}
+.content {
+    width: 100%;
+	background-color: #fff;
+	overflow-y: auto;
+}
+.content div{
+	margin-top:0px;
+	height:26px;
+}
+.content div:last-child{
+    border-bottom: none;
+} 
+.ok {
+	display: block;
+	float: right;
+	height: 22px;
+	line-height: 22px;
+	cursor: pointer;
+}
+
+.hidden {
+	display:none;
+}
+.commonDiv .container1{
+	left:36.5%;
+}

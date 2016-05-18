@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-30 18:47:12 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.integrity.lawCase.fileManage.bean.FilesObject" table="FilesObject" >
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="parentId" type="long">
+            <column name="ParentId" >
+                <comment>父id</comment>
+            </column>
+        </property>
+        <property name="direction" type="string">
+            <column name="Direction" >
+                <comment>&#203;&#249;&#202;&#244;&#183;&#189;&#207;&#242;</comment>
+            </column>
+        </property>
+        <property name="responsiblePerson" type="string">
+            <column name="ResponsiblePerson" >
+                <comment>&#184;&#186;&#212;&#240;&#200;&#203;</comment>
+            </column>
+        </property>
+        <property name="annexUrl" type="string">
+            <column name="AnnexUrl" >
+                <comment>&#184;&#189;&#188;&#254;&#194;&#183;&#190;&#182;</comment>
+            </column>
+        </property>
+        <property name="annexName" type="string">
+            <column name="AnnexName" >
+                <comment>&#184;&#189;&#188;&#254;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="fileName" type="string">
+            <column name="FileName">
+                <comment>&#206;&#196;&#188;&#254;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="fileContents" type="string">
+            <column name="FileContents" length="65535">
+                <comment>&#206;&#196;&#188;&#254;&#196;&#218;&#200;&#221;</comment>
+            </column>
+        </property>
+        <property name="fileMD5" type="string">
+            <column name="FileMD5" length="65535">
+                <comment>&#206;&#196;&#188;&#254;&#196;&#218;&#200;&#221;</comment>
+            </column>
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="CreateTime" >
+                <comment>&#180;&#180;&#189;&#168;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="remarkes1" type="string">
+            <column name="Remarkes1" >
+                <comment>&#177;&#184;&#215;&#162;1</comment>
+            </column>
+        </property>
+        <property name="remarkes2" type="string">
+            <column name="Remarkes2" >
+                <comment>&#177;&#184;&#215;&#162;2</comment>
+            </column>
+        </property>
+        <property name="remarkes3" type="java.lang.Integer">
+            <column name="Remarkes3">
+                <comment>&#177;&#184;&#215;&#162;3</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

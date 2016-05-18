@@ -1,0 +1,11 @@
+
+°²×°nodejs
+npm install
+npm install --global gulp
+npm install --save-dev gulp
+npm install node-sass
+npm install browserify
+npm uninstall --save-dev gulp-sass
+npm install --save-dev gulp-sass
+npm install node-sass@2
+gulp build

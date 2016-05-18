@@ -1,0 +1,20 @@
+package com.integrity.dataSmart.titanGraph.action;
+
+import com.integrity.dataSmart.titanGraph.service.DataShowService;
+import com.opensymphony.xwork2.ActionSupport;
+
+@SuppressWarnings("serial")
+public class DataShowAction extends ActionSupport{
+	private DataShowService dataShowService;
+
+	public DataShowService getDataShowService() {
+		return dataShowService;
+	}
+
+	public void setDataShowService(DataShowService dataShowService) {
+		this.dataShowService = dataShowService;
+	}
+	
+	
+
+}

@@ -1,0 +1,899 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0044)http://www.cnblogs.com/yjmyzz/p/4280069.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/bundle-SimpleBlue.css">
+<link type="text/css" rel="stylesheet" href="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/31164.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/yjmyzz/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/yjmyzz/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/yjmyzz/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/gpt.js"></script><script type="text/javascript" src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/encoder.js"></script><script src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'yjmyzz', cb_enable_mathjax=true;</script>
+<script src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script type="text/javascript" src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/MathJax.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><script src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/pubads_impl_78.js" async=""></script><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax .merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MathJax .MJX-monospace {font-family: monospace}
+.MathJax .MJX-sans-serif {font-family: sans-serif}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0!important; padding: 0!important; margin: 0!important; vertical-align: 0!important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+.MathJax nobr {white-space: nowrap!important}
+.MathJax img {display: inline!important; float: none!important}
+.MathJax * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax_Processed {display: none!important}
+.MathJax_ExBox {display: block!important; overflow: hidden; width: 1px; height: 60ex; min-height: 0; max-height: none}
+.MathJax .MathJax_EmBox {display: block!important; overflow: hidden; width: 1px; height: 60em; min-height: 0; max-height: none}
+.MathJax .MathJax_HitBox {cursor: text; background: white; opacity: 0; filter: alpha(opacity=0)}
+.MathJax .MathJax_HitBox * {filter: none; opacity: 1; background: transparent}
+#MathJax_Tooltip * {filter: none; opacity: 1; background: transparent}
+@font-face {font-family: MathJax_Main; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Main-bold; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Main-italic; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Math-italic; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Caligraphic; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Size1; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Size2; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Size3; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Size4; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf?rev=2.4-beta-2') format('opentype')}
+.MathJax .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/cnblog.js"></script>
+<div class="ajaxBg" id="ajaxBg" style="display:none">
+    </div>
+    <div class="ajaxPopUp" id="ajaxPopUp" style="display:none">
+        <div class="title" id="ajaxTitle">            
+        </div>
+        <div class="body" id="ajaxBody">           
+        </div>
+        <div class="footer">
+            <a href="javascript:void(0)" onclick="_jimmyClosePopUp()">Close(关闭)</a></div>
+    </div>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/yjmyzz/">菩提树下的杨过.Net</a></div>
+<div class="subtitle"></div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/yjmyzz/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/yjmyzz/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/yjmyzz/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-1044&nbsp;
+文章-0&nbsp;
+评论-2226&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/yjmyzz/p/hadoop-2_6_0-full-distribution-deploy-tutorial.html">hadoop 2.6全分布安装</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>环境：centos 6.6 + hadoop2.6</p>
+<p>虚拟机：（vmware fusion 7.0.0）</p>
+<p>虚拟机hostname &nbsp; &nbsp; &nbsp;/ &nbsp; &nbsp;IP地址</p>
+<p>master / 192.168.187.102</p>
+<p>slave01 / 192.168.187.103</p>
+<p>slave02 / 192.168.187.104</p>
+<p>注：前三个步骤都是准备工作，如果已经完成，可直接进入步骤四</p>
+<p><span style="color: #ff0000;">步骤一: 先在3台虚拟机上，设置hostname及修改hosts文件</span></p>
+<p><span style="color: #ff0000;">1.1</span> 先正确设置各虚拟机的hostname&nbsp;</p>
+<p><span style="color: #3366ff;">sudo vi /etc/sysconfig/network</span></p>
+<p>将HOSTNAME=后的内容，改成想要的机器名</p>
+<p><span style="color: #ff0000;">1.2</span> 修改hosts文件</p>
+<p><span style="color: #3366ff;">sudo vi /etc/hosts</span></p>
+<p>192.168.187.102 master</p>
+<p>192.168.187.103 slave01</p>
+<p>192.168.187.104 slave02</p>
+<p>这样，就不用记IP了</p>
+<p>这一步完成后，最好重启一次系统，以便生效。然后可以用ping master(或slave01、slave02)试下，正常的话，应该能ping通</p>
+<p><span style="color: #ff0000;">注：hostname不要命名为“xxx.01,xxx.02”之类以“.数字”结尾，否则到最后hadoop的NameNode服务将启动失败。</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;">步骤二：在3台虚拟机上安装jdk</span></p>
+<p><span style="color: #0000ff;">yum install java</span></p>
+<p>注：hadoop是java写的，jdk是必须的。上述命令，会安装openjdk最基本的运行时，没有源码和javac等其它工具。如果要安装javac等编译工具及源码</p>
+<p><span style="color: #3366ff;">yum install java-1.7.0-openjdk-devel</span></p>
+<p><span style="color: #3366ff;">yum install java-1.7.0-openjdk-src</span></p>
+<p>另外openjdk安装后，不会默许设置JAVA_HOME环境变量，要查看安装后的目录，可以用命令</p>
+<p><span style="color: #3366ff;">sudo update-alternatives --config java</span> 看到</p>
+<p>默认jre目录为：/usr/lib/java/jvm/jre-1.7.0-openjdk.x86_64</p>
+<p>如要设置环境变量，可用命令 <span style="color: #3366ff;">sudo vi /etc/profile</span></p>
+<p>在最后添加</p>
+<div class="cnblogs_code">
+<pre>export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.75<span style="color: #000000;">.x86_64
+export CLASSPATH</span>=<span style="color: #000000;">.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/jre/lib/dt.jar:$JAVA_HOME/jre/lib/tools.jar
+export PATH</span>=$PATH:$JAVA_HOME/bin</pre>
+</div>
+<p><span>注：如果不喜欢openjdk，想安装oracle官方的jdk，可按下面步骤操作</span></p>
+<p><span style="color: #0000ff;">a) rpm -qa | grep java</span></p>
+<p><span style="color: #000000;">即：查看当前已经安装的跟java相关的包，如果显示有openjdk在其中</span></p>
+<p><span style="color: #0000ff;">b) yum -y remove java</span></p>
+<p><span style="color: #000000;">一般这样就会卸载干净，执行完以后，再运行 a)中的rpm -qa | grep java看看，如果还有残留，可运行</span></p>
+<p><span style="color: #3366ff;"><span style="color: #000000;"><span style="color: #0000ff;">rpm -e --nodeps tzdata-java-2015a-1.el6.noarch</span> (最后的部分为要删除的包名，即刚才查出来的结果)</span><br></span></p>
+<p><span style="color: #3366ff;"><span style="color: #000000;">重新安装sun jdk，先从官网下载安装文件</span></span></p>
+<p><span style="color: #3366ff;"><span style="color: #000000;">a) 上传rpm安装文件到虚拟机，参考下面的命令</span></span></p>
+<p><span style="color: #0000ff;">scp jdk-7u51-linux-x64.rpm root@master:/home/hadoop/</span></p>
+<p><span style="color: #3366ff;"><span style="color: #000000;">b) 到虚拟机上，执行安装</span></span></p>
+<p><span style="color: #3366ff;"><span style="color: #000000;"><span style="color: #0000ff;">rpm -ivh jdk-7u51-linux-x64.rpm</span> </span></span></p>
+<p><span style="color: #3366ff;"><span style="color: #000000;">c) 然后修改环境变量 sudo vi /etc/profile，在最后加下面三行</span></span></p>
+<div class="cnblogs_code">
+<pre>export JAVA_HOME=/usr/java/jdk1.7.0_51<span style="color: #000000;">
+export CLASSPATH</span>=<span style="color: #000000;">.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH</span>=$PATH:$JAVA_HOME/bin</pre>
+</div>
+<p><span style="color: #3366ff;"><span style="color: #000000;">保存退出，然后输入 source /etc/profile 以便让新环境变量生效</span></span></p>
+<p><span style="color: #ff0000;">注:如果机器上之前用 yum install hadoop之类的命令安装过低版本的hadoop,也必须先卸载干净</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;">步骤三：在3台虚拟机上创建专门用户hadoop</span></p>
+<p><span style="color: #0000ff;">useradd hadoop</span> (创建用户)</p>
+<p><span style="color: #0000ff;">passwd hadoop</span> （设置密码，为简单起见，3台机器上的hadoop密码最好设置成一样，比如hadoop123）</p>
+<p>为了方便，建议将hadoop加入root用户组，操作方法：</p>
+<p>先以root身份登录，然后输入</p>
+<p><span style="color: #3366ff;">usermod -g root hadoop</span> ，执行完后hadoop即归属于root组了，可以再输入</p>
+<p><span style="color: #3366ff;">id hadoop</span> 查看输出验证一下，如果看到类似下面的输出：</p>
+<p><em>uid=502(hadoop) gid=0(root) 组=<span style="color: #3366ff;">0(root)</span></em></p>
+<p>就表示OK了&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;">步骤四：配置ssh免密码登录</span></p>
+<p>hadoop工作时，各节点要相互通讯，正常情况下linux之间通讯要提供用户名、密码（目的是保证通讯安全），如果需要人工干预输入密码，显然不方便，做这一步的目的，是让各节点能自动通过安全认证，不影响正常通讯。</p>
+<p><span style="color: #ff0000;">4.1</span> 先在master上，生成公钥、私钥对</p>
+<p>以hadoop身份登录到系统</p>
+<p><span style="color: #0000ff;">cd</span> (进入个人主目录，默认为/home/hadoop)</p>
+<p><span style="color: #0000ff;">ssh-keygen -t rsa -P ''</span> (注：最后是二个单引号)</p>
+<p>即：以rsa算法，生成公钥、私钥对，-P ''表示空密码。该命令运行完后，会在个人主目录下生成.ssh目录，里面会有二个文件id_rsa（私钥） ,id_rsa.pub(公钥)</p>
+<p><span style="color: #ff0000;">4.2</span> 导入公钥</p>
+<p><span style="color: #3366ff;">cat .ssh/id_rsa.pub &gt;&gt; .ssh/authorized_keys</span></p>
+<p>执行完以后，可以在本机上测试下，用ssh连接自己，即：ssh localhost (或ssh master)，如果不幸还是提示要输入密码，说明还没起作用，还有一个关键的操作</p>
+<p><span style="color: #3366ff;">chmod 600 .ssh/authorized_keys</span> (修改文件权限，否则不起作用)</p>
+<p>然后再测试下 ssh localhost ，如果不需要输入密码，就连接成功，表示ok，一台机器已经搞定了。</p>
+<p><span style="color: #ff0000;">4.3</span> 在其它机器上生成公钥、密钥，并将公钥文件复制到master</p>
+<p>a) 以hadoop身份登录其它二台机器 slave01、slave02，执行 ssh-keygen -t rsa -P '' 生成公钥、密钥</p>
+<p>b) 然后用scp命令，把公钥文件发放给master（即：刚才已经搞定的那台机器）</p>
+<p>slave01上：</p>
+<p><span style="color: #3366ff;">scp .ssh/id_rsa.pub hadoop@master:/home/hadoop/id_rsa_<span style="color: #ff0000;">01</span>.pub</span></p>
+<p>slave02上：</p>
+<p><span style="color: #3366ff;">scp .ssh/id_rsa.pub hadoop@master:/home/hadoop/id_rsa_<span style="color: #ff0000;">02</span>.pub</span></p>
+<p>这二行执行完后，回到master中，查看下/home/hadoop目录，应该有二个新文件id_rsa_01.pub、id_rsa_02.pub，然后在master上，导入这二个公钥</p>
+<p><span style="color: #0000ff;">cat id_rsa_01.pub &gt;&gt; .ssh/authorized_keys</span></p>
+<p><span style="color: #0000ff;">cat id_rsa_02.pub &gt;&gt; .ssh/authorized_keys</span></p>
+<p>这样，master这台机器上，就有所有3台机器的公钥了。</p>
+<p><span style="color: #ff0000;">4.4</span> 将master上的“最全”公钥，复制到其它机器</p>
+<p>a) 继续保持在master上，</p>
+<p><span style="color: #0000ff;">scp .ssh/authorized_keys hadoop@slave<span style="color: #ff0000;">01</span>:/home/hadoop/.ssh/authorized_keys</span></p>
+<p><span style="color: #0000ff;">scp .ssh/authorized_keys hadoop@slave<span style="color: #ff0000;">02</span>:/home/hadoop/.ssh/authorized_keys</span></p>
+<p>b) 修改其它机器上authorized_keys文件的权限</p>
+<p>slave01以及slave02机器上，均执行命令</p>
+<p><span style="color: #0000ff;">chmod 600 .ssh/authorized_keys</span></p>
+<p><span style="color: #ff0000;">4.5</span> 验证</p>
+<p>在每个虚拟机上，均用 <span style="color: #0000ff;">ssh 其它机器的hostname</span> 验证下，如果能正常无密码连接成功，表示ok</p>
+<p><span style="color: #ff0000;">小结：</span>该步骤非常重要，主要思路是在各节点上生成公钥、私钥，然后将公钥发放其它所有节点。RSA算法是非对称加密算法，仅公布“公钥”，只要私钥不外泄，还是不能解密的，所以安全性依然有保障。</p>
+<p>如果本步骤失败，根据我个人经验，多半是权限问题，请检查hadoop是否具有足够权限，建议将hadoop加入sudoers列表及root用户组。另外,这里也整理了一些SSH免密码设置失败的原因,请移步&nbsp;<a id="cb_post_title_url" href="http://www.cnblogs.com/yjmyzz/p/4481720.html" target="_blank">ssh 免密码设置失败原因总结</a></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff6600;">步骤五：上传并解压hadoop2.6</span></p>
+<p>a）在本机上，用scp命令上传hadoop2.6到master</p>
+<p><span style="color: #3366ff;">scp&nbsp;hadoop-2.6.0.tar.gz hadoop@master:/home/hadoop/</span></p>
+<p>b) 以hadoop身份登录到master，运行以下命令解压</p>
+<p><span style="color: #3366ff;">tar -zxvf&nbsp;hadoop-2.6.0.tar.gz</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;">步骤六：修改配置</span></p>
+<p>一共有7个文件要修改：</p>
+<p>$HADOOP_HOME/etc/hadoop/hadoop-env.sh</p>
+<p>$HADOOP_HOME/etc/hadoop/yarn-env.sh</p>
+<p>$HADOOP_HOME/etc/hadoop/core-site.xml</p>
+<p>$HADOOP_HOME/etc/hadoop/hdfs-site.xml</p>
+<p>$HADOOP_HOME/etc/hadoop/mapred-site.xml</p>
+<p>$HADOOP_HOME/etc/hadoop/yarn-site.xml</p>
+<p>$HADOOP_HOME/etc/hadoop/slaves</p>
+<p>其中$HADOOP_HOME表示hadoop根目录，本文中默认为<span class="s1">/home/hadoop/hadoop-2.6.0</span></p>
+<p><span style="color: #ff0000;">a) hadoop-env.sh 、yarn-env.sh</span></p>
+<p>这二个文件主要是修改JAVA_HOME后的目录，改成实际本机jdk所在目录位置</p>
+<p>vi etc/hadoop/hadoop-env.sh （及 vi etc/hadoop/yarn-env.sh）</p>
+<p>找到下面这行的位置，改成（jdk目录位置，大家根据实际情况修改）</p>
+<p class="p1"><span class="s1">export JAVA_HOME=/usr/java/jdk1.7.0_51</span></p>
+<p class="p1"><span class="s1">另外 hadoop-env.sh中 , 建议加上这句:</span></p>
+<p class="p1"><span class="s1">export HADOOP_PREFIX=/home/hadoop/hadoop-2.6.0</span></p>
+<p class="p1"><span class="s1"><span style="color: #ff0000;">b) core-site.xml</span> 参考下面的内容修改：</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">&lt;?</span><span style="color: #ff00ff;">xml version="1.0" encoding="UTF-8"</span><span style="color: #0000ff;">?&gt;</span>
+<span style="color: #008080;"> 2</span> <span style="color: #0000ff;">&lt;?</span><span style="color: #ff00ff;">xml-stylesheet type="text/xsl" href="configuration.xsl"</span><span style="color: #0000ff;">?&gt;</span>
+<span style="color: #008080;"> 3</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 4</span>   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 5</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>fs.defaultFS<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 6</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>hdfs://master:9000<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 7</span>   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 8</span>   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 9</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>hadoop.tmp.dir<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">10</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>/home/hadoop/tmp<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">11</span>   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">12</span> <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>注：/home/hadoop/tmp 目录如不存在，则先mkdir手动创建</p>
+<p>core-site.xml的完整参数请参考&nbsp;</p>
+<p><a href="http://hadoop.apache.org/docs/r2.6.0/hadoop-project-dist/hadoop-common/core-default.xml" target="_blank">http://hadoop.apache.org/docs/r2.6.0/hadoop-project-dist/hadoop-common/core-default.xml</a></p>
+<p><span style="color: #ff0000;">c) hdfs-site.xml</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">&lt;?</span><span style="color: #ff00ff;">xml version="1.0" encoding="UTF-8"</span><span style="color: #0000ff;">?&gt;</span>
+<span style="color: #008080;"> 2</span> <span style="color: #0000ff;">&lt;?</span><span style="color: #ff00ff;">xml-stylesheet type="text/xsl" href="configuration.xsl"</span><span style="color: #0000ff;">?&gt;</span>
+<span style="color: #008080;"> 3</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 4</span>   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 5</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>dfs.datanode.ipc.address<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 6</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>0.0.0.0:50020<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 7</span>   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 8</span>   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 9</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>dfs.datanode.http.address<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">10</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>0.0.0.0:50075<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">11</span>   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">12</span>   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">13</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>dfs.replication<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">14</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>2<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">15</span>   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">16</span> <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>注:dfs.replication表示数据副本数，一般不大于datanode的节点数。</p>
+<p>hdfs-site.xml的完整参数请参考</p>
+<p><a href="http://hadoop.apache.org/docs/r2.6.0/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml" target="_blank">http://hadoop.apache.org/docs/r2.6.0/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml</a></p>
+<p><span style="color: #ff6600;">d)&nbsp;<span class="s1">mapred-site.xml</span></span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">&lt;?</span><span style="color: #ff00ff;">xml version="1.0"</span><span style="color: #0000ff;">?&gt;</span>
+<span style="color: #008080;">2</span> <span style="color: #0000ff;">&lt;?</span><span style="color: #ff00ff;">xml-stylesheet type="text/xsl" href="configuration.xsl"</span><span style="color: #0000ff;">?&gt;</span>
+<span style="color: #008080;">3</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">4</span>   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">5</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>mapreduce.framework.name<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">6</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>yarn<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">7</span>   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">8</span> <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p><span style="color: #003300;">mapred-site.xml的完整参数请参考</span></p>
+<p><span style="color: #003300;"><a href="http://hadoop.apache.org/docs/r2.6.0/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml" target="_blank"><span style="color: #003300;">http://hadoop.apache.org/docs/r2.6.0/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml</span></a></span></p>
+<p><span style="color: #ff6600;">e)yarn-site.xml</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">&lt;?</span><span style="color: #ff00ff;">xml version="1.0"</span><span style="color: #0000ff;">?&gt;</span>
+<span style="color: #008080;">2</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">3</span>   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">4</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>yarn.nodemanager.aux-services<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">5</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>mapreduce_shuffle<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">value</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">6</span>   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">7</span> <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>yarn-site.xml的完整参数请参考</p>
+<p><a href="http://hadoop.apache.org/docs/r2.6.0/hadoop-yarn/hadoop-yarn-common/yarn-default.xml" target="_blank">http://hadoop.apache.org/docs/r2.6.0/hadoop-yarn/hadoop-yarn-common/yarn-default.xml</a></p>
+<p>另外,hadoop 1.x与2.x相比, 1.x中的很多参数已经被标识为过时,具体可参考</p>
+<p><a href="http://hadoop.apache.org/docs/r2.6.0/hadoop-project-dist/hadoop-common/DeprecatedProperties.html" target="_blank">http://hadoop.apache.org/docs/r2.6.0/hadoop-project-dist/hadoop-common/DeprecatedProperties.html</a></p>
+<p>最后一个文件slaves暂时不管（可以先用<span style="color: #ff6600;">mv slaves slaves.bak</span>&nbsp;将它改名），上述配置弄好后，就可以在master上启用 NameNode测试了，方法：</p>
+<p><span style="color: #0000ff;">$HADOOP_HOME/bin/hdfs namenode –format</span> 先格式化</p>
+<p class="p1"><em><span class="s1">15/02/12 21:29:53 INFO namenode.FSImage: Allocated new BlockPoolId: BP-85825581-192.168.187.102-1423747793784</span></em></p>
+<p class="p1"><em><span class="s1">15/02/12 21:29:53 INFO common.Storage: Storage directory /home/hadoop/tmp/dfs/name has been <span style="color: #ff0000;">successfully</span> formatted.</span></em></p>
+<p class="p1"><em><span class="s1">等看到这个时，表示格式化ok</span></em></p>
+<p><span style="color: #0000ff;">$HADOOP_HOME/sbin/start-dfs.sh&nbsp;</span></p>
+<p>启动完成后，输入jps查看进程，如果看到以下二个进程：</p>
+<p class="p1"><span class="s1">5161 <span style="color: #ff6600;">SecondaryNameNode</span></span></p>
+<p class="p1"><span class="s1">4989 <span style="color: #ff6600;">NameNode</span></span></p>
+<p class="p1"><span class="s1">表示master节点基本ok了</span></p>
+<p class="p1"><span class="s1">再输入<span style="color: #0000ff;">$HADOOP_HOME/sbin/start-yarn.sh</span> ，完成后，再输入jps查看进程&nbsp;</span></p>
+<p class="p1"><span class="s1">5161 <span style="color: #ff6600;">SecondaryNameNode</span></span></p>
+<p class="p1"><span class="s1">5320 <span style="color: #ff6600;">ResourceManager</span></span></p>
+<p class="p1"><span class="s1">4989 <span style="color: #ff6600;">NameNode</span></span></p>
+<p class="p1"><span class="s1">如果看到这3个进程，表示yarn也ok了</span></p>
+<p class="p1"><span class="s1" style="color: #ff6600;">f) 修改slaves</span></p>
+<p class="p1"><span class="s1">如果刚才用mv slaves slaves.bak对该文件重命名过，先运行 mv slaves.bak slaves 把名字改回来，再</span></p>
+<p class="p1"><span class="s1">vi slaves 编辑该文件，输入</span></p>
+<p class="p1"><span class="s1" style="color: #0000ff;">slave01</span></p>
+<p class="p1"><span class="s1" style="color: #0000ff;">slave02</span></p>
+<p class="p1"><span class="s1">保存退出，最后运行</span></p>
+<p class="p1"><span class="s1">$HADOOP_HOME/sbin/stop-dfs.sh&nbsp;</span></p>
+<p class="p1"><span class="s1">$HADOOP_HOME/sbin/stop-yarn.sh&nbsp;</span></p>
+<p class="p1"><span class="s1">停掉刚才启动的服务</span></p>
+<p class="p1">&nbsp;</p>
+<p class="p1"><span class="s1" style="color: #ff6600;">步骤七：将master上的hadoop目录复制到slave01,slave02</span></p>
+<p class="p1"><span class="s1">仍然保持在master机器上</span></p>
+<p class="p1"><span class="s1"><span style="color: #0000ff;">cd</span> 先进入主目录</span></p>
+<p class="p1"><span class="s1" style="color: #0000ff;">scp -r hadoop-2.6.0 hadoop@slave<span style="color: #ff6600;">01</span>:/home/hadoop/</span></p>
+<p class="p1"><span class="s1" style="color: #0000ff;">scp -r hadoop-2.6.0 hadoop@slave<span style="color: #ff6600;">02</span>:/home/hadoop/</span></p>
+<p class="p1">注：slave01、slave02上的hadoop临时目录(tmp)及数据目录(data)，仍然要先手动创建。</p>
+<p class="p1">&nbsp;</p>
+<p class="p1"><span class="s1" style="color: #ff0000;">步骤八：验证</span></p>
+<p class="p1"><span class="s1">master节点上，重新启动</span></p>
+<p class="p1"><span class="s1" style="color: #3366ff;">$HADOOP_HOME/sbin/start-dfs.sh</span></p>
+<p class="p1"><span class="s1" style="color: #3366ff;">$HADOOP_HOME/sbin/start-yarn.sh</span></p>
+<p class="p1"><span class="s1">顺利的话，master节点上有几下3个进程：</span></p>
+<p class="p1"><span class="s1">7482 ResourceManager</span></p>
+<p class="p1"><span class="s1">7335 SecondaryNameNode</span></p>
+<p class="p1"><span class="s1">7159 NameNode</span></p>
+<p class="p1">slave01、slave02上有几下2个进程：</p>
+<p class="p1"><span class="s1">2296 DataNode</span></p>
+<p class="p1"><span class="s1">2398 NodeManager</span></p>
+<p class="p1"><span class="s1">同时可浏览：</span></p>
+<p class="p1"><span class="s1">http://master:50070/</span></p>
+<p class="p1"><span class="s1">http://master:8088/ </span></p>
+<p class="p1"><span class="s1">查看状态</span></p>
+<p class="p1"><span class="s1">另外也可以通过 bin/hdfs dfsadmin -report 查看hdfs的状态报告</span></p>
+<p class="p1"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">其它注意事项：</span></p>
+<p class="p1">a) master(即：namenode节点)若要重新格式化，请先清空各datanode上的data目录（最好连tmp目录也一起清空），否则格式化完成后，启动dfs时，datanode会启动失败</p>
+<p class="p1">b) 如果觉得master机器上只运行namenode比较浪费,想把master也当成一个datanode,直接在slaves文件里,添加一行master即可</p>
+<p class="p1">c) 为了方便操作，可修改/etc/profile，把hadoop所需的lib目录，先加到CLASSPATH环境变量中，同时把hadoop/bin,hadoop/sbin目录也加入到PATH变量中，可参考下面的内容：</p>
+<div class="cnblogs_code">
+<pre> export HADOOP_HOME=/home/hadoop/hadoop-2.6.0
+ export JAVA_HOME=/usr/java/jdk1.7.0_51
+ export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$HADOOP_HOME/share/hadoop/common/hadoop-common-2.6.0.jar:$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-core-2.6.0.jar:$HADOOP_HOME/share/hadoop/common/lib/commons-cli-1.2<span style="color: #000000;">.jar
+</span> export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/sbin:$HADOOP_HOME/bin</pre>
+</div>
+<p>&nbsp;参考文档：<a href="http://hadoop.apache.org/docs/r2.6.0/hadoop-project-dist/hadoop-common/ClusterSetup.html" target="_blank">Hadoop MapReduce Next Generation - Cluster Setup</a></p></div><div id="MySignature" style="display: block;"><div style="padding:5px;background:#ff9;border:solid 1px #ccc">作者：<a href="http://yjmyzz.cnblogs.com/">菩提树下的杨过</a><br>
+出处：<a href="http://yjmyzz.cnblogs.com/">http://yjmyzz.cnblogs.com</a>
+<br>
+本文版权归作者和博客园共有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。
+</div>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/yjmyzz/category/691867.html">17.Hadoop</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/yjmyzz/tag/hadoop/">hadoop</a>, <a href="http://www.cnblogs.com/yjmyzz/tag/%E5%85%A8%E5%88%86%E5%B8%83/">全分布</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4280069,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E8%8F%A9%E6%8F%90%E6%A0%91%E4%B8%8B%E7%9A%84%E6%9D%A8%E8%BF%87" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/yjmyzz/" target="_blank"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/u27612.png" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/yjmyzz/">菩提树下的杨过</a><br>
+<a href="http://home.cnblogs.com/u/yjmyzz/followees">关注 - 6</a><br>
+<a href="http://home.cnblogs.com/u/yjmyzz/followers">粉丝 - 1912</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor">荣誉：<a href="http://www.cnblogs.com/expert/" target="_blank">推荐博客</a></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(4280069,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+	<div class="buryit" onclick="votePost(4280069,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/yjmyzz/p/java-send-mail-tutorial.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/yjmyzz/p/java-send-mail-tutorial.html" title="发布于2015-02-12 10:34">java 邮件发送</a><br><a href="http://www.cnblogs.com/yjmyzz/p/how-to-call-exe-program-through-silverlight.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/yjmyzz/p/how-to-call-exe-program-through-silverlight.html" title="发布于2015-03-25 22:43">Silverlight调用本机exe程序</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2015-02-12 21:58</span> <a href="http://www.cnblogs.com/yjmyzz/">菩提树下的杨过</a> 阅读(<span id="post_view_count">6079</span>) 评论(<span id="post_comment_count">5</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=4280069" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#" onclick="AddToWz(4280069);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=31164,cb_entryId=4280069,cb_blogApp=currentBlogApp,cb_blogUserGuid='c1853d0b-63cf-dd11-9e4d-001cf0cd104b',cb_entryCreatedDate='2015/2/12 21:58:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#3172784" class="layer">#1楼</a><a name="3172784" id="comment_anchor_3172784"></a>  <span class="comment_date">2015-04-29 13:28</span> <a id="a_comment_author_3172784" href="http://www.cnblogs.com/dmir/" target="_blank">奋斗的珞珞</a> <a href="http://msg.cnblogs.com/send/%E5%A5%8B%E6%96%97%E7%9A%84%E7%8F%9E%E7%8F%9E" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3172784" class="blog_comment_body">请问你那个ssh免密登录，是root权限吗？<br>如果操作这两步的话，<br><span class="MathJax_Preview"></span><span class="MathJax" id="MathJax-Element-1-Frame" role="textbox" aria-readonly="true"><nobr><span class="math" id="MathJax-Span-1" style="width: 21.763em; display: inline-block;"><span style="display: inline-block; position: relative; width: 17.265em; height: 0px; font-size: 126%;"><span style="position: absolute; clip: rect(1.789em 1000em 3.178em -0.592em); top: -2.708em; left: 0.003em;"><span class="mrow" id="MathJax-Span-2"><span class="mi" id="MathJax-Span-3" style="font-family: MathJax_Math-italic;">H<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.069em;"></span></span><span class="mi" id="MathJax-Span-4" style="font-family: MathJax_Math-italic;">A</span><span class="mi" id="MathJax-Span-5" style="font-family: MathJax_Math-italic;">D</span><span class="mi" id="MathJax-Span-6" style="font-family: MathJax_Math-italic;">O</span><span class="mi" id="MathJax-Span-7" style="font-family: MathJax_Math-italic;">O</span><span class="msubsup" id="MathJax-Span-8"><span style="display: inline-block; position: relative; width: 1.458em; height: 0px;"><span style="position: absolute; clip: rect(1.591em 1000em 2.649em -0.592em); top: -2.444em; left: 0.003em;"><span class="mi" id="MathJax-Span-9" style="font-family: MathJax_Math-italic;">P<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.136em;"></span></span><span style="display: inline-block; width: 0px; height: 2.45em;"></span></span><span style="position: absolute; top: -2.113em; left: 0.665em;"><span class="mi" id="MathJax-Span-10" style="font-size: 70.7%; font-family: MathJax_Math-italic;">H<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.069em;"></span></span><span style="display: inline-block; width: 0px; height: 2.252em;"></span></span></span></span><span class="mi" id="MathJax-Span-11" style="font-family: MathJax_Math-italic;">O</span><span class="mi" id="MathJax-Span-12" style="font-family: MathJax_Math-italic;">M<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.069em;"></span></span><span class="mi" id="MathJax-Span-13" style="font-family: MathJax_Math-italic;">E<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="texatom" id="MathJax-Span-14"><span class="mrow" id="MathJax-Span-15"><span class="mo" id="MathJax-Span-16" style="font-family: MathJax_Main;">/</span></span></span><span class="mi" id="MathJax-Span-17" style="font-family: MathJax_Math-italic;">s</span><span class="mi" id="MathJax-Span-18" style="font-family: MathJax_Math-italic;">b</span><span class="mi" id="MathJax-Span-19" style="font-family: MathJax_Math-italic;">i</span><span class="mi" id="MathJax-Span-20" style="font-family: MathJax_Math-italic;">n</span><span class="texatom" id="MathJax-Span-21"><span class="mrow" id="MathJax-Span-22"><span class="mo" id="MathJax-Span-23" style="font-family: MathJax_Main;">/</span></span></span><span class="mi" id="MathJax-Span-24" style="font-family: MathJax_Math-italic;">s</span><span class="mi" id="MathJax-Span-25" style="font-family: MathJax_Math-italic;">t</span><span class="mi" id="MathJax-Span-26" style="font-family: MathJax_Math-italic;">a</span><span class="mi" id="MathJax-Span-27" style="font-family: MathJax_Math-italic;">r</span><span class="mi" id="MathJax-Span-28" style="font-family: MathJax_Math-italic;">t</span><span class="mo" id="MathJax-Span-29" style="font-family: MathJax_Main; padding-left: 0.202em;">−</span><span class="mi" id="MathJax-Span-30" style="font-family: MathJax_Math-italic; padding-left: 0.202em;">d<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mi" id="MathJax-Span-31" style="font-family: MathJax_Math-italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.069em;"></span></span><span class="mi" id="MathJax-Span-32" style="font-family: MathJax_Math-italic;">s</span><span class="mo" id="MathJax-Span-33" style="font-family: MathJax_Main;">.</span><span class="mi" id="MathJax-Span-34" style="font-family: MathJax_Math-italic; padding-left: 0.202em;">s</span><span class="mi" id="MathJax-Span-35" style="font-family: MathJax_Math-italic;">h</span></span><span style="display: inline-block; width: 0px; height: 2.715em;"></span></span></span><span style="border-left-width: 0.004em; border-left-style: solid; display: inline-block; overflow: hidden; width: 0px; height: 1.421em; vertical-align: -0.413em;"></span></span></nobr></span><script type="math/tex" id="MathJax-Element-1">HADOOP_HOME/sbin/start-dfs.sh </script>HADOOP_HOME/sbin/start-yarn.sh<br>还是要输密码的？<br><br>你的slaves中直接加的是hostname还是用户名@hostname</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3172784,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3172784,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_3172784_avatar" style="display:none;">http://pic.cnblogs.com/face/713263/20150113120856.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#3176635" class="layer">#2楼</a><a name="3176635" id="comment_anchor_3176635"></a>[<span class="louzhu">楼主</span>]  <span class="comment_date">2015-05-05 18:17</span> <a id="a_comment_author_3176635" href="http://www.cnblogs.com/yjmyzz/" target="_blank">菩提树下的杨过</a> <a href="http://msg.cnblogs.com/send/%E8%8F%A9%E6%8F%90%E6%A0%91%E4%B8%8B%E7%9A%84%E6%9D%A8%E8%BF%87" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3176635" class="blog_comment_body"><a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#3172784" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3172784);">@</a>奋斗的珞珞<br>ssh免密码登录，不一定非要root权限，我实验下来的结果，只要有sudo权限就行了。当然，如果只是学习的话，直接把hadoop用户加入root用户组更省事。<br><br>ssh免密码设置成功的检验方法，直接 ssh localhost，如果不提示输入密码，就表示ok了</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3176635,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3176635,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_3176635_avatar" style="display:none;">http://pic.cnblogs.com/face/u27612.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#3226373" class="layer">#3楼</a><a name="3226373" id="comment_anchor_3226373"></a>  <span class="comment_date">2015-07-12 22:21</span> <a id="a_comment_author_3226373" href="http://home.cnblogs.com/u/649055/" target="_blank">子夜吴哥</a> <a href="http://msg.cnblogs.com/send/%E5%AD%90%E5%A4%9C%E5%90%B4%E5%93%A5" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3226373" class="blog_comment_body">你好，我按照你说的方法去做。结果从机没有启动datanode。错误日志是这样的：<br><div class="cnblogs_Highlighter sh-gutter"><div><div id="highlighter_821335" class="syntaxhighlighter  csharp"><div class="toolbar"><span><a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="csharp plain">2015-07-12 21:26:38,307 INFO org.apache.hadoop.http.HttpServer2: HttpServer.start() threw a non Bind IOException</code></div><div class="line number2 index1 alt1"><code class="csharp plain">java.net.BindException: Port </code><code class="csharp keyword">in</code> <code class="csharp plain">use: iZ942bzmigcZ:50075</code></div><div class="line number3 index2 alt2"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.http.HttpServer2.openListeners(HttpServer2.java:891)</code></div><div class="line number4 index3 alt1"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.http.HttpServer2.start(HttpServer2.java:827)</code></div><div class="line number5 index4 alt2"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.hdfs.server.datanode.DataNode.startInfoServer(DataNode.java:663)</code></div><div class="line number6 index5 alt1"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.hdfs.server.datanode.DataNode.startDataNode(DataNode.java:1057)</code></div><div class="line number7 index6 alt2"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.hdfs.server.datanode.DataNode.&lt;init&gt;(DataNode.java:415)</code></div><div class="line number8 index7 alt1"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.hdfs.server.datanode.DataNode.makeInstance(DataNode.java:2268)</code></div><div class="line number9 index8 alt2"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.hdfs.server.datanode.DataNode.instantiateDataNode(DataNode.java:2155)</code></div><div class="line number10 index9 alt1"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.hdfs.server.datanode.DataNode.createDataNode(DataNode.java:2202)</code></div><div class="line number11 index10 alt2"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.hdfs.server.datanode.DataNode.secureMain(DataNode.java:2378)</code></div><div class="line number12 index11 alt1"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.hdfs.server.datanode.DataNode.main(DataNode.java:2402)</code></div><div class="line number13 index12 alt2"><code class="csharp plain">Caused </code><code class="csharp keyword">by</code><code class="csharp plain">: java.net.BindException: Cannot assign requested address</code></div><div class="line number14 index13 alt1"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at sun.nio.ch.Net.bind(Native Method)</code></div><div class="line number15 index14 alt2"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:126)</code></div><div class="line number16 index15 alt1"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:59)</code></div><div class="line number17 index16 alt2"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.mortbay.jetty.nio.SelectChannelConnector.open(SelectChannelConnector.java:216)</code></div><div class="line number18 index17 alt1"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">at org.apache.hadoop.http.HttpServer2.openListeners(HttpServer2.java:886)</code></div><div class="line number19 index18 alt2"><code class="csharp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="csharp plain">... 9 more</code></div></div></td></tr></tbody></table></div></div></div><br><br>我改过用50074端口也没用，请问这是什么问题？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3226373,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3226373,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#3226421" class="layer">#4楼</a><a name="3226421" id="comment_anchor_3226421"></a>[<span class="louzhu">楼主</span>]  <span class="comment_date">2015-07-13 08:17</span> <a id="a_comment_author_3226421" href="http://www.cnblogs.com/yjmyzz/" target="_blank">菩提树下的杨过</a> <a href="http://msg.cnblogs.com/send/%E8%8F%A9%E6%8F%90%E6%A0%91%E4%B8%8B%E7%9A%84%E6%9D%A8%E8%BF%87" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3226421" class="blog_comment_body"><a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#3226373" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3226373);">@</a>子夜吴哥<br>从出错信息字现上看，IP或端口绑定失败，除了建议检查hosts文件，以及xml中与ip地址/hostname/端口的节点设置，暂时也提不出更好的建议。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3226421,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3226421,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_3226421_avatar" style="display:none;">http://pic.cnblogs.com/face/u27612.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#3339566" class="layer">#5楼</a><a name="3339566" id="comment_anchor_3339566"></a><span id="comment-maxId" style="display:none;">3339566</span><span id="comment-maxDate" style="display:none;">2016/1/2 14:05:56</span>  <span class="comment_date">2016-01-02 14:05</span> <a id="a_comment_author_3339566" href="http://www.cnblogs.com/suisongwa/" target="_blank">J.A.V.A</a> <a href="http://msg.cnblogs.com/send/J.A.V.A" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3339566" class="blog_comment_body">你好，按照您的步骤，可是报<br><div class="cnblogs_Highlighter sh-gutter"><div><div id="highlighter_873643" class="syntaxhighlighter  csharp"><div class="toolbar"><span><a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="csharp plain">[master@master ~]$ start-all.sh</code></div><div class="line number2 index1 alt1"><code class="csharp plain">This script </code><code class="csharp keyword">is</code> <code class="csharp plain">Deprecated. Instead use start-dfs.sh and start-yarn.sh</code></div><div class="line number3 index2 alt2"><code class="csharp plain">16/01/02 00:10:31 WARN util.NativeCodeLoader: Unable to load native-hadoop library </code><code class="csharp keyword">for</code> <code class="csharp plain">your platform... </code><code class="csharp keyword">using</code> <code class="csharp plain">builtin-java classes </code><code class="csharp keyword">where</code> <code class="csharp plain">applicable</code></div><div class="line number4 index3 alt1"><code class="csharp plain">Starting namenodes </code><code class="csharp keyword">on</code> <code class="csharp plain">[master]</code></div><div class="line number5 index4 alt2"><code class="csharp plain">master: starting namenode, logging to /home/master/opt/hadoop-2.6.3/logs/hadoop-master-namenode-master.</code><code class="csharp keyword">out</code></div><div class="line number6 index5 alt1"><code class="csharp plain">slave02@slave02: bash: line 0: cd: /home/master/opt/hadoop-2.6.3: 没有那个文件或目录</code></div><div class="line number7 index6 alt2"><code class="csharp plain">slave02@slave02: bash: /home/master/opt/hadoop-2.6.3/sbin/hadoop-daemon.sh: 没有那个文件或目录</code></div><div class="line number8 index7 alt1"><code class="csharp plain">slave01@slave01: bash: line 0: cd: /home/master/opt/hadoop-2.6.3: 没有那个文件或目录</code></div><div class="line number9 index8 alt2"><code class="csharp plain">slave01@slave01: bash: /home/master/opt/hadoop-2.6.3/sbin/hadoop-daemon.sh: 没有那个文件或目录</code></div><div class="line number10 index9 alt1"><code class="csharp plain">Starting secondary namenodes [0.0.0.0]</code></div><div class="line number11 index10 alt2"><code class="csharp plain">0.0.0.0: starting secondarynamenode, logging to /home/master/opt/hadoop-2.6.3/logs/hadoop-master-secondarynamenode-master.</code><code class="csharp keyword">out</code></div><div class="line number12 index11 alt1"><code class="csharp plain">16/01/02 00:10:44 WARN util.NativeCodeLoader: Unable to load native-hadoop library </code><code class="csharp keyword">for</code> <code class="csharp plain">your platform... </code><code class="csharp keyword">using</code> <code class="csharp plain">builtin-java classes </code><code class="csharp keyword">where</code> <code class="csharp plain">applicable</code></div><div class="line number13 index12 alt2"><code class="csharp plain">starting yarn daemons</code></div><div class="line number14 index13 alt1"><code class="csharp plain">starting resourcemanager, logging to /home/master/opt/hadoop-2.6.3/logs/yarn-master-resourcemanager-master.</code><code class="csharp keyword">out</code></div><div class="line number15 index14 alt2"><code class="csharp plain">slave02@slave02: bash: line 0: cd: /home/master/opt/hadoop-2.6.3: 没有那个文件或目录</code></div><div class="line number16 index15 alt1"><code class="csharp plain">slave02@slave02: bash: /home/master/opt/hadoop-2.6.3/sbin/yarn-daemon.sh: 没有那个文件或目录</code></div><div class="line number17 index16 alt2"><code class="csharp plain">slave01@slave01: bash: line 0: cd: /home/master/opt/hadoop-2.6.3: 没有那个文件或目录</code></div><div class="line number18 index17 alt1"><code class="csharp plain">slave01@slave01: bash: /home/master/opt/hadoop-2.6.3/sbin/yarn-daemon.sh: 没有那个文件或目录</code></div></div></td></tr></tbody></table></div></div></div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3339566,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3339566,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/yjmyzz/p/4280069.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://job.cnblogs.com/offer/50707/" target="_blank"><img width="300" height="250" src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/programming-is-an-art-form.jpg" alt="招聘ASP.NET 5开发工程师" title="招聘ASP.NET 5开发工程师"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536832/" target="_blank">欧空局：“菲莱”或将永久停止工作</a><br> ·  <a href="http://news.cnblogs.com/n/536799/" target="_blank">你相信吗？癌症将不再是不治之症</a><br> ·  <a href="http://news.cnblogs.com/n/536839/" target="_blank">百度贴吧利益调查：删帖业务与广告共生</a><br> ·  <a href="http://news.cnblogs.com/n/536838/" target="_blank">雅虎裁员未冻结招聘 暗示今年仍将大幅扩张</a><br> ·  <a href="http://news.cnblogs.com/n/536837/" target="_blank">揭秘机票预订灰色地带 总结机票预订容易遇到的几大陷阱</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/536387/" target="_blank">Docker简介</a><br> ·  <a href="http://kb.cnblogs.com/page/536115/" target="_blank">Docker简明教程</a><br> ·  <a href="http://kb.cnblogs.com/page/535581/" target="_blank">Git协作流程</a><br> ·  <a href="http://kb.cnblogs.com/page/535355/" target="_blank">企业计算的终结</a><br> ·  <a href="http://kb.cnblogs.com/page/535278/" target="_blank">软件开发的核心</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"><b>历史上的今天:</b><br>2010-02-12 <a href="http://www.cnblogs.com/yjmyzz/archive/2010/02/12/1667920.html">ruby学习笔记(7)-闭包</a><br>2009-02-12 <a href="http://www.cnblogs.com/yjmyzz/archive/2009/02/12/1388865.html">silverlight中如何得到ComboBox的选中值(SelectedValue)?</a><br></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><img src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/2011012713161842.png" alt="菩提树下的杨过"><br>
+<span style="color:#399ab2">注：技术发展日新月异，随着时间推移，无法保证本博客所有内容的正确性，如有误导，请大家见谅！</span>
+<table>
+<tbody><tr>
+<td align="right">英文名：</td>
+<td align="left">Jimmy.Yang</td>
+</tr>
+<tr>
+<td align="right">中文名：</td>
+<td align="left">杨俊明</td>
+</tr>
+<tr>
+<td align="right">一妹儿：</td>
+<td align="left">yjmyzz#126.com</td>
+</tr>
+<tr>
+<td align="right">扣扣：</td>
+<td align="left">二妻八舅幺舅五零妻</td>
+</tr>
+<tr>
+<td align="right">所在地：</td>
+<td align="left">上海</td>
+</tr>
+</tbody></table><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/yjmyzz/">菩提树下的杨过</a><br>园龄：<a href="http://home.cnblogs.com/u/yjmyzz/" title="入园时间：2007-11-26">8年1个月</a><br>荣誉：<a href="http://www.cnblogs.com/expert/">推荐博客</a><br>粉丝：<a href="http://home.cnblogs.com/u/yjmyzz/followers/">1912</a><br>关注：<a href="http://home.cnblogs.com/u/yjmyzz/followees/">6</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;c1853d0b-63cf-dd11-9e4d-001cf0cd104b&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(1187)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/yjmyzz/category/195429.html">01.WebForm/MVC(105)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/yjmyzz/category/195428.html">02.FrameWork/C#(142)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/yjmyzz/category/195425.html">03.WinForm(22)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/yjmyzz/category/195430.html">04.JavaScript(85)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/yjmyzz/category/195426.html">05.CSS(25)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/yjmyzz/category/195432.html">06.Design Pattern(13)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/yjmyzz/category/195431.html">07.WPF/Silverlight(118)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/yjmyzz/category/195433.html">08.Database(79)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/yjmyzz/category/195427.html">09.Open Source(65)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/yjmyzz/category/223381.html">10.Delphi(17)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/yjmyzz/category/233120.html">11.Ruby(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/yjmyzz/category/236214.html">12.Flex/Flash/AS3.0(124)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/yjmyzz/category/273711.html">13.C/Objective-C(15)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/yjmyzz/category/424772.html">15.Java/Scala(204)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/yjmyzz/category/552939.html">16.linux/mac(25)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="http://www.cnblogs.com/yjmyzz/category/691867.html">17.Hadoop(17)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="http://www.cnblogs.com/yjmyzz/category/219873.html">18.Others(115)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(1045)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/yjmyzz/archive/2016/01.html">2016年1月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/yjmyzz/archive/2015/12.html">2015年12月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/yjmyzz/archive/2015/11.html">2015年11月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/yjmyzz/archive/2015/10.html">2015年10月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/yjmyzz/archive/2015/09.html">2015年9月 (18)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/yjmyzz/archive/2015/08.html">2015年8月 (17)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/yjmyzz/archive/2015/07.html">2015年7月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/yjmyzz/archive/2015/06.html">2015年6月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/yjmyzz/archive/2015/05.html">2015年5月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/yjmyzz/archive/2015/04.html">2015年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/yjmyzz/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/yjmyzz/archive/2015/02.html">2015年2月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/yjmyzz/archive/2015/01.html">2015年1月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/yjmyzz/archive/2014/12.html">2014年12月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/yjmyzz/archive/2014/11.html">2014年11月 (17)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/yjmyzz/archive/2014/10.html">2014年10月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/yjmyzz/archive/2014/09.html">2014年9月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/yjmyzz/archive/2014/08.html">2014年8月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/yjmyzz/archive/2014/07.html">2014年7月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/yjmyzz/archive/2014/05.html">2014年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/yjmyzz/archive/2014/04.html">2014年4月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/yjmyzz/archive/2014/03.html">2014年3月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/yjmyzz/archive/2014/02.html">2014年2月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/yjmyzz/archive/2014/01.html">2014年1月 (18)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/yjmyzz/archive/2013/12.html">2013年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/yjmyzz/archive/2013/11.html">2013年11月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/yjmyzz/archive/2013/10.html">2013年10月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_27" href="http://www.cnblogs.com/yjmyzz/archive/2013/09.html">2013年9月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_28" href="http://www.cnblogs.com/yjmyzz/archive/2013/08.html">2013年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_29" href="http://www.cnblogs.com/yjmyzz/archive/2013/07.html">2013年7月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_30" href="http://www.cnblogs.com/yjmyzz/archive/2013/05.html">2013年5月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_31" href="http://www.cnblogs.com/yjmyzz/archive/2013/04.html">2013年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_32" href="http://www.cnblogs.com/yjmyzz/archive/2013/02.html">2013年2月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_33" href="http://www.cnblogs.com/yjmyzz/archive/2013/01.html">2013年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_34" href="http://www.cnblogs.com/yjmyzz/archive/2012/12.html">2012年12月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_35" href="http://www.cnblogs.com/yjmyzz/archive/2012/11.html">2012年11月 (16)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_36" href="http://www.cnblogs.com/yjmyzz/archive/2012/09.html">2012年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_37" href="http://www.cnblogs.com/yjmyzz/archive/2012/07.html">2012年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_38" href="http://www.cnblogs.com/yjmyzz/archive/2012/06.html">2012年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_39" href="http://www.cnblogs.com/yjmyzz/archive/2012/05.html">2012年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_40" href="http://www.cnblogs.com/yjmyzz/archive/2012/04.html">2012年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_41" href="http://www.cnblogs.com/yjmyzz/archive/2012/03.html">2012年3月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_42" href="http://www.cnblogs.com/yjmyzz/archive/2012/02.html">2012年2月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_43" href="http://www.cnblogs.com/yjmyzz/archive/2012/01.html">2012年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_44" href="http://www.cnblogs.com/yjmyzz/archive/2011/12.html">2011年12月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_45" href="http://www.cnblogs.com/yjmyzz/archive/2011/11.html">2011年11月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_46" href="http://www.cnblogs.com/yjmyzz/archive/2011/10.html">2011年10月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_47" href="http://www.cnblogs.com/yjmyzz/archive/2011/09.html">2011年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_48" href="http://www.cnblogs.com/yjmyzz/archive/2011/08.html">2011年8月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_49" href="http://www.cnblogs.com/yjmyzz/archive/2011/07.html">2011年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_50" href="http://www.cnblogs.com/yjmyzz/archive/2011/06.html">2011年6月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_51" href="http://www.cnblogs.com/yjmyzz/archive/2011/05.html">2011年5月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_52" href="http://www.cnblogs.com/yjmyzz/archive/2011/04.html">2011年4月 (16)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_53" href="http://www.cnblogs.com/yjmyzz/archive/2011/03.html">2011年3月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_54" href="http://www.cnblogs.com/yjmyzz/archive/2011/02.html">2011年2月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_55" href="http://www.cnblogs.com/yjmyzz/archive/2011/01.html">2011年1月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_56" href="http://www.cnblogs.com/yjmyzz/archive/2010/12.html">2010年12月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_57" href="http://www.cnblogs.com/yjmyzz/archive/2010/11.html">2010年11月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_58" href="http://www.cnblogs.com/yjmyzz/archive/2010/10.html">2010年10月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_59" href="http://www.cnblogs.com/yjmyzz/archive/2010/09.html">2010年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_60" href="http://www.cnblogs.com/yjmyzz/archive/2010/08.html">2010年8月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_61" href="http://www.cnblogs.com/yjmyzz/archive/2010/07.html">2010年7月 (32)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_62" href="http://www.cnblogs.com/yjmyzz/archive/2010/06.html">2010年6月 (19)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_63" href="http://www.cnblogs.com/yjmyzz/archive/2010/05.html">2010年5月 (21)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_64" href="http://www.cnblogs.com/yjmyzz/archive/2010/04.html">2010年4月 (30)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_65" href="http://www.cnblogs.com/yjmyzz/archive/2010/03.html">2010年3月 (49)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_66" href="http://www.cnblogs.com/yjmyzz/archive/2010/02.html">2010年2月 (23)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_67" href="http://www.cnblogs.com/yjmyzz/archive/2010/01.html">2010年1月 (22)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_68" href="http://www.cnblogs.com/yjmyzz/archive/2009/12.html">2009年12月 (47)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_69" href="http://www.cnblogs.com/yjmyzz/archive/2009/11.html">2009年11月 (26)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_70" href="http://www.cnblogs.com/yjmyzz/archive/2009/10.html">2009年10月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_71" href="http://www.cnblogs.com/yjmyzz/archive/2009/09.html">2009年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_72" href="http://www.cnblogs.com/yjmyzz/archive/2009/08.html">2009年8月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_73" href="http://www.cnblogs.com/yjmyzz/archive/2009/07.html">2009年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_74" href="http://www.cnblogs.com/yjmyzz/archive/2009/06.html">2009年6月 (27)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_75" href="http://www.cnblogs.com/yjmyzz/archive/2009/05.html">2009年5月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_76" href="http://www.cnblogs.com/yjmyzz/archive/2009/04.html">2009年4月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_77" href="http://www.cnblogs.com/yjmyzz/archive/2009/03.html">2009年3月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_78" href="http://www.cnblogs.com/yjmyzz/archive/2009/02.html">2009年2月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_79" href="http://www.cnblogs.com/yjmyzz/archive/2009/01.html">2009年1月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_80" href="http://www.cnblogs.com/yjmyzz/archive/2008/11.html">2008年11月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_81" href="http://www.cnblogs.com/yjmyzz/archive/2008/10.html">2008年10月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_82" href="http://www.cnblogs.com/yjmyzz/archive/2008/09.html">2008年9月 (34)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_83" href="http://www.cnblogs.com/yjmyzz/archive/2008/08.html">2008年8月 (40)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_84" href="http://www.cnblogs.com/yjmyzz/archive/2008/06.html">2008年6月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_85" href="http://www.cnblogs.com/yjmyzz/archive/2008/05.html">2008年5月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_86" href="http://www.cnblogs.com/yjmyzz/archive/2008/04.html">2008年4月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_87" href="http://www.cnblogs.com/yjmyzz/archive/2008/03.html">2008年3月 (20)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_88" href="http://www.cnblogs.com/yjmyzz/archive/2008/02.html">2008年2月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_89" href="http://www.cnblogs.com/yjmyzz/archive/2008/01.html">2008年1月 (24)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_90" href="http://www.cnblogs.com/yjmyzz/archive/2007/12.html">2007年12月 (40)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_91" href="http://www.cnblogs.com/yjmyzz/archive/2007/11.html">2007年11月 (27)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">友情链接</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_2_Link_0" href="http://www.cnblogs.com/cloudgamer/" rel="nofollow">cloudgamer</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_1" href="http://blog.zhaojie.me/" rel="nofollow">JeffreyZhao</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_2" href="http://www.cnblogs.com/Jax/" rel="nofollow">包建强</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_3" href="http://www.cnblogs.com/subconscious/" rel="nofollow">计算机的潜意识</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_4" href="http://www.cnblogs.com/rubylouvre/" rel="nofollow" target="_blank">司徒正美</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_5" href="http://www.cnblogs.com/del/" rel="nofollow">万一</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_6" href="http://wayfarer.cnblogs.com/" rel="nofollow">张逸:晴窗笔记</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	978993
+	</li>
+	<li class="liRank">
+		排名 -	50
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+	<div id="RecentCommentsBlock"><ul>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/yjmyzz/p/ajax-exception-handle-in-struts2-and-spring-mvc4.html#3346421">1. Re:Struts2、Spring MVC4 框架下的ajax统一异常处理</a></li>
+    <li class="recent_comment_body">@菩提树下的杨过我是说ajax请求,在后台报错抛出异常时.这时响应码不是200,能否通过代码将响应码改为200?...</li>
+    <li class="recent_comment_author">--fans123</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/yjmyzz/p/4188749.html#3346410">2. Re:velocity模板引擎学习(2)-velocity tools 2.0</a></li>
+    <li class="recent_comment_body">@roychenyi不明白你的意思，每次页面http请求时，request对象在spring-mvc中就能直接访问其实例，还需要初始化什么？...</li>
+    <li class="recent_comment_author">--菩提树下的杨过</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/yjmyzz/p/4188749.html#3346361">3. Re:velocity模板引擎学习(2)-velocity tools 2.0</a></li>
+    <li class="recent_comment_body">... ... ......</li>
+    <li class="recent_comment_author">--roychenyi</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/yjmyzz/p/3182307.html#3345471">4. Re:利用ActiveX实现web页面设置本地默认打印机、纸张大小</a></li>
+    <li class="recent_comment_body">请问这个有完整的么，怎么使用的呢？</li>
+    <li class="recent_comment_author">--真爱一生</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/yjmyzz/p/limit-login-attempts-in-spring-security3.html#3344436">5. Re:Spring Security笔记：登录尝试次数限制</a></li>
+    <li class="recent_comment_body">数据库脚本没有更新，T_USERS新增的字段最好设置默认值为1</li>
+    <li class="recent_comment_author">--CoderDream</li>
+</ul>
+</div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./hadoop 2.6全分布安装 - 菩提树下的杨过 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 菩提树下的杨过
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+<div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-family: MathJax_Main, sans-serif;"></div></div></body></html>

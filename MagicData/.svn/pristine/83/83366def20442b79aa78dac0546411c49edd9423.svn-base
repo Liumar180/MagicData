@@ -1,0 +1,125 @@
+package connectToTitan
+
+import org.apache.spark.rdd.JdbcRDD
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+import java.util.ArrayList
+import java.sql.DriverManager
+import org.apache.spark.rdd.RDD.rddToPairRDDFunctions
+
+import com.thinkaurelius.titan.core.EdgeLabel;
+import com.thinkaurelius.titan.core.Multiplicity;
+import com.thinkaurelius.titan.core.PropertyKey;
+import com.thinkaurelius.titan.core.TitanFactory;
+import com.thinkaurelius.titan.core.TitanGraph;
+import com.thinkaurelius.titan.core.TitanTransaction;
+import com.thinkaurelius.titan.core.attribute.Geoshape;
+import com.thinkaurelius.titan.core.schema.ConsistencyModifier;
+import com.thinkaurelius.titan.core.schema.TitanGraphIndex;
+import com.thinkaurelius.titan.core.schema.TitanManagement;
+
+
+import org.apache.commons.configuration.BaseConfiguration;
+import org.apache.tinkerpop.gremlin.process.traversal.Order;
+import org.apache.tinkerpop.gremlin.structure.Direction;
+import org.apache.tinkerpop.gremlin.structure.Edge;
+import org.apache.tinkerpop.gremlin.structure.T;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
+
+
+object TitanQuery {
+  def main(args: Array[String]): Unit = {
+      var arr = new ArrayList[Any];
+      TitanInsert(arr);
+    
+  }
+  
+   //Titan插入
+   def TitanInsert(args: ArrayList[Any]){
+     var g: TitanGraph = null
+     val titanConf = new org.apache.commons.configuration.BaseConfiguration();
+
+    println("开始连接数据库")
+    titanConf.setProperty("storage.backend","hbase");
+    titanConf.setProperty("storage.hostname","192.168.40.33");
+    titanConf.setProperty("storage.tablename","titan");
+
+    if (g == null || !g.isOpen()) {
+      g = TitanFactory.open(titanConf);
+    }
+    println("数据库已经连接成功");
+    
+
+    val tx = g.newTransaction();
+    
+    // vertices
+    println("开始创建顶点");
+    val saturn = tx.addVertex(T.label, "titan", "name", "saturn", "age", "10000");
+    val sky = tx.addVertex(T.label, "location", "name", "sky");
+    val sea = tx.addVertex(T.label, "location", "name", "sea");
+    val jupiter = tx.addVertex(T.label, "god", "name", "jupiter", "age", "5000");
+    val neptune = tx.addVertex(T.label, "god", "name", "neptune", "age", "4500");
+    val hercules = tx.addVertex(T.label, "demigod", "name", "hercules", "age", "30");
+    val alcmene = tx.addVertex(T.label, "human", "name", "alcmene", "age", "45");
+    val pluto = tx.addVertex(T.label, "god", "name", "pluto", "age", "4000");
+    val nemean = tx.addVertex(T.label, "monster", "name", "nemean");
+    val hydra = tx.addVertex(T.label, "monster", "name", "hydra");
+    val cerberus = tx.addVertex(T.label, "monster", "name", "cerberus");
+    val tartarus = tx.addVertex(T.label, "location", "name", "tartarus");
+    println("顶点创建完毕");
+    
+    // edges
+    System.out.println("开始创建边");
+    jupiter.addEdge("father", saturn);
+    jupiter.addEdge("lives", sky, "reason", "loves fresh breezes");
+    jupiter.addEdge("brother", neptune);
+    jupiter.addEdge("brother", pluto);
+
+    neptune.addEdge("lives", sea).property("reason", "loves waves");
+    neptune.addEdge("brother", jupiter);
+    neptune.addEdge("brother", pluto);
+
+    hercules.addEdge("father", jupiter);
+    hercules.addEdge("mother", alcmene);
+    hercules.addEdge("battled", nemean, "time", "1", "place", Geoshape.point(38.1f, 23.7f));
+    hercules.addEdge("battled", hydra, "time", "2", "place", Geoshape.point(37.7f, 23.9f));
+    hercules.addEdge("battled", cerberus, "time", "12", "place", Geoshape.point(39f, 22f));
+
+    pluto.addEdge("brother", jupiter);
+    pluto.addEdge("brother", neptune);
+    pluto.addEdge("lives", tartarus, "reason", "no fear of death");
+    pluto.addEdge("pet", cerberus);
+
+    cerberus.addEdge("lives", tartarus);
+    System.out.println("边创建完毕！");
+
+    // commit the transaction to disk
+    System.out.println("提交");
+   
+    tx.commit();
+
+    
+  }
+  
+  //Titan查询
+  def TitanQuery(){
+    var g: TitanGraph = null
+    val titanConf = new org.apache.commons.configuration.BaseConfiguration();
+    
+    println("开始连接数据库")
+    titanConf.setProperty("storage.backend","hbase");
+    titanConf.setProperty("storage.hostname","192.168.40.33");
+    titanConf.setProperty("storage.tablename","titan");
+    
+    if (g == null || !g.isOpen()) {
+      g = TitanFactory.open(titanConf);
+    }
+    println("数据库已经连接成功");
+  
+    val vertices = g.query().has("name","jupiter").has("age",5000).vertices();
+    val edges = g.query().has("reason","loves fresh breezes").edges();
+    
+    
+  }
+  
+}

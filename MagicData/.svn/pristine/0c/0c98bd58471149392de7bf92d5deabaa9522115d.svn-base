@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 查询<result name="success" type="json"></result>  -->
+	<!-- 数据库连接 配置页面 -->
+	<package name="dbase" extends="base" namespace="/">
+        <action name="Import" class="testDatabaseConAction" method="testDBCon"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+        </action>
+        <action name="ImportSave" class="testDatabaseConAction" method="saveDBCon"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+        </action>    
+        <action name="ImportEdit" class="testDatabaseConAction" method="editDBCon"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+        </action>
+        <action name="ImportDelete" class="testDatabaseConAction" method="deleteDBCon"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+        </action>
+        <action name="ImportGetAll" class="testDatabaseConAction" method="getDBCon"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+        </action> 
+        <action name="ImportGetDb" class="testDatabaseConAction" method="getDB"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+        </action> 
+		<action name="databaseConnected">
+			<result>/WEB-INF/jsp/dataImport/DatabaseCon.jsp</result>
+		</action>
+		<action name="getDBTables" class="testDatabaseConAction" method="getDBTables"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+        </action> 
+      <action name="ImportGetAllTables" class="testDatabaseConAction" method="importGetAllTables"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+        </action>
+        <action name="ImportGetPropertysByTables" class="testDatabaseConAction" method="ImportGetPropertysByTables"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+        </action>
+        <action name="getDBPropertyByTable" class="testDatabaseConAction" method="getDBPropertyByTable"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+        </action>
+	</package> 
+	
+	<!-- 新增导入数据库任务-->
+	<package name="dImpAdd_action" extends="base" namespace="/">
+	   <action name="getDImpAConPage" class="dImpAddAction" method="getDImpAConPage">
+	 		<result name="success">
+	      		/WEB-INF/jsp/dataImport/dImpConAConnSelect.jsp
+	      	</result>
+	      	<result name="error">
+	      	     <param name="location">/WEB-INF/jsp/dataImport/dImpConAConnSelect.jsp</param> 	
+	      	     <param name="errorStr">${#request.errorStr}</param>
+	      	</result>
+	   </action>
+	   <action name="nextDImpBTablePage" class="dImpAddAction" method="nextDImpBTablePage">
+	      	<result name="success">
+	      		/WEB-INF/jsp/dataImport/dImpConBTableselect.jsp
+	      	</result>
+	      	<result name="error" type="chain">
+	      	     <param name="actionName">getDImpAConPage</param> 	
+	      	     <param name="errorStr">${#request.errorStr}</param> 
+	      	</result>
+	   </action>
+	   <action name="sqlTest" class="dImpAddAction" method="sqlTest"> 
+	        <result name="success" type="stream"> 
+				<param name="contentType">text/html;charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+			</result>
+       </action>
+	   <action name="nextDImpCFieldPage" class="dImpAddAction" method="nextDImpCFieldPage">
+	 		<result name="success">
+	      		/WEB-INF/jsp/dataImport/dImpConCFieldSelect.jsp
+	      	</result>
+	      	<result name="error" type="chain">
+	      	     <param name="actionName">getDImpAConPage</param> 	
+	      	     <param name="errorStr">${#request.errorStr}</param> 
+	      	</result>
+	   </action>
+	   <action name="nextDImpDFinalPage" class="dImpAddAction" method="nextDImpDFinalPage">
+	 		<result name="success" type="redirectAction">
+	      		<param name="actionName">showDataImpTaskForNew</param>
+	      		<param name="taskName">${#request.taskName}</param> 
+	      	</result>
+	      	<result name="error" type="chain">
+	      	     <param name="actionName">getDImpAConPage</param> 	
+	      	     <param name="errorStr">${#request.errorStr}</param> 
+	      	</result>
+	   </action>
+	   <!-- 根据任务名称获得数据导入任务对象(用于数据库新增完成后回显)-->
+       <action name="showDataImpTaskForNew" class="dImpAddAction" method="showDataImpTaskForNew">
+			<result name="success">/WEB-INF/jsp/dataImport/dImpConDFinal.jsp</result>
+       </action> 
+	</package>
+	<!-- 新增导入数据库任务Ajax功能Action -->
+	<package name="ajax_dataImport" extends="jsondefault" namespace="/ajax_dataImport">
+		<!-- 校验任务名 -->
+		<action name="checkTaskName" class="dataImpAddAjaxAction" method="checkTaskName">
+			<result name="success" type="json"></result>
+		</action>
+		<!-- 获得数据库连接 -->
+		<action name="getDataUrl" class="dataImpAddAjaxAction" method="getDataUrl">
+			<result name="success" type="json"></result>
+		</action>
+		<action name="getUploadFileDir" class="dataImpAddAjaxAction" method="getUploadFileDir">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<!-- 任务列表-->
+        <action name="getImportTaskList" class="dataImpTaskAction" method="findImportTaskList">
+			<result name="success" type="json"></result>
+        </action> 
+        <!-- 任务详细信息-->
+        <action name="showTaskDetail" class="dataImpTaskAction" method="showTaskDetail">
+			<result name="success" type="json"></result>
+        </action>
+        <!-- 判断是否有正在执行任务 -->
+        <action name="judgeExecute" class="dataImpTaskAction" method="judgeExecute">
+        	<result name="success" type="json"></result>
+        </action>
+        <!-- 执行任务-->
+        <action name="executeTask" class="dataImpTaskAction" method="executeTask">
+        	<result name="success" type="json"></result>
+        </action>
+        <action name="startTask" class="dataImpTaskAction" method="startTask">
+        	<result name="success" type="json"></result>
+        </action>
+        <!-- 添加任务 -->
+        <action name="saveTask" class="dataImpTaskAction" method="saveTask">
+	        <result name="success" type="json">
+		        <param name="root">isSave</param>
+	        </result>
+        </action>
+        <action name="editTask" class="dataImpTaskAction" method="editTask">
+	        <result name="success" type="json">
+		        <param name="root">dataimporttask</param>
+	        </result>
+        </action>
+        <!-- 删除任务--> 
+        <action name="deleteTaskById" class="dataImpTaskAction" method="deleteTaskById">
+        	<result name="success" type="json"></result>
+        </action>
+        <!-- 获取任务进度--> 
+        <action name="taskValueMax" class="dataImpTaskAction" method="taskValueMax">
+        	<result name="success" type="json">
+        		<param name="root">taskValueMaxJsonResult</param> 
+        	</result>
+        </action>
+	</package>
+	<!-- =================add by RenSx start========================= -->
+	<package name="dataManage" extends="jsondefault" namespace="/dataManage">
+		<action name="findAllTables" class="dataManageAction" method="findAllTables">
+        	<result name="success" type="json">
+        		<param name="root">outerM</param>
+        	</result>
+        </action>
+        <action name="queryTopFiveRecords" class="dataManageAction" method="queryTopFiveRecords">
+        	<result name="success" type="json">
+        		<param name="root">finalList</param>
+        	</result>
+        </action>
+        <action name="queryTopFiveRecordsBySQL" class="dataManageAction" method="queryTopFiveRecordsBySQL">
+        	<result name="success" type="json">
+        		<param name="root">finalList</param>
+        	</result>
+        </action>
+        <action name="getTitanStructure" class="dataManageAction" method="getTitanStructure">
+        	<result name="success" type="json">
+        		<param name="root">titanList</param>
+        	</result>
+        </action>
+	</package>
+	<package name="titanStruManage" extends="jsondefault" namespace="/titanStruManage">
+		<action name="addTitanVertex" class="titanStruAction" method="addTitanVertex">
+        	<result name="success" type="json">
+        		<param name="root">titanList</param>
+        	</result>
+        </action>
+        <action name="updateTitanVertex" class="titanStruAction" method="updateTitanVertex">
+        	<result name="success" type="json">
+        		<param name="root">titanList</param>
+        	</result>
+        </action>
+        <action name="deleteTitanVertex" class="titanStruAction" method="deleteTitanVertex">
+        	<result name="success" type="json">
+        		<param name="root">titanList</param>
+        	</result>
+        </action>
+        <action name="addTitanEdge" class="titanStruAction" method="addTitanEdge">
+        	<result name="success" type="json">
+        		<param name="root">titanList</param>
+        	</result>
+        </action>
+        <action name="updateTitanEdge" class="titanStruAction" method="updateTitanEdge">
+        	<result name="success" type="json">
+        		<param name="root">titanList</param>
+        	</result>
+        </action>
+        <action name="deleteTitanEdge" class="titanStruAction" method="deleteTitanEdge">
+        	<result name="success" type="json">
+        		<param name="root">titanList</param>
+        	</result>
+        </action>
+	</package>
+	<!-- =================add by RenSx end========================= -->
+	<package name="importData" extends="base" namespace="/import">
+		<!-- 导入页面 -->
+        <action name="getImportPage" class="dataImpTaskAction" method="viewImportPage">
+        	<result name="success">/WEB-INF/jsp/dataImport/importData.jsp</result>
+        </action>
+	</package>
+	<package name="demo" extends="base" namespace="/edit">
+		<!-- 导入页面 -->
+        <action name="demoEdit" class="testDatabaseConAction" method="demoEdit">
+        	<result name="success">/WEB-INF/jsp/demo/ueditorDemo.jsp</result>
+        </action>
+	</package>
+</struts>

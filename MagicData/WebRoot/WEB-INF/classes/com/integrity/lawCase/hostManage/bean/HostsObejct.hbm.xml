@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-30 18:47:12 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.integrity.lawCase.hostManage.bean.HostsObject" table="HostsObject" >
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="hostIp" type="string">
+            <column name="HostIp" length="50">
+                <comment>主机ip</comment>
+            </column>
+        </property>
+        <property name="hostName" type="string">
+            <column name="HostName" length="50">
+                <comment>主机名</comment>
+            </column>
+        </property>
+        <property name="hostType" type="string">
+            <column name="HostType" length="50">
+                <comment>主机类型</comment>
+            </column>
+        </property>
+        <property name="operateSystem" type="string">
+            <column name="OperateSystem" length="50">
+                <comment>操作系统</comment>
+            </column>
+        </property>
+        <property name="provider" type="string">
+            <column name="Provider" length="50">
+                <comment>提供商</comment>
+            </column>
+        </property>
+        <property name="hostState" type="string">
+            <column name="HostState" length="50">
+                <comment>主机状态</comment>
+            </column>
+        </property>
+        <property name="responsiblePerson" type="string">
+            <column name="ResponsiblePerson" length="200">
+                <comment>责任人</comment>
+            </column>
+        </property>
+        <property name="importantLevel" type="string">
+            <column name="ImportantLevel" length="50">
+                <comment>重要等级</comment>
+            </column>
+        </property>
+        <property name="directions" type="string">
+            <column name="Directions" length="65535">
+                <comment>方向</comment>
+            </column>
+        </property>
+        <property name="location" type="string">
+            <column name="Location" length="150">
+                <comment>所在地</comment>
+            </column>
+        </property>
+        <property name="controlState" type="string">
+            <column name="ControlState" length="50">
+                <comment>控制状态</comment>
+            </column>
+        </property>
+        <property name="macAddress" type="string">
+            <column name="MacAddress" length="200">
+                <comment>Mac地址</comment>
+            </column>
+        </property>
+        <property name="installationService" type="string">
+            <column name="InstallationService" length="65535">
+                <comment>安装服务</comment>
+            </column>
+        </property>
+        <property name="descriptionContents" type="string">
+            <column name="DescriptionContents" length="65535">
+                <comment>描述信息</comment>
+            </column>
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="CreateTime" length="190">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="remarkes1" type="string">
+            <column name="Remarkes1" length="500">
+                <comment>备用1</comment>
+            </column>
+        </property>
+        <property name="remarkes2" type="string">
+            <column name="Remarkes2" length="1000">
+                <comment>备用2</comment>
+            </column>
+        </property>
+        <property name="remarkes3" type="java.lang.Integer">
+            <column name="Remarkes3">
+                <comment>备用3</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.integrity.dataSmart.titanGraph.bean.DataStatistics" table="DataStatistics" >
+		<id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="createPerson" type="java.lang.String">
+            <column name="createPerson" length="50" >
+                <comment>创建人</comment>
+            </column>
+        </property>
+        <property name="dataDescription" type="java.lang.String">
+            <column name="dataDescription" length="65535" >
+                <comment>数据描述</comment>
+            </column>
+        </property>
+        <property name="dataType" type="java.lang.String">
+            <column name="dataType" length="50" >
+                <comment>数据类别</comment>
+            </column>
+        </property>
+        <property name="labelName" type="java.lang.String" >
+            <column name="labelName" length="100" >
+                <comment>数据名称、标签</comment>
+            </column>
+        </property>
+        <property name="area" type="java.lang.String" >
+            <column name="area" length = "100" >
+                <comment>地域</comment>
+            </column>
+        </property>
+        <property name="dataAcount" type="java.math.BigInteger">
+            <column name="dataAcount" >
+                <comment>数据量</comment>
+            </column>
+        </property>
+        <property name="bornTime" type="java.util.Date">
+            <column name="bornTime" >
+                <comment>创建 时间</comment>
+            </column>
+        </property>
+	</class>
+</hibernate-mapping>

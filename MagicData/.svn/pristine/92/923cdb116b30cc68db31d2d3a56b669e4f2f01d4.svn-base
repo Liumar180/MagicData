@@ -1,0 +1,681 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.configuration.BaseConfiguration;
+
+import com.inter.bean.Email;
+import com.inter.main.EmailHandler;
+import com.thinkaurelius.titan.core.TitanFactory;
+import com.thinkaurelius.titan.core.TitanGraph;
+import com.tinkerpop.blueprints.Vertex;
+import org.apache.log4j.Logger;
+
+
+Logger logger = Logger.getLogger(Email.class);
+
+TitanGraph graph = TitanFactory.build().set("storage.backend", "hbase").set("storage.hostname", "192.168.20.174").open();
+		
+String pa=EmailHandler.insertDirTree("D:\\邮件数据安全测评\\数据\\emlTrue\\aei.org\\Exchange benjamin.zycher\\AEA");
+
+public boolean processRow(StepMetaInterface smi,StepDataInterface sdi) throws KettleException
+
+{
+
+Object[] r = getRow();
+
+if (r == null) {
+
+	setOutputDone();
+
+	return false;
+
+}
+
+r= createOutputRow(r, data.outputRowMeta.size());
+
+EmailHandler.init();
+String url = get(Fields.In, "url").getString(r);
+String emlPath = get(Fields.In, "emlpath").getString(r);
+String eP = emlPath.substring(10);      
+String attachfilepath = "D:\\nativeData";
+
+		Email mail = EmailHandler.analyticalEML(url, attachfilepath,eP);
+	    String password = "";//密码
+	    String email="";
+	    String title="";
+	    String content="";
+	    String from = "";
+	    List to = new ArrayList();
+	    List cc = new ArrayList();
+	    if(mail != null){
+	    	
+	    	email = mail.getFromMail();
+	    	
+	    	title = mail.getTitle();//主题
+	    	
+	    	content = mail.getContent();//正文内容
+	    	
+	    	from = mail.getFromMail();//发件人
+	    	to = mail.getToMails();//收件人
+	    	cc = mail.getCopyToMails();//抄送人
+	    }
+		
+		List toAndcc = new ArrayList();
+		toAndcc.addAll(to);
+		toAndcc.addAll(cc);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        
+        
+        //发送时间
+        Long time = 0L;
+      	Long eventtime = 0L;//事件时间
+		try {
+			eventtime = simpleDateFormat.parse(mail.getSendtime()).getTime();
+			time = eventtime;
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		
+		//解析完成后根据messageid判断数据是否存在
+		int stat = EmailHandler.getEmails(mail.getMessageID());
+		if(stat < 1){
+		
+			if((null!=email) && (!email.equals(""))){
+				Object EmailIte = null;
+						if(email != null && !"".equals(email)){
+							EmailIte =graph.query().has("email",email).vertices();
+						}
+						Vertex tmp = null;
+						boolean t =  false;
+						if(EmailIte != null){t = ((Iterable) EmailIte).iterator().hasNext();}
+				 while(t){
+					tmp = (Vertex)((Iterable)EmailIte).iterator().next();
+					Set s = tmp.getPropertyKeys();
+	           if(s != null){
+					for(int i=0;i<s.size();i++){
+						if(tmp.getProperty("type").toString().equals("Email")){
+							break;
+						}
+					}
+	            }
+					break;
+
+				}
+				
+				if(tmp != null){
+					Vertex person =null;
+					try{
+					person = (Vertex)tmp.query().labels(new String[]{"own"}).vertices().iterator().next();
+					}catch(java.util.NoSuchElementException e){
+					e.printStackTrace();
+					
+					}
+					if(person !=null){
+						System.out.println("-----存在人物对象------");
+					
+						Object childs = person.query().labels(new String[]{"own"}).vertices();
+
+						boolean emailEvexist = false;
+						for (Iterator iterator = ((Iterable)childs).iterator(); iterator.hasNext();) {
+							Vertex v = (Vertex) iterator.next();
+							
+							if(v != null){
+							if("Email".equals(v.getProperty("type"))){
+	                        if(v.getProperty("email").equals(email)){
+	                        	//如果邮箱相同，对邮箱信息进行更新
+	                        	emailEvexist = true;
+								}
+							}
+	            
+						}
+					if(!emailEvexist){//邮箱新增（存在人）
+						System.out.println("新增、、、库中不存有此邮箱");
+						Vertex emailEveve = null;//全局邮件时间对象
+							if(email!=null && !"".equals(email)){
+								Vertex emailtmp = graph.addVertex(null);
+								emailtmp.setProperty("type","Email");
+								emailtmp.setProperty("email",email);
+								if(password != null && !"".equals(password)){
+	                            emailtmp.setProperty("password", password);
+	                            }
+								graph.addEdge(null,person,emailtmp,"own");
+							}	
+							//邮件事件处理
+							//邮件事件(to)
+							
+							if(to != null && to.size() != 0 && !to.get(0).equals("")){
+							for(int i=0;i< to.size();i++){
+							boolean fromto = false;
+							Iterable personto = graph.query().has("email",to.get(i)).vertices();
+							if(personto.iterator().hasNext()){
+							Vertex pto = (Vertex) personto.iterator().next();
+								
+							for (Iterator iterator1 = ((Iterable)personto).iterator(); iterator1.hasNext();) {
+								Vertex v1 = (Vertex) iterator1.next();
+								if(v1 != null){
+								if("Email".equals(v1.getProperty("type"))){
+		                        if(v1.getProperty("email").equals(to.get(i))){
+		                        	//如果相等说明 收件人是存在的
+		                        	fromto = true;
+									}
+								}
+		                  }
+								Object perto = null;
+							if(fromto){
+								perto = pto.query().labels(new String[]{"own"}).vertices().iterator().next();
+								if(perto != null){
+									if(emailEveve == null){
+										emailEveve = graph.addVertex(null);
+										 emailEveve.setProperty("type", "EmailEvent");
+										 if(content != null && !content.equals("")){
+											 emailEveve.setProperty("content", content);
+										 }
+										 if(title != null && !title.equals("")){
+											 emailEveve.setProperty("title", title);
+										 }
+										 emailEveve.setProperty("from", from);
+										 emailEveve.setProperty("to", toAndcc);
+										 emailEveve.setProperty("time", time);
+										 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+										 System.out.println("---------新增 setVertexID------");
+										graph.addEdge(null, person, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+										graph.addEdge(null, emailEveve, (Vertex) perto, "emailto").setProperty("eventtime", eventtime);
+									}else{
+										graph.addEdge(null, emailEveve, (Vertex) perto, "emailto").setProperty("eventtime", eventtime);
+									}
+								
+							} 
+							}else{
+									  Vertex p = graph.addVertex(null);
+									  p.setProperty("type", "Person");
+									  
+									  Vertex em  = graph.addVertex(null);
+									  em.setProperty("type", "Email");
+									  em.setProperty("email", to.get(i));
+									  graph.addEdge(null, p, em, "own");
+									  if(emailEveve == null){
+										  emailEveve = graph.addVertex(null);
+										  emailEveve.setProperty("type", "EmailEvent");
+											 if(content != null && !content.equals("")){
+												 emailEveve.setProperty("content", content);
+											 }
+											 if(title != null && !title.equals("")){
+												 emailEveve.setProperty("title", title);
+											 }
+											 emailEveve.setProperty("from", from);
+											 emailEveve.setProperty("to", toAndcc);
+											 emailEveve.setProperty("time", time);
+											 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+											 System.out.println("---------新增 setVertexID------");
+											graph.addEdge(null, person, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+											graph.addEdge(null, emailEveve, p, "emailto").setProperty("eventtime", eventtime);
+									  }else{
+											graph.addEdge(null, emailEveve, p, "emailto").setProperty("eventtime", eventtime);
+									  }
+										 
+									  
+								  }
+								}
+							}
+							}
+							}
+							//邮件事件(cc)
+		                    if(cc != null && cc.size() !=0 && !cc.get(0).equals("")){
+		                    for(int i=0;i< cc.size();i++){
+		                    Vertex pcc = null;
+		                    boolean fromcc = false;
+							Iterable personcc = graph.query().has("email",cc.get(i)).vertices();
+							if(personcc.iterator().hasNext()){
+							pcc = (Vertex) personcc.iterator().next();
+							for (Iterator iterator1 = ((Iterable)personcc).iterator(); iterator1.hasNext();) {
+								Vertex v1 = (Vertex) iterator1.next();
+								if(v1 != null){
+								if("Email".equals(v1.getProperty("type"))){
+		                        if(v1.getProperty("email").equals(cc.get(i))){
+		                        	fromcc = true;
+									}
+								}
+		                  }
+								Object percc = null;
+							if(fromcc){
+								percc = pcc.query().labels(new String[]{"own"}).vertices().iterator().next();
+								
+								if(percc != null){
+									if(emailEveve == null){
+										emailEveve = graph.addVertex(null);
+										 emailEveve.setProperty("type", "EmailEvent");
+										 if(content != null && !content.equals("")){
+											 emailEveve.setProperty("content", content);
+										 }
+										 if(title != null && !title.equals("")){
+											 emailEveve.setProperty("title", title);
+										 }
+										 emailEveve.setProperty("from", from);
+										 emailEveve.setProperty("to", toAndcc);
+										 emailEveve.setProperty("time", time);
+										 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+										 System.out.println("---------新增 setVertexID------");
+										graph.addEdge(null, person, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+										graph.addEdge(null, emailEveve, (Vertex) percc, "emailcc").setProperty("eventtime", eventtime);
+									}else{
+										graph.addEdge(null, emailEveve, (Vertex) percc, "emailcc").setProperty("eventtime", eventtime);
+									}
+								
+								}
+								  }else{
+									  Vertex p = graph.addVertex(null);
+									  p.setProperty("type", "Person");
+									  
+									  Vertex em  = graph.addVertex(null);
+									  em.setProperty("type", "Email");
+									  em.setProperty("email", cc.get(i));
+									  graph.addEdge(null, p, em, "own");
+									  if(emailEveve ==null){
+										  emailEveve = graph.addVertex(null);
+										  emailEveve.setProperty("type", "EmailEvent");
+											 if(content != null && !content.equals("")){
+												 emailEveve.setProperty("content", content);
+											 }
+											 if(title != null && !title.equals("")){
+												 emailEveve.setProperty("title", title);
+											 }
+											 emailEveve.setProperty("from", from);
+											 emailEveve.setProperty("to", toAndcc);
+											 emailEveve.setProperty("time", time);
+											 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+											 System.out.println("---------新增 setVertexID------");
+											graph.addEdge(null, person, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+											graph.addEdge(null, emailEveve, p, "emailcc").setProperty("eventtime", eventtime);
+									  }else{
+											graph.addEdge(null, emailEveve, p, "emailcc").setProperty("eventtime", eventtime);
+									  }
+										
+										
+										  
+								   }
+								  }
+		                        }
+		                      }
+		                    }
+							
+						}else{
+							Vertex emailEveve = null;//更新（存在人）
+							System.out.println("更新、、、库中存在当前邮箱");
+							//Object emailto = person.query().labels(new String[]{"emailto"}).vertices();
+							if(to != null && to.size() !=0 && !to.get(0).equals("")){
+								
+							for(int i=0;i<to.size();i++){
+							Vertex pto = null;	
+							Iterable personto = graph.query().has("email",to.get(i)).vertices();
+							
+							boolean eventtoExist = false;
+							if(personto.iterator().hasNext()){
+							pto = (Vertex) personto.iterator().next();
+							
+							
+							
+							for (Iterator iterator1 = personto.iterator(); iterator1.hasNext();) {
+								Vertex v1 = (Vertex) iterator1.next();
+								
+	                            if(to.get(i) != null){
+	                               if(to.get(i).equals(v1.getProperty("email"))){
+	                            	   eventtoExist=true;
+								               }
+	                                      }
+								
+
+							  }
+							}
+							Object perto = null;
+							if(eventtoExist){
+							if(to.get(i)!=null && !"".equals(to.get(i))){
+								perto = pto.query().labels(new String[]{"own"}).vertices().iterator().next();
+								if(perto != null){
+									if(emailEveve == null){
+										emailEveve = graph.addVertex(null);
+										emailEveve.setProperty("type","EmailEvent");
+										if(content != null && !content.equals("")){
+											emailEveve.setProperty("content", content);
+										 }
+										 if(title != null && !title.equals("")){
+											 emailEveve.setProperty("title", title);
+										 }
+										 emailEveve.setProperty("from", from);
+										 emailEveve.setProperty("to", toAndcc);
+										 emailEveve.setProperty("time", time);
+										 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+										 System.out.println("---------新增 setVertexID------");
+										graph.addEdge(null, person, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+										graph.addEdge(null, emailEveve, (Vertex) perto, "emailto").setProperty("eventtime", eventtime);
+									}else{
+										graph.addEdge(null, emailEveve, (Vertex) perto, "emailto").setProperty("eventtime", eventtime);
+									}
+								
+								}
+								}
+							}else{
+								Vertex p = graph.addVertex(null);
+								p.setProperty("type", "Person");
+								
+								Vertex em  = graph.addVertex(null);
+								  em.setProperty("type", "Email");
+								  em.setProperty("email", to.get(i));
+								  graph.addEdge(null, p, em, "own");
+								  
+								if(to.get(i)!=null && !"".equals(to.get(i))){
+									if(emailEveve == null){
+										emailEveve = graph.addVertex(null);
+										emailEveve.setProperty("type","EmailEvent");
+										if(content != null && !content.equals("")){
+											emailEveve.setProperty("content", content);
+										 }
+										 if(title != null && !title.equals("")){
+											 emailEveve.setProperty("title", title);
+										 }
+										 emailEveve.setProperty("from", from);
+										 emailEveve.setProperty("to", toAndcc);
+										 emailEveve.setProperty("time", time);
+										 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+										 System.out.println("---------新增 setVertexID------");
+										graph.addEdge(null, person, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+										graph.addEdge(null, emailEveve, p, "emailto").setProperty("eventtime", eventtime);
+									}else{
+										graph.addEdge(null, emailEveve, p, "emailto").setProperty("eventtime", eventtime);
+									}
+									
+									}
+								
+							}
+							
+							 }
+							}
+							
+							
+                            if(cc != null && cc.size() != 0 && !cc.get(0).equals("")){
+                            for(int i=0;i<cc.size();i++){
+                            	Vertex pcc = null;
+							Iterable personcc = graph.query().has("email",cc.get(i)).vertices();
+							if(personcc.iterator().hasNext()){
+								pcc = (Vertex) personcc.iterator().next();
+							}
+							
+							boolean eventccExist = false;
+							for (Iterator iterator1 = personcc.iterator(); iterator1.hasNext();) {
+								Vertex v1 = (Vertex) iterator1.next();
+	                            if(cc.get(i) != null){
+	                               if(cc.get(i).equals(v1.getProperty("email"))){
+	                            	   eventccExist=true;
+								               }
+	                                      }
+								
+
+							}
+							 
+							if(eventccExist){
+								Object  percc = null;
+							if(cc.get(i)!=null && !"".equals(cc.get(i))){
+								percc = pcc.query().labels(new String[]{"own"}).vertices().iterator().next();
+								 
+								if(percc != null){
+									if(emailEveve == null){
+										emailEveve = graph.addVertex(null);
+										emailEveve.setProperty("type","EmailEvent");
+										if(content != null && !content.equals("")){
+											emailEveve.setProperty("content", content);
+										 }
+										 if(title != null && !title.equals("")){
+											 emailEveve.setProperty("title", title);
+										 }
+										 emailEveve.setProperty("from", from);
+										 emailEveve.setProperty("to", toAndcc);
+										 emailEveve.setProperty("time", time);
+										 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+										 System.out.println("---------新增 setVertexID------");
+										graph.addEdge(null, person, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+										graph.addEdge(null, emailEveve, (Vertex) percc, "emailcc").setProperty("eventtime", eventtime);
+									}else{
+										graph.addEdge(null, emailEveve, (Vertex) percc, "emailcc").setProperty("eventtime", eventtime);
+									}
+								
+								}
+								}
+							}else{
+								Vertex p = graph.addVertex(null);
+								p.setProperty("type", "Person");
+								
+								Vertex em  = graph.addVertex(null);
+								  em.setProperty("type", "Email");
+								  em.setProperty("email", cc.get(i));
+								  graph.addEdge(null, p, em, "own");
+								
+								if(cc.get(i)!=null && !"".equals(cc.get(i))){
+									if(emailEveve == null){
+										emailEveve = graph.addVertex(null);
+										emailEveve.setProperty("type","EmailEvent");
+										if(content != null && !content.equals("")){
+											emailEveve.setProperty("content", content);
+										 }
+										 if(title != null && !title.equals("")){
+											 emailEveve.setProperty("title", title);
+										 }
+										 emailEveve.setProperty("from", from);
+										 emailEveve.setProperty("to", toAndcc);
+										 emailEveve.setProperty("time", time);
+										 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+										 System.out.println("---------新增 setVertexID------");
+										graph.addEdge(null, person, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+										graph.addEdge(null, emailEveve, p, "emailcc").setProperty("eventtime", eventtime);
+									}else{
+										graph.addEdge(null, emailEveve, p, "emailcc").setProperty("eventtime", eventtime);
+									}
+									
+									
+									}
+								
+								
+								
+							}
+                            }
+						}
+						
+						}
+							
+						}
+					}
+					
+				}else{
+					System.out.println("--------新增数据--------");
+					Vertex emailEveve = null;//全局邮件时间对象
+					/*********新加邮箱数据信息*********/
+					Vertex personNew = graph.addVertex(null);//人物对象
+					personNew.setProperty("type","Person");
+					
+					//邮件
+					Vertex emailtmp = graph.addVertex(null);
+					emailtmp.setProperty("type","Email");
+	                if(email != null && !email.equals("")){
+	                emailtmp.setProperty("email",email);
+	                }
+	                if(password != null && !password.equals("")){
+	                emailtmp.setProperty("password", password);
+	                }
+					graph.addEdge(null,personNew,emailtmp,"own");
+					//邮件事件(to)
+					if(to != null && to.size() !=0 && !to.get(0).equals("")){
+					for(int i=0;i<to.size();i++){
+					Iterable personto = graph.query().has("email",to.get(i)).vertices();
+					
+					Vertex tmpto = null;
+					boolean tto =  false;
+						if(personto != null){tto = personto.iterator().hasNext();}
+				 while(tto){
+					 tmpto = (Vertex) personto.iterator().next();
+					Set s = tmpto.getPropertyKeys();
+	           if(s != null){
+					for(int j=0;j<s.size();j++){
+						if(tmpto.getProperty("type").toString().equals("Email")){
+							break;
+						}
+					}
+	            }
+					break;
+
+				}
+				 Vertex per = null;
+				 if(tmpto != null){
+					  per = (Vertex)tmpto.query().labels(new String[]{"own"}).vertices().iterator().next();
+					  
+						if(per != null){
+						if(emailEveve == null){
+							emailEveve = graph.addVertex(null);
+							 emailEveve.setProperty("type", "EmailEvent");
+							 if(content != null && !content.equals("")){
+								 emailEveve.setProperty("content", content);
+							 }
+							 if(title != null && !title.equals("")){
+								 emailEveve.setProperty("title", title);
+							 }
+							 emailEveve.setProperty("from", from);
+							 emailEveve.setProperty("to", toAndcc);
+							 emailEveve.setProperty("time", time);
+							 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+							 System.out.println("---------新增 setVertexID------");
+							graph.addEdge(null, personNew, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+							graph.addEdge(null, emailEveve, per, "emailto").setProperty("eventtime", eventtime);
+							
+						}else{
+							graph.addEdge(null, emailEveve, per, "emailto").setProperty("eventtime", eventtime);
+						}
+						 
+						}
+						}else{
+							  Vertex p = graph.addVertex(null);
+							  p.setProperty("type", "Person");
+							  
+							  Vertex em  = graph.addVertex(null);
+							  em.setProperty("type", "Email");
+							  em.setProperty("email", to.get(i));
+							  graph.addEdge(null, p, em, "own");
+							  if(emailEveve == null){
+								  emailEveve = graph.addVertex(null);
+								  emailEveve.setProperty("type", "EmailEvent");
+									 if(content != null && !content.equals("")){
+										 emailEveve.setProperty("content", content);
+									 }
+									 if(title != null && !title.equals("")){
+										 emailEveve.setProperty("title", title);
+									 }
+									 emailEveve.setProperty("from", from);
+									 emailEveve.setProperty("to", toAndcc);
+									 emailEveve.setProperty("time", time);
+									 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+									 System.out.println("---------新增 setVertexID------");
+									graph.addEdge(null, personNew, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+									graph.addEdge(null, emailEveve, p, "emailto").setProperty("eventtime", eventtime);
+							  }else{
+									graph.addEdge(null, emailEveve, p, "emailto").setProperty("eventtime", eventtime);
+							  }
+								 
+						}
+					}
+					}
+					
+					//邮件事件(cc)
+					if(cc != null && cc.size() !=0 && !cc.get(0).equals("")){
+					for(int i=0;i<cc.size();i++){
+					Iterable personcc = graph.query().has("email",cc.get(i)).vertices();
+					/****/
+					Vertex tmpcc = null;
+					boolean tcc =  false;
+						if(personcc != null){tcc = personcc.iterator().hasNext();}
+				 while(tcc){
+					 tmpcc = (Vertex) personcc.iterator().next();
+					Set s = tmpcc.getPropertyKeys();
+	           if(s != null){
+					for(int j=0;j<s.size();j++){
+						if(tmpcc.getProperty("type").toString().equals("Email")){
+							break;
+						}
+					}
+	            }
+					break;
+
+				}
+				 Vertex perc = null;
+						/****/
+					if(tmpcc != null){
+						perc = (Vertex)tmpcc.query().labels(new String[]{"own"}).vertices().iterator().next();
+						if(perc != null){
+							if(emailEveve == null){
+								emailEveve = graph.addVertex(null);
+								 emailEveve.setProperty("type", "EmailEvent");
+								 if(content != null && !content.equals("")){
+									 emailEveve.setProperty("content", content);
+								 }
+								 if(title != null && !title.equals("")){
+									 emailEveve.setProperty("title", title);
+								 }
+								 emailEveve.setProperty("from", from);
+								 emailEveve.setProperty("to", toAndcc);
+								 emailEveve.setProperty("time", time);
+								 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+								 System.out.println("---------新增 setVertexID------");
+								graph.addEdge(null, personNew, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+								graph.addEdge(null, emailEveve, perc, "emailcc").setProperty("eventtime", eventtime);
+							}else{
+								graph.addEdge(null, emailEveve, perc, "emailcc").setProperty("eventtime", eventtime);
+							}
+						 
+						}
+						}else{
+
+							Vertex p = graph.addVertex(null);
+							p.setProperty("type", "Person");
+							
+							Vertex em  = graph.addVertex(null);
+							  em.setProperty("type", "Email");
+							  em.setProperty("email", cc.get(i));
+							  graph.addEdge(null, p, em, "own");
+							if(emailEveve == null){
+								emailEveve = graph.addVertex(null);
+								emailEveve.setProperty("type", "EmailEvent");
+								 if(content != null && !content.equals("")){
+									 emailEveve.setProperty("content", content);
+								 }
+								 if(title != null && !title.equals("")){
+									 emailEveve.setProperty("title", title);
+								 }
+								 emailEveve.setProperty("from", from);
+								 emailEveve.setProperty("to", toAndcc);
+								 emailEveve.setProperty("time", time);
+								 mail.setVertexID(emailEveve.getId().toString());//设置VertexID值
+								 System.out.println("---------新增 setVertexID------");
+								graph.addEdge(null, personNew, emailEveve, "emailfrom").setProperty("eventtime", eventtime);
+								graph.addEdge(null, emailEveve, p, "emailcc").setProperty("eventtime", eventtime);
+							}else{
+								graph.addEdge(null, emailEveve, p, "emailcc").setProperty("eventtime", eventtime);
+							}
+							 
+					  
+						}
+					}
+				}
+					
+				}
+				System.out.println("Titan Commit...");
+		          graph.commit();
+		        EmailHandler.emailHandler(mail);
+		        System.out.println("mail solr ok.. |id:"+mail.getId()+"|vertexid:"+mail.getVertexID());
+			}
+		}
+
+ putRow(data.outputRowMeta, r);
+
+ return true;
+
+ }
+

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-30 18:47:12 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.integrity.system.dataType.bean.DataObject" table="DataObject" >
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="50">
+                <comment>对象名称</comment>
+            </column>
+        </property>
+        <property name="details" type="string">
+            <column name="details" length="50">
+                <comment>对象描述</comment>
+            </column>
+        </property>
+        <property name="property" type="string">
+            <column name="property" length="500">
+                <comment>属性串</comment>
+            </column>
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="CreateTime" length="190">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="remarkes1" type="string">
+            <column name="Remarkes1" length="500">
+                <comment>备用1</comment>
+            </column>
+        </property>
+        <property name="remarkes2" type="string">
+            <column name="Remarkes2" length="1000">
+                <comment>备用2</comment>
+            </column>
+        </property>
+        <property name="remarkes3" type="java.lang.Integer">
+            <column name="Remarkes3">
+                <comment>备用3</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

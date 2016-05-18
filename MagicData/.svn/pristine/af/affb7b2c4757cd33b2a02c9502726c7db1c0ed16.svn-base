@@ -1,0 +1,5 @@
+systemctl stop NetworkManager
+systemctl disable NetworkManager
+systemctl restart network
+systemctl stop firewalld.service
+systemctl disable firewalld.service

@@ -1,0 +1,29 @@
+package com.integrity.dataSmart.particple.util;
+
+/**
+ * @author liuBf
+ *
+ */
+public class WordCount {
+	
+    private String word;
+    private int count;
+	public WordCount(String key, int count2) {
+		this.word = key;
+		this.count = count2;
+	}
+	public String getWord() {
+		return word;
+	}
+	public void setWord(String word) {
+		this.word = word;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+    
+  
+}

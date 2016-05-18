@@ -1,0 +1,5 @@
+package com.integrity.dataSmart.titanGraph.dao;
+
+public interface DataShowDao {
+
+}

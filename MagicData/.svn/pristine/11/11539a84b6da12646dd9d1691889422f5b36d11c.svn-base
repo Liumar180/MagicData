@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.integrity.dataSmart.titanGraph.bean.GroupMembersBean" table="TB_RNS_QQ_GROUPLIST" >
+		<id name="id">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="membernum" type="string">
+            <column name="MEMBERNUM" length="10" >
+                <comment>qq群组成员</comment>
+            </column>
+        </property>
+        <property name="memberRemark" type="string">
+            <column name="MEMBERREMARK" length="10" >
+                <comment>群中备注名</comment>
+            </column>
+        </property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,40 @@
+blockquote{
+	border:2px dotted #399ab2;
+}
+h2{
+        margin: 10px 0;
+        font-family: 'Microsoft Yahei';
+        text-align: left;
+        padding: 6px 20px;
+        color: #fff;
+        background: #19a3d5;
+        font-size: 20px;
+        border-radius: 4px;
+        clear: both;
+}
+h3 { 
+       margin: 10px 0;
+        font-family: 'Microsoft Yahei';
+        padding: 6px 20px;
+        background: #3dbcdf;
+        color: #fff;
+        font-size: 18px;
+        border-radius: 4px;
+        clear: both;
+}
+.cnblogs_Highlighter{
+	border:1px dashed #ADD8E6;
+}
+.note {
+        margin: 10px 0;
+        padding: 15px 20px 15px 60px;
+        background: #FCFAA9 url('http://images.cnblogs.com/cnblogs_com/libaoheng/305804/o_yellow-pin.png') no-repeat 20px 0;
+        font-size: 15px;
+        font-family: 'Microsoft Yahei';
+        box-shadow: 0 0 8px #aaa;
+        border:2px solid #56c2df;
+        clear: both;
+}
+.nb{
+        color:#e25832;
+}

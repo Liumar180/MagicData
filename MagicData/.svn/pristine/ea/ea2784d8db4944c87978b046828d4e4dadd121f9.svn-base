@@ -1,0 +1,186 @@
+@charset "utf-8";
+
+/*
+ * Copyright 2005-2015 shopxx.net. All rights reserved.
+ * Support: http://www.shopxx.net
+ * License: http://www.shopxx.net/license
+ * 
+ * Style - Product
+ * Version: 4.0
+ */
+
+/* ---------- Product ---------- */
+
+.product .b2cBanner {
+	height: 350px;
+	background: url(../images/product_b2c_banner.jpg) center 0px no-repeat;
+}
+
+.product .subNav {
+	height: 40px;
+	line-height: 40px;
+	margin-bottom: 30px;
+	font-size: 14px;
+	background-color: #333333;
+}
+
+.product .subNav ul {
+	width: 1190px;
+	margin: 0px auto;
+	background-color: #333333;
+}
+
+.product .subNav ul.fixed {
+	margin-left: -595px;
+	position: fixed;
+	_position: absolute;
+	left: 50%;
+	top: 0px;
+	_top: expression(documentElement.scrollTop);
+	z-index: 10;
+	filter: alpha(opacity = 80);
+	opacity: 0.8;
+}
+
+.product .subNav li {
+	float: left;
+}
+
+.product .subNav li a {
+	display: block;
+	padding: 0px 40px;
+	color: #ffffff;
+	-webkit-transition: 0.5s;
+	-moz-transition: 0.5s;
+	transition: 0.5s;
+}
+
+.product .subNav li a:hover {
+	background-color: #ffb219;
+}
+
+.product .subNav li a.current {
+	background-color: #ff9900;
+}
+
+.product .main {
+	width: 1088px;
+	padding: 0px 50px;
+	margin: 0px auto 30px auto;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #dddddd;
+}
+
+.product .main div {
+	padding: 50px 0px;
+	border-bottom: 1px solid #dddddd;
+}
+
+.product .main div.runtime {
+	border-bottom: none;
+}
+
+.product .main strong {
+	line-height: 40px;
+	display: block;
+	margin-bottom: 30px;
+	color: #333333;
+	font-size: 24px;
+	font-weight: normal;
+}
+
+.product .main p {
+	line-height: 30px;
+	font-size: 16px;
+}
+
+.product .main p span {
+	color: #999999;
+}
+
+.product .main li {
+	margin-bottom: 50px;
+}
+
+.product .main li strong {
+	line-height: 30px;
+	display: block;
+	margin-bottom: 30px;
+	font-size: 20px;
+	font-weight: normal;
+}
+
+.product .main li strong em {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	display: inline-block;
+	*zoom: 1;
+	*display: inline;
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: normal;
+	text-align: center;
+	background: url(../images/product.gif) 0px 0px no-repeat;
+}
+
+.product .main li strong span {
+	color: #ff9900;
+}
+
+.product .main li img {
+	float: left;
+	margin-right: 20px;
+}
+
+.product .main .module p {
+	height: 1000px;
+	position: relative;
+}
+
+.product .main .module img {
+	margin: 0px;
+	position: absolute;
+}
+
+.product .main .module .module1 {
+	top: 0px;
+	left: 0px;
+}
+
+.product .main .module .module2 {
+	top: 0px;
+	left: 0px;
+}
+
+.product .main .module .module3 {
+	top: 0px;
+	right: 0px;
+}
+
+.product .main .module .module4 {
+	top: 300px;
+	left: 0px;
+}
+
+.product .main .module .module5 {
+	top: 300px;
+	right: 0px;
+}
+
+.product .main .module .module6 {
+	top: 600px;
+	left: 0px;
+}
+
+.product .main .module .module7 {
+	top: 700px;
+	left: 450px;
+}
+
+.product .main .module .module8 {
+	top: 600px;
+	right: 80px;
+}

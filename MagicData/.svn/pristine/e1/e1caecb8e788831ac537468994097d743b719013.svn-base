@@ -1,0 +1,8 @@
+#PostGreSql config
+url=jdbc:postgresql://192.168.40.10:5432/postgres
+username=postgres
+password=postgres
+driver=org.postgresql.Driver
+
+#jsp\u4e2d\u4f7f\u7528
+geoserverMapUrl=http://192.168.40.10/geoserver/chinamap/wms

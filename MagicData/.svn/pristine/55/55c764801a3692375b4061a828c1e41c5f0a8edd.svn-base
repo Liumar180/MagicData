@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!-- 查询<result name="success" type="json"></result>  -->
+	<!-- 案件管理-->
+	<package name="casemanage" extends="base" namespace="/case">
+        <action name="caseMangeIndex" class="caseManageAction" method="caseMangeIndex"> 
+	        <result>/WEB-INF/jsp/lawCase/lawCase.jsp</result>
+        </action>
+        <action name="viewCaseMange" class="caseManageAction" method="viewCaseMange"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/caseManage.jsp</result>
+        </action>
+        
+        <action name="viewCaseDetail" class="caseManageAction" method="viewCaseDetail"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/caseDetail.jsp</result>
+        </action>
+        <action name="viewCaseAdd" class="caseManageAction" method="viewCaseAdd"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/caseAdd.jsp</result>
+        </action>
+        <action name="viewCaseImport" class="caseManageAction" method="viewCaseImport"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/caseImport.jsp</result>
+        </action>
+        <action name="viewCaseUpdate" class="caseManageAction" method="viewCaseUpdate"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/caseAdd.jsp</result>
+        </action>
+        <action name="deleteCase" class="caseManageAction" method="deleteCase"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/skip.jsp</result>
+        </action>
+        <action name="viewWorkRecordAdd" class="caseManageAction" method="viewWorkRecordAdd"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/workRecordAdd.jsp</result>
+        </action>
+        <action name="viewRecordUpdate" class="caseManageAction" method="viewRecordUpdate"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/workRecordAdd.jsp</result>
+        </action>
+        
+        <action name="viewWorkAllocationAdd" class="caseManageAction" method="viewWorkAllocationAdd"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/workAllocationAdd.jsp</result>
+        </action>
+        <action name="viewAllocationUpdate" class="caseManageAction" method="viewAllocationUpdate"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/workAllocationAdd.jsp</result>
+        </action>
+        <action name="saveCaseRelation" class="caseManageAction" method="saveCaseRelation"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/skip.jsp</result>
+        </action>
+        <action name="caseRelationDetail" class="caseManageAction" method="caseRelationDetail"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/relationDetail.jsp</result>
+        </action>
+	</package>
+	<!-- 案件json -->
+	<package name="caseajax" extends="jsondefault" namespace="/ajaxCase">
+		<!-- 保存案件-->
+		<action name="saveCase" class="caseManageAction" method="saveCase"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 修改案件-->
+        <action name="updateCase" class="caseManageAction" method="updateCase"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <!-- 删除案件-->
+<!--         <action name="deleteCase" class="caseManageAction" method="deleteCase">  -->
+<!-- 	        <result name="success" type="json"></result> -->
+<!--         </action> -->
+        <!-- 案件列表-->
+        <action name="getCaseList" class="caseManageAction" method="findCaseList">
+           <result name="success" type="json"></result> 
+        </action>
+		<!-- 案件列表删除 -->
+        <action name="deleteCases" class="caseManageAction" method="deleteCases"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <!-- 根据类型查询案件 -->
+        <action name="findObjectsByType" class="caseManageAction" method="findObjectsByType"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <!-- 案件名称查询列表 -->
+        <action name="findCaseByName" class="caseManageAction" method="findCaseByName"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <!-- 案件删除关联对象 -->
+        <action name="deleteCaseRelationObj" class="caseManageAction" method="deleteCaseRelationObj"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <!-- 删除案件工作记录 -->
+        <action name="deleteWorkRecord" class="caseManageAction" method="deleteWorkRecord"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <!-- 查询工作记录列表 -->
+        <action name="findRecordListPage" class="caseManageAction" method="findRecordListPage"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <!-- 删除案件工作配置 -->
+        <action name="deleteWorkAllocation" class="caseManageAction" method="deleteWorkAllocation"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <!-- 查询工作配置列表 -->
+        <action name="findAllocationListPage" class="caseManageAction" method="findAllocationListPage"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <action name="saveRecord" class="caseManageAction" method="saveRecord"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <action name="updateRecord" class="caseManageAction" method="updateRecord"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <action name="saveAllocation" class="caseManageAction" method="saveAllocation"> 
+	        <result name="success" type="json"></result>
+        </action>
+        <action name="updateAllocation" class="caseManageAction" method="updateAllocation"> 
+	        <result name="success" type="json"></result>
+        </action>
+	</package>
+	<!-- 人员管理-->
+	 <package name="peopleajax" extends="jsondefault" namespace="/ajaxPeopel">
+        <action name="peopleMangeList" class="peopleManageAction" method="peopleMangeList">
+			<result name="success" type="json"></result>
+        </action>
+	</package> 
+	<package name="peoplemanage" extends="base" namespace="/">
+        <action name="peopleMangeIndex" class="peopleManageAction" method="peopleMangeIndex"> 
+	        <result>/WEB-INF/jsp/lawCase/peopleManage/peopleList.jsp</result>
+        </action>
+        <action name="peopleMangeDetail" class="peopleManageAction" method="peopleMangeDetail"> 
+	        <result>/WEB-INF/jsp/lawCase/peopleManage/peopleDetail.jsp</result>
+        </action>
+        <action name="peopleMangeDetailR" class="peopleManageAction" method="peopleMangeDetail"> 
+	        <result>/WEB-INF/jsp/lawCase/peopleManage/peopleDetailR.jsp</result>
+        </action>
+        <action name="peopleMangeSave" class="peopleManageAction" method="peopleMangeSave"> 
+	        <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <action name="peopleMangeAllList" class="peopleManageAction" method="peopleMangeAllList"> 
+	         <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>   
+	         
+        </action>
+        <action name="peopleSeList" class="peopleManageAction" method="peopleSeList"> 
+       		 <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>   
+        </action>
+        <action name="viewPeopleAdd" class="peopleManageAction" method="viewPeopleAdd"> 
+	        <result>/WEB-INF/jsp/lawCase/peopleManage/peopleAdd.jsp</result>
+        </action>
+        <action name="viewPeopleEdit" class="peopleManageAction" method="peopleMangeDetail"> 
+	        <result>/WEB-INF/jsp/lawCase/peopleManage/peopleAdd.jsp</result>
+        </action>
+        <action name="viewPeopleAddR" class="peopleManageAction" method="viewPeopleAdd"> 
+	        <result>/WEB-INF/jsp/lawCase/peopleManage/peopleAdd.jsp</result>
+        </action>
+        <action name="viewPeopleAddRSearch" class="peopleManageAction" method="viewPeopleAddRSearch"> 
+	         <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <action name="viewPeopleDel" class="peopleManageAction" method="viewPeopleDel"> 
+        </action>
+        <action name="exportPeople" class="peopleManageAction" method="exportPeople"> 
+        	<result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <action name="delRelationship" class="peopleManageAction" method="delRelationship"> 
+       		 <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <action name="viewPeoplePV" class="peopleManageAction" method="viewPeoplePV"> 
+	        <result>/WEB-INF/jsp/lawCase/peopleManage/peopleVirtual.jsp</result>
+        </action>
+        <action name="viewPeoplePVSave" class="peopleManageAction" method="viewPeoplePVSave"> 
+	        <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <action name="viewPVDel" class="peopleManageAction" method="viewPVDel"> 
+        </action>
+        <action name="viewPeopleDN" class="peopleManageAction" method="viewPeopleDN"> 
+	        <result>/WEB-INF/jsp/lawCase/peopleManage/peopleDCNO.jsp</result>
+        </action>
+        <action name="viewPeopleDNSave" class="peopleManageAction" method="viewPeopleDNSave"> 
+	        <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <action name="viewDNDel" class="peopleManageAction" method="viewDNDel"> 
+        </action>
+        <action name="viewPeoplePN" class="peopleManageAction" method="viewPeoplePN"> 
+	        <result>/WEB-INF/jsp/lawCase/peopleManage/peoplePhoneNO.jsp</result>
+        </action>
+        <action name="viewPeoplePNSave" class="peopleManageAction" method="viewPeoplePNSave"> 
+	        <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <action name="viewPNDel" class="peopleManageAction" method="viewPNDel"> 
+        </action>
+	</package> 
+	<!-- 主机管理 -->
+	<package name="hostManage" extends="base" namespace="/">
+	<!-- 主机保存 -->
+        <action name="saveHost" class="hostManageAction" method="saveHosts">
+            <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result> 
+        </action>
+        <!-- 添加域名 -->
+        <action name="forDomain" class="hostManageAction" method="forDomain">
+              <result name="success">/WEB-INF/jsp/lawCase/hostManage/addDomainInfo.jsp</result>
+        </action>
+        <action name="addDomain" class="hostManageAction" method="saveDomain">
+	        <result name="success" type="stream">
+		        <param name="contentType">text/html; charset=utf-8</param>
+		        <param name="inputName">inputStream</param>
+	        </result>
+        </action>
+        <!-- 添加漏洞信息 -->
+        <action name="forLoopholes" class="hostManageAction" method="forLoopholes" >
+              <result name="success">/WEB-INF/jsp/lawCase/hostManage/addLoopholesInfo.jsp</result>
+        </action>
+        <action name="addLoopholes" class="hostManageAction" method="saveLoopholes" >
+            <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <!-- 删除主机 -->
+        <action name="delHostsByid" class="hostManageAction" method="delHostsByid" ></action>
+        <!-- 删除域名 -->
+        <action name="delDomain" class="hostManageAction" method="delDomain" >
+            <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <!-- 删除漏洞 -->
+        <action name="delLoopholes" class="hostManageAction" method="delLoopholes" >
+            <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <!-- 删除单个关系 -->
+        <action name="delSingleRelation" class="hostManageAction" method="delSingleRelation" >
+            <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <!-- 更新主机 -->
+        <action name="updateHostsByid" class="hostManageAction" method="updateHostsByid">
+            <result name="success">/WEB-INF/jsp/lawCase/hostManage/addHost.jsp</result>
+        </action>
+        <!-- 更新域名 -->
+        <action name="forUpdateDomain" class="hostManageAction" method="forUpdateDomain">
+            <result name="success">/WEB-INF/jsp/lawCase/hostManage/addDomainInfo.jsp</result>
+        </action>
+        <!-- 更新漏洞 -->
+        <action name="forUpdateLoopholes" class="hostManageAction" method="forUpdateLoopholes">
+            <result name="success">/WEB-INF/jsp/lawCase/hostManage/addLoopholesInfo.jsp</result>
+        </action>
+        <!-- 查看主机卡片列表 -->
+        <action name="info" class="hostManageAction" method="findHostCards"> 
+	        <result name="success" >/WEB-INF/jsp/lawCase/hostManage/hostInfoList.jsp</result>
+        </action>
+        <!-- 主机详情 -->
+        <action name="searchHostDetails" class="hostManageAction" method="searchHostDetails"> 
+	        <result name="success">/WEB-INF/jsp/lawCase/hostManage/hostDetails.jsp</result>
+	        <result name="RELATION">/WEB-INF/jsp/lawCase/hostManage/relDetails.jsp</result>
+        </action>
+        <!-- 添加主机 -->
+        <action name="addHost" class="hostManageAction" method="addHost"> 
+	        <result name="success">/WEB-INF/jsp/lawCase/hostManage/addHost.jsp</result>
+        </action>
+        <!-- 添加关系 -->
+        <action name="saveHostRelation" class="hostManageAction" method="saveHostRelation"> 
+	        <result>/WEB-INF/jsp/lawCase/caseManage/skip.jsp</result>
+        </action>
+	</package>
+	<package name="hostajax" extends="jsondefault" namespace="/">
+	<!-- 查看主机列表 -->
+	    <action name="searchHostsList" class="hostManageAction" method="searchHostsList">
+           <result name="success" type="json"></result> 
+        </action>
+        <!-- 通过主机名查找主机  -->
+        <action name="findHostByName" class="hostManageAction" method="findHostByName"> 
+	        <result name="success" type="json"></result>
+        </action>
+	</package>
+	<!-- 关联关系管理-->
+	<package name="lawCaseRelation" extends="base" namespace="/lawCaseRelation">
+	   <action name="getTypeObj" class="allRelationAction" method="getTypeObj"> 
+	        <result name="success">
+	      		/WEB-INF/jsp/lawCase/allRelationListForConn.jsp
+	      	</result>
+        </action>
+	</package>
+   <package name="ajax_lawCaseRelation" extends="jsondefault" namespace="/ajax_lawCaseRelation">
+		<action name="getSubRelation" class="allRelationAjaxAction" method="getAllRelationForOne">
+			<result name="success" type="json"></result>
+		</action>
+		<action name="addAllRelation" class="allRelationAjaxAction" method="addAllRelation">
+			<result name="success" type="json"></result>
+		</action>
+	</package>
+	<!-- 文件管理-->
+	<package name="fileajax" extends="jsondefault" namespace="/ajaxFile">
+        <action name="fileMangeList" class="fileManageAction" method="fileMangeList">
+			 <result name="success" type="json"></result>
+        </action>
+	</package> 
+	<package name="fileManage" extends="base" namespace="/">
+		 <action name="downloadFile" class="fileDownloadAction" method="downloadFile">  
+		   <result name="success" type="stream">  
+		       <param name="contentDisposition">   
+		          attachment;filename="${fileNameD}"  
+		      </param> 
+		      <param name="inputName">downloadFileStream</param>   
+		   </result>   
+		</action> 
+	   <action name="fileMangeIndex" class="fileManageAction" method="fileMangeIndex"> 
+	        <result name="success">
+	      		/WEB-INF/jsp/lawCase/fileManage/fileList.jsp
+	      	</result>
+        </action>
+        <action name="fileSeList" class="fileManageAction" method="fileSeList"> 
+       		 <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>   
+        </action>
+        <action name="fileMangeAllList" class="fileManageAction" method="fileMangeAllList"> 
+	         <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>   
+        </action>
+        <action name="viewFileAdd" class="fileManageAction" method="viewFileAdd"> 
+	        <result>/WEB-INF/jsp/lawCase/fileManage/addFile.jsp</result>
+        </action>
+         <action name="fileMangeSave" class="fileManageAction" method="fileMangeSave"> 
+        </action>
+       
+        <action name="viewFileEdit" class="fileManageAction" method="fileMangeDetail"> 
+	        <result>/WEB-INF/jsp/lawCase/fileManage/addFile.jsp</result>
+        </action>
+         <action name="viewFileDel" class="fileManageAction" method="viewFileDel"> 
+        </action>
+        <action name="fileMangeDetail" class="fileManageAction" method="fileMangeDetail"> 
+	        <result>/WEB-INF/jsp/lawCase/fileManage/fileDetail.jsp</result>
+        </action>
+        <action name="delRelationship" class="fileManageAction" method="delRelationship"> 
+       		 <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <action name="viewFileAddR" class="fileManageAction" method="viewFileAdd"> 
+	        <result>/WEB-INF/jsp/lawCase/fileManage/addFile.jsp</result>
+        </action>
+        <action name="viewFileAddRSearch" class="fileManageAction" method="viewFileAddRSearch"> 
+	         <result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+        <action name="fileMangeDetailR" class="fileManageAction" method="fileMangeDetail"> 
+	        <result>/WEB-INF/jsp/lawCase/fileManage/fileDetailR.jsp</result>
+        </action>
+        <action name="online" class="fileManageAction" method="toShowIngOnline">
+            <result name="success">/WEB-INF/jsp/showOnline/showingOnline.jsp</result>
+        </action>
+	</package>
+	
+	
+	<!-- 组织管理-->
+	<package name="lawCaseOrg" extends="base" namespace="/lawCaseOrg">
+	 	<action name="exportOrganization" class="orgEditManagerAjaxAction" method="exportOrganization"> 
+        	<result name="success" type="stream">  
+	            <param name="contentType">text/html; charset=utf-8</param>  
+	            <param name="inputName">inputStream</param>  
+	        </result>
+        </action>
+	   <action name="getOrgManagerPage" class="orgInfoManagerAction" method="getOrgManagerPage"> 
+	        <result name="success">
+	      		/WEB-INF/jsp/lawCase/organizationManage/organizationManage.jsp
+	      	</result>
+        </action>
+        <action name="viewOrgDetail" class="orgInfoManagerAction" method="viewOrgDetail"> 
+	        <result>
+	        /WEB-INF/jsp/lawCase/organizationManage/organizationDetail.jsp
+	        </result>
+        </action>
+        <action name="orgRelationDetail" class="orgInfoManagerAction" method="orgRelationDetail"> 
+	        <result> /WEB-INF/jsp/lawCase/organizationManage/orgRelationDetail.jsp</result>
+        </action>
+        <action name="viewOrgAdd" class="orgEditManagerAction" method="viewOrgAdd"> 
+	        <result>
+	        /WEB-INF/jsp/lawCase/organizationManage/organizationEdit.jsp
+	        </result>
+        </action>
+        <action name="viewOrgUpdate" class="orgEditManagerAction" method="viewOrgUpdate"> 
+	        <result>
+	        /WEB-INF/jsp/lawCase/organizationManage/organizationEdit.jsp
+	        </result>
+        </action>
+        <action name="deleteOrg" class="orgEditManagerAction" method="deleteOrg"> 
+	        <result name="success" type="redirectAction">
+	           <param name="actionName">getOrgManagerPage</param> 
+	 		   <param name="namespace">/lawCaseOrg</param>
+	        </result>
+        </action>
+        <action name="saveOrgRelation" class="orgEditManagerAction" method="saveOrgRelation"> 
+	        <result>/WEB-INF/jsp/lawCase/organizationManage/orgRelationSkip.jsp</result>
+        </action>
+	</package>
+	
+	<package name="ajax_lawCaseOrg" extends="jsondefault" namespace="/ajax_lawCaseOrg">
+		<action name="getOrgList" class="orgInfoManagerAjaxAction" method="getOrgList">
+			<result name="success" type="json"></result>
+		</action>
+		<action name="deleteOrgs" class="orgEditManagerAjaxAction" method="deleteOrgs"> 
+	        <result name="success" type="json"></result> 
+        </action>
+        <action name="deleteOrgRelation" class="orgEditManagerAjaxAction" method="deleteOrgRelation"> 
+	       <result name="success" type="json"></result> 
+        </action>
+        <action name="findOrgsByName" class="orgEditManagerAjaxAction" method="findOrgsByName"> 
+	       <result name="success" type="json"></result> 
+	       <result name="error" type="json"></result> 
+        </action>
+        <action name="saveOrg" class="orgEditManagerAjaxAction" method="saveOrg"> 
+	       <result name="success" type="json"></result> 
+        </action>
+        <action name="updateOrg" class="orgEditManagerAjaxAction" method="updateOrg"> 
+	       <result name="success" type="json"></result> 
+        </action>
+        <action name="saveOrgImg" class="orgEditManagerAjaxAction" method="saveOrgImg">
+            <result name="success" type="json">
+            <param name="contentType">
+                    text/html
+            </param>
+            </result> 
+        </action>
+	</package>
+	<!-- 数据导出-->
+	<package name="ajax_exportLC" extends="jsondefault" namespace="/ajax_exportLC">
+		<action name="exportLawObjs" class="exportLCAjaxAction" method="exportLawObjs">
+			<result name="success" type="json"></result>
+		</action>
+	</package>
+	<!-- 数据导入-->
+	<!-- <package name="ajax_importLC" extends="json-default" namespace="/ajax_importLC">
+		<action name="importLawObjs" class="importLCAjaxAction" method="importLawObjs">
+			<result type="json">  
+				<param name="root">dataMap</param>
+	        </result>
+		</action>
+	</package> -->
+	<package name="ajax_importLC" extends="jsondefault" namespace="/ajax_importLC">
+		<action name="importLawObjs" class="importLCAjaxAction" method="importLawObjs">
+			<result type="json" name="success">
+                <param name="contentType">
+                    text/html
+                </param>
+            </result>
+            <result type="json" name="error">
+                <param name="contentType">
+                    text/html
+                </param>
+            </result>
+		</action>
+	</package>
+</struts>

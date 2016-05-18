@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.integrity.lawCase.caseManage.bean.WorkAllocation" table="workAllocation" >
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="caseId" type="java.lang.Long">
+            <column name="caseId" length="20" >
+                <comment>案件id</comment>
+            </column>
+        </property>
+        <property name="type" type="java.lang.String">
+            <column name="type" length="64" not-null="true">
+                <comment>对象类型  从ConstantManage中取值</comment>
+            </column>
+        </property>
+        <property name="objectId" type="java.lang.Long">
+            <column name="objectId" length="20" >
+                <comment>具体对象id</comment>
+            </column>
+        </property>
+        <property name="allocation" type="java.lang.String">
+            <column name="allocation" length="65535" >
+                <comment>方案配置情况</comment>
+            </column>
+        </property>
+        <property name="principal" type="java.lang.String">
+            <column name="principal" length="64" >
+                <comment>负责人</comment>
+            </column>
+        </property>
+        <property name="createTime" type="java.util.Date">
+            <column name="createTime"  not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="result" type="java.lang.String">
+            <column name="result" length="65535">
+                <comment>效果反馈</comment>
+            </column>
+        </property>
+        <property name="memo" type="java.lang.String">
+            <column name="memo" length="65535" >
+                <comment>备注</comment>
+            </column>
+        </property>
+        
+        <property name="by1" type="java.lang.String">
+            <column name="by1" length="64" >
+                <comment>备用</comment>
+            </column>
+        </property>
+        <property name="by2" type="java.lang.String">
+            <column name="by2" length="4000" >
+                <comment>备用</comment>
+            </column>
+        </property>
+        <property name="by3" type="java.lang.Integer">
+            <column name="by3" >
+                <comment>备用</comment>
+            </column>
+        </property>
+        
+    </class>
+</hibernate-mapping>

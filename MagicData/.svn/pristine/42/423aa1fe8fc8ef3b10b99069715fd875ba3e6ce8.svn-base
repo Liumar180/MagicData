@@ -1,0 +1,18 @@
+package com.integrity.dataSmart.titanGraph.service;
+
+import java.util.List;
+
+import com.integrity.dataSmart.titanGraph.bean.QQFriend;
+import com.integrity.dataSmart.titanGraph.bean.QqGroupsBeans;
+import com.thinkaurelius.titan.core.TitanGraph;
+import com.tinkerpop.blueprints.Vertex;
+
+public interface SearchQqRelationService {
+	public List<QqGroupsBeans> queryQqGroups(String qq);
+	public List<List<Vertex>> findGroupRelativeByqqNum(String qq,TitanGraph graph);
+	public List<Object> getRelativeById(long personId);
+	public String realNameWeigth(String qq);
+    public String ReformGroups(List<QqGroupsBeans> beans,String qq,String name,TitanGraph graph);
+	
+    public List<QQFriend> queryQqFriends(String qq);
+}

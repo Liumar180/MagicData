@@ -1,0 +1,1249 @@
+package com.integrity.dataSmart.titanGraph.service;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.integrity.dataSmart.common.DataType;
+import com.integrity.dataSmart.titanGraph.bean.GroupMembersBean;
+import com.integrity.dataSmart.titanGraph.bean.QQFriend;
+import com.integrity.dataSmart.titanGraph.bean.QqGroupsBeans;
+import com.integrity.dataSmart.titanGraph.dao.SearchQqRelationDao;
+import com.integrity.dataSmart.titanGraph.util.ImpQqFriendsToTitan;
+import com.integrity.dataSmart.titanGraph.util.TitanLabelUtils;
+import com.integrity.dataSmart.util.jsonUtil.JacksonMapperUtil;
+import com.thinkaurelius.titan.core.TitanGraph;
+import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Vertex;
+
+public class SearchQqRelationServiceImp implements SearchQqRelationService{
+	private SearchQqRelationDao searchQqRelationDao;
+	public SearchQqRelationDao getSearchQqRelationDao() {
+		return searchQqRelationDao;
+	}
+	public void setSearchQqRelationDao(SearchQqRelationDao searchQqRelationDao) {
+		this.searchQqRelationDao = searchQqRelationDao;
+	}
+	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DataType.DATEFORMATSTR);
+	private ObjectMapper mapper = JacksonMapperUtil.getObjectMapper();
+	
+	
+	@Override
+	public Map<String,Object> queryQQFriendsJson(HttpSession hs,List<List<Vertex>> list) {
+		List<Object> nodeIdList = (List<Object>) hs.getAttribute("nodeIdList");
+		if(nodeIdList==null){
+			nodeIdList = new ArrayList<Object>();
+		}
+		Map<String,Object> root = new HashMap<String,Object>();
+		List<Map<String,Object>> nodeList = new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> edgeList = new ArrayList<Map<String,Object>>();
+		root.put("nodes", nodeList);
+		root.put("edges", edgeList);
+		int source = -1;
+		List<Vertex> firstL = list.get(0);
+		Vertex qqV = firstL.get(0);
+		Object orgQQId = qqV.getId();
+		int orgQQIdIndex = nodeIdList.indexOf(orgQQId);
+		Map<String, Object> nodeMap = new HashMap<String, Object>();
+		for (int j = 1; j < list.size(); j++) {
+			List<Vertex> innerList = list.get(j);
+			int size = innerList.size();
+			for (int i = 0; i < size; i++) {
+				Vertex vertex = innerList.get(i);
+				Object id = vertex.getId();
+				nodeMap = new HashMap<String, Object>();
+				nodeMap.put("id", vertex.getId());
+				if (i == 0) {
+					int index = nodeIdList.indexOf(id);
+					if (index > -1) {
+					} else {
+						String numid = vertex.getProperty("numid");
+						nodeMap.put("name", numid);
+						String[] values = vertex.getProperty("nickname");//不应该这么拿，应该拿oracle里的备注，
+						String nickname = getNickname(values);
+						nodeMap.put("nickname", nickname);
+						nodeMap.put("image", "/img/QQ.png");
+						nodeMap.put("type", "QQ");
+						nodeMap.put("uuid", UUID.randomUUID().toString().replaceAll("-", ""));
+						nodeList.add(nodeMap);
+						nodeIdList.add(id);
+						source = nodeIdList.size() - 1;
+					}
+					addLinkHandler(orgQQIdIndex, source, "QQFriends", "out", edgeList);
+				} else {
+					int index = nodeIdList.indexOf(id);
+					if (index > -1) {
+					} else {
+						nodeMap.put("name", vertex.getProperty("name"));
+						nodeMap.put("idcard", vertex.getProperty("idcard"));
+						nodeMap.put("county", vertex.getProperty("county"));
+						nodeMap.put("type", "Person");
+						nodeMap.put("image", "img/Person.png");
+						nodeMap.put("uuid", UUID.randomUUID().toString().replaceAll("-", ""));
+						nodeList.add(nodeMap);
+						nodeIdList.add(id);
+						index = nodeIdList.size() - 1;
+					}
+					addLinkHandler(source, index, "own", "out", edgeList);
+				}
+			}
+		}
+		return root;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<List<Vertex>> queryQqFriends(String qq, TitanGraph graph) {
+		List<QQFriend> list = searchQqRelationDao.queryQqFriends(qq);
+		List<Vertex> singleList = new ArrayList<Vertex>();
+		List<List<Vertex>> friendList = new ArrayList<List<Vertex>>();
+		//拿到本人QQ和Person
+		singleList = getQqAndPersonVertex(qq,"",realNameWeigth(qq),graph);
+		friendList.add(singleList);
+		int count = 1;
+		for(QQFriend qqFriend : list){
+			String qqNum = qqFriend.getFriendNum();
+			String nickname = qqFriend.getFriendRemark();
+			String realname = realNameWeigth(qqNum);
+			singleList = getQqAndPersonVertex(qqNum,nickname,realname,graph);
+			friendList.add(singleList);
+		}
+		List<Vertex> listOrg = friendList.get(0);
+		Vertex perOrg = listOrg.get(1);
+		boolean isTrue = true;
+		Iterator coh = perOrg.query().labels(new String[] { "relational" }).has("relationtype",DataType.RELATIONTYPE_QQ).vertices().iterator();
+		int aaa = 1;
+		for(int i=1;i<friendList.size();i++){
+			Vertex qqFriV = friendList.get(i).get(0);
+			Vertex perFriV = friendList.get(i).get(1);
+			String currentQqNum = qqFriV.getProperty("numid");
+			String nicknameCurr = searchQqRelationDao.queryQqFriends(qq,currentQqNum);
+			while (coh.hasNext()) {
+				Vertex PP = (Vertex) coh.next();
+				if (PP.getId() == perFriV.getId()) {
+					System.out.println("存在relational边，且relationtype为1");
+					isTrue = false;
+					break;
+				}
+			}
+			if (isTrue) {
+				Edge s = graph.addEdge(null, perOrg, perFriV,"relational");
+				s.setProperty("relationtype",DataType.RELATIONTYPE_QQ);
+				s.setProperty("nickname", nicknameCurr);
+			}
+		}
+		ImpQqFriendsToTitan m = new ImpQqFriendsToTitan(graph);
+		Thread t = new Thread(m);
+		t.start();
+//		graph.commit();
+		return friendList;
+	}
+	
+	/**
+	 * 获取QQ和Person节点List
+	 * @param qqNum
+	 * @param nickname
+	 * @param realname
+	 * @param graph
+	 * @return
+	 */
+	public List<Vertex> getQqAndPersonVertex(String qqNum,String nickname,String realname,TitanGraph graph){
+		List<Vertex> singleList = new ArrayList<Vertex>();
+		Object QqIte = null;
+		QqIte = graph.query().has("numid", qqNum).vertices();// 通过qq号查询
+		Vertex tmp = null;
+		boolean t =  false;
+		if(QqIte != null){
+			t = ((Iterable) QqIte).iterator().hasNext();
+		}
+		while (t) {
+			tmp = (Vertex) ((Iterable) QqIte).iterator().next();
+			break;
+		}
+		if (tmp != null) {
+			if(tmp.getProperty("type").toString().equals("IM")){
+				//有QQ（也就有Person）
+				String[] arrays = null;
+				boolean flag = false;//判断nickname存的是数组还是String,最后都存成数组
+				try {
+					arrays = tmp.getProperty("nickname");
+				} catch (Exception e) {
+					flag = true;
+					String nickN = tmp.getProperty("nickname");
+					if(nickN != null && !nickN.equals("")){
+						String[] mark=new String[1];
+						mark[0] = nickN;
+						tmp.setProperty("nickname", mark);
+					}
+				}
+				if(flag){
+					String[] arrays1 = tmp.getProperty("nickname");
+					Set<String>  sets = new HashSet<String>();
+					if(arrays1 != null){
+						for(int j=0;j<arrays1.length; j++){
+							sets.add(arrays1[j]);
+						}
+					}
+					if(nickname != null && !nickname.equals("")){
+						sets.add(nickname);
+					}
+					List<String> fin1 = new ArrayList<String>();
+					if(sets.size() != 0){
+					    for(Iterator<String> iterator = sets.iterator();iterator.hasNext();){  
+						       fin1.add(iterator.next());
+						   }  
+					}
+					String[] setArray1 = (String[])fin1.toArray(new String[fin1.size()]);
+					if(setArray1.length != 0){
+						tmp.setProperty("nickname",setArray1);
+					}
+				}else{
+					Set<String>  sets = new HashSet<String>();
+					if(arrays != null){
+						for(int j=0;j<arrays.length; j++){
+							sets.add(arrays[j]);
+						}
+					}
+					if(nickname != null && !nickname.equals("")){
+						sets.add(nickname);
+					}
+					List<String> fin = new ArrayList<String>();
+					if(sets.size() != 0){
+					    for(Iterator<String> iterator = sets.iterator();iterator.hasNext();){  
+						       fin.add(iterator.next());
+						   }  
+					}
+					String[] setArray = (String[])fin.toArray(new String[fin.size()]);
+					if(setArray.length != 0){
+						tmp.setProperty("nickname",setArray);
+					}
+				}
+				Vertex person = null;
+				Object perIte = null;
+				boolean f =  false;
+				perIte = tmp.query().labels(new String[] { "own" }).vertices();
+				if(perIte != null){
+					f = ((Iterable) perIte).iterator().hasNext();
+				}
+				while (f) {
+					person = (Vertex) ((Iterable) perIte).iterator().next();
+					break;
+				}
+				if (person != null) {
+					if (realname != null && !realname.equals("")) {
+						Object names = person.getProperty("name");
+						if (names == null || "".equals(names)) {
+							person.setProperty("name", realname);
+						}
+					}
+				}else{
+					person = graph.addVertex(null);// 创建人物对象
+					person.setProperty("type", "Person");
+					if (realname != null && !"".equals(realname)) {
+						Object names = person.getProperty("name");
+						if (names == null || "".equals(names)) {
+							person.setProperty("name", realname);
+						}
+					}
+					graph.addEdge(null, person, tmp, "own");
+				}
+				singleList.add(tmp);
+				singleList.add(person);
+			}
+		}else{
+			//QQ不存在(当做Person也不存在处理)
+			Vertex person2 = graph.addVertex(null);// 创建人物对象
+			person2.setProperty("type", "Person");
+			if (realname != null && !"".equals(realname)) {
+				Object names = person2.getProperty("name");
+				if (names == null || "".equals(names)) {
+					person2.setProperty("name", realname);
+				}
+			}
+			Vertex Qq = graph.addVertex(null);// 创建QQ
+			Qq.setProperty("type", "IM");
+			Qq.setProperty("domain", "QQ");
+			Qq.setProperty("numid", qqNum);
+			if(nickname!=null&&!"".equals(nickname)){
+				String [] arr = {nickname};
+				Qq.setProperty("nickname", arr);
+			}
+			graph.addEdge(null, person2, Qq, "own");
+			
+			singleList.add(Qq);
+			singleList.add(person2);
+		}
+		return singleList;
+	}
+	
+	@Override
+	public List<QQFriend> queryQqFriendsFromOrcl(String qq) {
+		List<QQFriend> list = searchQqRelationDao.queryQqFriends(qq);
+		return list;
+	}
+
+	/**
+	 * 添加边
+	 */
+	private void addLinkHandler(long source, long target, String relation,
+			String direction, List<Map<String, Object>> edgeList) {
+		Map<String, Object> linksMap = new HashMap<String, Object>();
+		linksMap.put("source", source);
+		linksMap.put("target", target);
+		linksMap.put("relation", relation);
+		linksMap.put("direction", direction);
+		linksMap.put("uuid", UUID.randomUUID().toString().replaceAll("-", ""));
+		edgeList.add(linksMap);
+	}
+
+	/**
+	 * json 转换
+	 * 
+	 * @param root
+	 * @return
+	 */
+	private String getJson(Map<String, Object> root) {
+		String json = null;
+		try {
+			json = mapper.writeValueAsString(root);
+		} catch (JsonProcessingException e) {
+//			logger.error("转换json异常", e);
+		}
+		return json;
+	}
+
+	/**
+	 * QQ 昵称转换
+	 * 
+	 * @param values
+	 * @return
+	 */
+	private String getNickname(String[] values) {
+		if (values == null) {
+			return "";
+		}
+		String nickname = "";
+		for (String name : values) {
+			nickname += name + " | ";
+		}
+		if (!"".equals(nickname)) {
+			nickname = nickname.substring(0, nickname.length() - 3);
+		}
+		return nickname;
+	}
+
+	@Override
+	public List<QqGroupsBeans> queryQqGroups(String qq) {
+		List<Object> groups= searchQqRelationDao.queryQqGroups(qq);
+		List<QqGroupsBeans> qqgroupsbeans = new ArrayList<QqGroupsBeans>();
+		for(Object s:groups){
+			Object[] groupsArrys = (Object[]) s;
+			QqGroupsBeans ogb = new QqGroupsBeans();
+			if(groupsArrys[0] != null){
+				ogb.setGroupNum(groupsArrys[0].toString());
+			}
+			if(groupsArrys[1] != null){
+			ogb.setGroup_Name(groupsArrys[1].toString());
+			}
+			if(groupsArrys[2] != null){
+			ogb.setCreate_Time(groupsArrys[2].toString());
+			}
+			if(groupsArrys[3] != null){
+			ogb.setMyMark(groupsArrys[3].toString());
+			}
+			if(groupsArrys[4] != null){
+			ogb.setNumid(groupsArrys[4].toString());
+			}
+			if(groupsArrys[5] != null){
+			ogb.setOwner_Qq(groupsArrys[5].toString());
+			}
+			if(groupsArrys[6] != null){
+			ogb.setOwner_Name(groupsArrys[6].toString());
+			}
+			if(groupsArrys[7] != null){
+			ogb.setGroup_Desc(groupsArrys[7].toString());
+			}
+			qqgroupsbeans.add(ogb);
+		}
+		return qqgroupsbeans;
+	}
+
+	@Override
+	public HashMap<String,Object> findGroupRelativeByqqNum(HttpSession hs,String qq,TitanGraph graph) {
+		List<Object> nodeIdList = (List<Object>) hs.getAttribute("nodeIdList");
+		List<List<Vertex>> titanGroup = searchQqRelationDao.findGroupRelativeByqqNum(qq,graph);
+		
+		HashMap<String,Object> root = new HashMap<String,Object>();
+		List<Map<String,Object>> nodeList = new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> edgeList = new ArrayList<Map<String,Object>>();
+		root.put("nodes", nodeList);
+		root.put("edges", edgeList);
+		int index = -1;
+		int source = -1;
+		String numid = null;
+		for (int j = 0; j < titanGroup.size(); j++) {
+			List<Vertex> list = titanGroup.get(j);
+			int size = list.size();
+			String ownerqq = "";
+			for (int i = 0; i < size; i++) {
+				Vertex vertex = list.get(i);
+				Object id = vertex.getId();
+				
+				Map<String, Object> nodeMap = new HashMap<String, Object>();
+				nodeMap.put("id", vertex.getId());
+				if (i == 0) {
+					numid = vertex.getProperty("numid");
+					source = nodeIdList.indexOf(id);
+					if (source > -1) {
+					}else {
+						nodeMap.put("name", numid); 
+						String[] values = vertex.getProperty("nickname");
+						String nickname = TitanLabelUtils.getNickname(values);
+						nodeMap.put("nickname", nickname);
+						nodeMap.put("image", "/img/QQ.png");
+						nodeMap.put("type", "QQ");
+						nodeMap.put("uuid", UUID.randomUUID().toString().replaceAll("-", ""));
+						nodeList.add(nodeMap);
+						nodeIdList.add(id);
+						source = nodeIdList.size()-1;
+					}
+					
+				}else {
+					index = nodeIdList.indexOf(id);
+					if(index > -1){}else{
+						ownerqq = vertex.getProperty("ownerqq");
+						nodeMap.put("num", vertex.getProperty("groupnum"));
+						nodeMap.put("image", "/img/Group.png");
+						nodeMap.put("type", "Group");
+						try {
+							nodeMap.put("createtime", simpleDateFormat.format(new Date(Long.parseLong(vertex.getProperty("createtime")+"000"))));
+						} catch (Exception e) {
+							nodeMap.put("createtime", "");
+						}
+						nodeMap.put("ownerqq", vertex.getProperty("ownerqq"));
+						nodeMap.put("name", vertex.getProperty("groupname"));
+						nodeMap.put("groupdesc", vertex.getProperty("groupdesc"));
+						nodeMap.put("uuid", UUID.randomUUID().toString().replaceAll("-", ""));
+						nodeList.add(nodeMap);
+						nodeIdList.add(id);
+						index = nodeIdList.size()-1;
+					}
+					
+					if (numid.equals(ownerqq)) {
+						TitanLabelUtils.addLinkHandler(source, index, "groupOwner", "out", edgeList);
+					}else {
+						TitanLabelUtils.addLinkHandler(source, index, "qq", "out", edgeList);
+					}
+				}
+			}
+		}
+		return root;
+	}
+	
+	public String ReformGroups(List<QqGroupsBeans> groupsBeans,String qq,String name,TitanGraph graph){
+		for(QqGroupsBeans beans:groupsBeans){
+		String numid  = qq;
+		String memberMark = beans.getMyMark();
+		String domain ="QQ"; 
+		String groupnum = beans.getGroupNum();//群号
+		
+		String ctime = beans.getCreate_Time();
+		Long createtime = 0L;
+		if(ctime != null && !ctime.equals("")){
+			createtime = Long.valueOf(ctime);
+		}
+		
+		String ownerqq = beans.getOwner_Qq();
+		String groupname = beans.getGroup_Name();
+		String groupdesc = beans.getGroup_Desc();
+		String grouptype = "2";//群组类型
+		String nickname = memberMark;
+		
+		boolean exception = false;
+		Object QqIte = null;
+		if(numid != null && !"".equals(numid)){
+			QqIte = graph.query().has("numid",numid).vertices();
+			}
+			Vertex tmp = null;
+			boolean t =  false;
+			if(QqIte != null){
+				t = ((Iterable) QqIte).iterator().hasNext();
+			}
+			if(t){
+			tmp = (Vertex)((Iterable)QqIte).iterator().next();
+			Set<String> s = tmp.getPropertyKeys();
+	       if(s != null){
+	    	   boolean is = false;
+				if(tmp.getProperty("type").toString().equals("IM")){
+					is = true;
+				}
+			if(is){
+				//获取人物信息？
+				Vertex person =null;
+				try{
+				person = (Vertex)tmp.query().labels(new String[]{"own"}).vertices().iterator().next();
+				}catch(java.util.NoSuchElementException e){
+				e.printStackTrace();
+				}
+				if(person!=null){
+				if(name != null && !name.equals("")){
+					Object names = person.getProperty("name");
+					if(names ==null || names.equals("")){
+						person.setProperty("name",name);
+					}
+				}
+				}
+                String[] arrays = null;
+				try {
+					arrays = tmp.getProperty("nickname");
+				} catch (Exception e) {
+					exception = true;
+					String nickN = tmp.getProperty("nickname");
+					if(nickN != null && !nickN.equals("")){
+						String[] mark=new String[1];
+						mark[0] = nickN;
+						tmp.setProperty("nickname", mark);
+					}
+				}
+				if(exception){
+					String[] arrays1 = tmp.getProperty("nickname");
+					Set<String>  sets = new HashSet<String>();
+					if(arrays1 != null){
+						for(int j=0;j<arrays1.length; j++){
+							sets.add(arrays1[j]);
+						}
+					}
+					if(nickname != null && !nickname.equals("")){
+						sets.add(nickname);
+					}
+					List<String> fin1 = new ArrayList<String>();
+					if(sets.size() != 0){
+					    for(Iterator<String> iterator = sets.iterator();iterator.hasNext();){  
+						       fin1.add(iterator.next());
+						   }  
+					}
+					String[] setArray1 = (String[])fin1.toArray(new String[fin1.size()]);
+					if(setArray1.length != 0){
+						tmp.setProperty("nickname",setArray1);
+					}
+				}else{
+					Set<String>  sets = new HashSet<String>();
+					if(arrays != null){
+						for(int j=0;j<arrays.length; j++){
+							sets.add(arrays[j]);
+						}
+					}
+					if(nickname != null && !nickname.equals("")){
+						sets.add(nickname);
+					}
+					List<String> fin = new ArrayList<String>();
+					if(sets.size() != 0){
+					    for(Iterator<String> iterator = sets.iterator();iterator.hasNext();){  
+						       fin.add(iterator.next());
+						   }  
+					}
+					String[] setArray = (String[])fin.toArray(new String[fin.size()]);
+					if(setArray.length != 0){
+						tmp.setProperty("nickname",setArray);
+					}
+				}
+			Vertex group =null;
+			try{
+			Iterable<Vertex> groups = graph.query().has("groupnum",groupnum).vertices();
+				
+			Iterator<Vertex> gs = groups.iterator();
+			if(gs.hasNext()){
+					group = gs.next();
+								
+			if(group !=null){
+				if(group.getProperty("groupnum").equals(groupnum) && group.getProperty("type").equals("Group")){
+                    boolean isTrue = true;
+					Iterator<Vertex> coh = tmp.query().labels(new String[]{"group"}).vertices().iterator();
+					while(coh.hasNext()){
+						Vertex GROUP = coh.next();
+						if(GROUP == group){
+							isTrue = false;
+						}
+					}
+					if(isTrue){
+						Edge e = graph.addEdge(null, group, tmp, "group");
+						e.setProperty("grouptype", grouptype);
+						if(nickname != null && !nickname.equals("")){
+							e.setProperty("nickname", nickname);
+						}
+					}
+				}else{
+					Vertex QGroup = graph.addVertex(null);
+					QGroup.setProperty("type", "Group");
+					QGroup.setProperty("groupnum", groupnum);
+					if(ownerqq != null && !ownerqq.equals("")){
+						QGroup.setProperty("ownerqq", ownerqq);
+					}
+					if(groupname != null && !groupname.equals("")){
+						QGroup.setProperty("groupname", groupname);
+					}
+					if(groupdesc != null && !groupdesc.equals("")){
+						QGroup.setProperty("groupdesc", groupdesc );
+					}
+					if(createtime != null && !createtime.equals("")){
+						QGroup.setProperty("createtime", createtime );
+					}
+					
+					Edge e = graph.addEdge(null, QGroup, tmp, "group");
+					e.setProperty("grouptype", grouptype);
+					if(nickname != null && !nickname.equals("")){
+						e.setProperty("nickname", nickname);
+					}
+				}
+
+			}else{
+				Vertex QGroup = graph.addVertex(null);
+				QGroup.setProperty("type", "Group");
+				QGroup.setProperty("groupnum", groupnum);
+				if(ownerqq != null && !ownerqq.equals("")){
+					QGroup.setProperty("ownerqq", ownerqq);
+				}
+				if(groupname != null && !groupname.equals("")){
+					QGroup.setProperty("groupname", groupname);
+				}
+				if(groupdesc != null && !groupdesc.equals("")){
+					QGroup.setProperty("groupdesc", groupdesc );
+				}
+				if(createtime != null && !createtime.equals("")){
+					QGroup.setProperty("createtime", createtime );
+				}
+				Edge e = graph.addEdge(null, QGroup, tmp, "group");
+				e.setProperty("grouptype", grouptype);
+				if(nickname != null && !nickname.equals("")){
+					e.setProperty("nickname", nickname);
+				}
+			}
+		}else{
+			Vertex QGroup = graph.addVertex(null);
+			QGroup.setProperty("type","Group");
+			QGroup.setProperty("groupnum", groupnum);
+			if(ownerqq != null && !ownerqq.equals("")){
+				QGroup.setProperty("ownerqq", ownerqq);
+			}
+			if(groupname != null && !groupname.equals("")){
+				QGroup.setProperty("groupname", groupname);
+			}
+			if(groupdesc != null && !groupdesc.equals("")){
+				QGroup.setProperty("groupdesc", groupdesc );
+			}
+			if(createtime != null && !createtime.equals("")){
+				QGroup.setProperty("createtime", createtime );
+			}
+			Edge e = graph.addEdge(null,QGroup,tmp,"group");
+			e.setProperty("grouptype", grouptype);
+			if(nickname != null && !nickname.equals("")){
+				e.setProperty("nickname", nickname);
+			}
+		}
+		}catch(java.util.NoSuchElementException e){
+		e.printStackTrace();
+		}
+			}
+    }
+	}else{
+		Vertex Qq3 = null;
+		if(numid != null && !"".equals(numid)){
+			Vertex personNn = graph.addVertex(null);
+			personNn.setProperty("type", "Person");
+			//人物信息补充？
+			if(name != null && !name.equals("")){
+				personNn.setProperty("name",name);
+			}
+			
+			Qq3 = graph.addVertex(null);//QQ事件
+			Qq3.setProperty("type","IM");
+			if(domain != null && !"".equals(domain)){
+				Qq3.setProperty("domain",domain);
+			}
+			if(numid!=null && !"".equals(numid)){
+				Qq3.setProperty("numid",numid);
+			}
+			if(nickname != null && !nickname.equals("")){
+				String[] mark=new String[1];
+				mark[0] = nickname;
+				Qq3.setProperty("nickname", mark);
+			}
+			
+			graph.addEdge(null, personNn, Qq3, "own");
+			
+		}
+		if(groupnum != null && !groupnum.equals("")){
+		Vertex group =null;
+		try{
+		@SuppressWarnings("unchecked")
+		Iterable<Vertex> groups = graph.query().has("groupnum",groupnum).vertices();
+		Iterator<Vertex> gs1 = groups.iterator();
+		if(gs1.hasNext()){
+			group = gs1.next();
+			if(group !=null){
+				if(group.getProperty("groupnum").equals(groupnum) && group.getProperty("type").equals("Group")){
+					if(Qq3 != null){
+					Edge e = graph.addEdge(null, group, Qq3, "group");
+					e.setProperty("grouptype", grouptype);
+					if(nickname != null && !nickname.equals("")){
+						e.setProperty("nickname", nickname);
+					}
+				 }
+				}else{
+					Vertex QGroup = graph.addVertex(null);
+					QGroup.setProperty("type", "Group");
+					QGroup.setProperty("groupnum", groupnum);
+					if(ownerqq != null && !ownerqq.equals("")){
+						QGroup.setProperty("ownerqq", ownerqq);
+					}
+					if(groupname != null && !groupname.equals("")){
+						QGroup.setProperty("groupname", groupname);
+					}
+					if(groupdesc != null && !groupdesc.equals("")){
+						QGroup.setProperty("groupdesc", groupdesc );
+					}
+					if(createtime != null && !createtime.equals("")){
+						QGroup.setProperty("createtime", createtime );
+					}
+					if(Qq3 != null){
+						Edge e = graph.addEdge(null, QGroup, Qq3, "group");
+						e.setProperty("grouptype", grouptype);
+						if(nickname != null && !nickname.equals("")){
+							e.setProperty("nickname", nickname);
+						}
+					}
+				}
+			}else{
+				Vertex QGroup = graph.addVertex(null);
+				QGroup.setProperty("type", "Group");
+				QGroup.setProperty("groupnum", groupnum);
+				if(ownerqq != null && !ownerqq.equals("")){
+					QGroup.setProperty("ownerqq", ownerqq);
+				}
+				if(groupname != null && !groupname.equals("")){
+					QGroup.setProperty("groupname", groupname);
+				}
+				if(groupdesc != null && !groupdesc.equals("")){
+					QGroup.setProperty("groupdesc", groupdesc );
+				}
+				if(createtime != null && !createtime.equals("")){
+					QGroup.setProperty("createtime", createtime );
+				}
+				if(Qq3 != null){
+					Edge e = graph.addEdge(null, QGroup, Qq3, "group");
+					e.setProperty("grouptype", grouptype);
+					if(nickname != null && !nickname.equals("")){
+						e.setProperty("nickname", nickname);
+					}
+				}
+			}  
+		}else{
+            
+			Vertex QGroup = graph.addVertex(null);
+			QGroup.setProperty("type","Group");
+			
+			QGroup.setProperty("groupnum", groupnum);
+			if(ownerqq != null && !ownerqq.equals("")){
+				QGroup.setProperty("ownerqq", ownerqq);
+			}
+			if(groupname != null && !groupname.equals("")){
+				QGroup.setProperty("groupname", groupname);
+			}
+			if(groupdesc != null && !groupdesc.equals("")){
+				QGroup.setProperty("groupdesc", groupdesc );
+			}
+			if(createtime != null && !createtime.equals("")){
+				QGroup.setProperty("createtime", createtime );
+			}
+			if(Qq3 != null){
+				Edge e = graph.addEdge(null,QGroup,Qq3,"group");
+				e.setProperty("grouptype", grouptype);
+				if(nickname != null && !nickname.equals("")){
+					e.setProperty("nickname", nickname);
+				}
+			}
+		
+		}
+			}catch(java.util.NoSuchElementException e){
+			e.printStackTrace();
+			}
+		}
+		}
+	 }
+        graph.commit();
+		return "OK";
+
+	}
+
+	@Override
+	public String realNameWeigth(String qq) {
+		List<Object> list = searchQqRelationDao.realNameWeigth(qq);
+		int nums = 0;
+		int key = 0;
+		for(int i=0;i<list.size();i++){
+			Object[] os = (Object[]) list.get(i);
+			String weigth = os[1].toString();
+			if(Integer.parseInt(weigth) > nums){
+				nums = Integer.parseInt(weigth);
+				key = i;
+			}
+		}
+		Object[] fin = (Object[])list.get(key);
+		if(fin[0] != null){
+			return fin[0].toString();
+		}else{
+			return "";
+		}
+	}
+
+	@Override
+	public List<GroupMembersBean> queryMembersByGnum(String groupNum) {
+		return searchQqRelationDao.queryMembersByGnum(groupNum);
+	}
+
+	@Override
+	public HashMap<String,Object> findGroupMemberBygroNum(HttpSession hs,String groqq,
+			TitanGraph graph) {
+		List<Object> nodeIdList = (List<Object>) hs.getAttribute("nodeIdList");
+		List<List<Vertex>> qqLists = searchQqRelationDao.findGroupMemberBygroNum(groqq, graph);
+		HashMap<String,Object> root = new HashMap<String,Object>();
+		List<Map<String,Object>> nodeList = new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> edgeList = new ArrayList<Map<String,Object>>();
+		root.put("nodes", nodeList);
+		root.put("edges", edgeList);
+		int index = -1;
+		int source = -1;
+		int index1 = -1;
+		int source1 = -1;
+		String numid = null;
+		for (int j = 0; j < qqLists.size(); j++) {
+			List<Vertex> list = qqLists.get(j);
+			int size = list.size();
+			String ownerqq = "";
+			for (int i = 0; i < size; i++) {
+				Vertex vertex = list.get(i);
+				Object id = vertex.getId();
+				
+				Map<String, Object> nodeMap = new HashMap<String, Object>();
+				nodeMap.put("id", vertex.getId());
+				if (i == 0) {
+					source = nodeIdList.indexOf(id);
+					if (source != -1) {
+					}else {
+						ownerqq = vertex.getProperty("ownerqq");
+						nodeMap.put("num", vertex.getProperty("groupnum"));
+						nodeMap.put("image", "/img/Group.png");
+						nodeMap.put("type", "Group");
+						try {
+							nodeMap.put("createtime", simpleDateFormat.format(new Date(Long.parseLong(vertex.getProperty("createtime")+"000"))));
+						} catch (Exception e) {
+							nodeMap.put("createtime", "");
+						}
+						nodeMap.put("ownerqq", vertex.getProperty("ownerqq"));
+						nodeMap.put("name", vertex.getProperty("groupname"));
+						nodeMap.put("groupdesc", vertex.getProperty("groupdesc"));
+						nodeMap.put("uuid", UUID.randomUUID().toString().replaceAll("-", ""));
+						nodeList.add(nodeMap);
+						nodeIdList.add(id);
+						source = nodeIdList.size()-1;
+					}
+				}else if(i==1){
+					numid = vertex.getProperty("numid");
+					index = nodeIdList.indexOf(id);
+					if(index != -1){}else{
+						nodeMap.put("name", numid); 
+						String[] values = vertex.getProperty("nickname");
+						String nickname = TitanLabelUtils.getNickname(values);
+						nodeMap.put("nickname", nickname);
+						nodeMap.put("image", "/img/QQ.png");
+						nodeMap.put("type", "QQ");
+						nodeMap.put("uuid", UUID.randomUUID().toString().replaceAll("-", ""));
+						nodeList.add(nodeMap);
+						nodeIdList.add(id);
+						index = nodeIdList.size()-1;
+						source1 = index;
+						if (numid.equals(ownerqq)) {
+							TitanLabelUtils.addLinkHandler(source, index, "groupOwner", "out", edgeList);
+						}else{
+							TitanLabelUtils.addLinkHandler(source, index, "qq", "out", edgeList);
+						}
+					}
+				}else{
+					index1 = nodeIdList.indexOf(id);
+					if(index1 != -1){}else{
+						nodeMap.put("name", vertex.getProperty("name"));
+						nodeMap.put("idcard", vertex.getProperty("idcard")); 
+						nodeMap.put("country", vertex.getProperty("country")); 
+						nodeMap.put("image", "/img/Person.png");
+						nodeMap.put("type", "Person");
+						nodeMap.put("uuid", UUID.randomUUID().toString().replaceAll("-", ""));
+						nodeList.add(nodeMap);
+						nodeIdList.add(id);
+						index1 = nodeIdList.size()-1;
+					
+						TitanLabelUtils.addLinkHandler(source1, index1, "own", "in", edgeList);
+					}
+				}
+			}
+		}
+		
+		return root;
+	}
+	@Override
+	public String ReformGroupsMembers(List<GroupMembersBean> GroupMembers,String groupnums,TitanGraph graph) {
+		for(GroupMembersBean beans:GroupMembers){
+		String numid  = beans.getMemberNum();
+		String name = realNameWeigth(numid);
+		String memberMark = beans.getMemberRemark();
+		String domain ="QQ"; 
+		String groupnum = groupnums;//群号
+		
+		String ctime = "";
+		Long createtime = 0L;
+		if(ctime != null && !ctime.equals("")){
+			createtime = Long.valueOf(ctime);
+		}
+		
+		String ownerqq = null;
+		String groupname = null;
+		String groupdesc = null;
+		String grouptype = "2";//群组类型
+		String nickname = memberMark;
+		
+		boolean exception = false;
+		Object QqIte = null;
+		if(numid != null && !"".equals(numid)){
+			QqIte = graph.query().has("numid",numid).vertices();
+			}
+			Vertex tmp = null;
+			boolean t =  false;
+			if(QqIte != null){
+				t = ((Iterable) QqIte).iterator().hasNext();
+			}
+			if(t){
+			tmp = (Vertex)((Iterable)QqIte).iterator().next();
+			Set<String> s = tmp.getPropertyKeys();
+	       if(s != null){
+	    	   boolean is = false;
+				if(tmp.getProperty("type").toString().equals("IM")){
+					is = true;
+				}
+			if(is){
+				//获取人物信息？
+				Vertex person =null;
+				try{
+				person = (Vertex)tmp.query().labels(new String[]{"own"}).vertices().iterator().next();
+				}catch(java.util.NoSuchElementException e){
+				e.printStackTrace();
+				}
+				if(person!=null){
+				if(name != null && !name.equals("")){
+					Object names = person.getProperty("name");
+					if(names ==null || names.equals("")){
+						person.setProperty("name",name);
+					}
+				}
+				}else{
+					Vertex pp = graph.addVertex(null);
+					pp.setProperty("type", "Person");
+					if(name ==null || name.equals("")){
+					pp.setProperty("name", name);
+					}
+					graph.addEdge(null, pp, tmp, "own");
+				}
+                String[] arrays = null;
+				try {
+					arrays = tmp.getProperty("nickname");
+				} catch (Exception e) {
+					exception = true;
+					String nickN = tmp.getProperty("nickname");
+					if(nickN != null && !nickN.equals("")){
+						String[] mark=new String[1];
+						mark[0] = nickN;
+						tmp.setProperty("nickname", mark);
+					}
+				}
+				if(exception){
+					String[] arrays1 = tmp.getProperty("nickname");
+					Set<String>  sets = new HashSet<String>();
+					if(arrays1 != null){
+						for(int j=0;j<arrays1.length; j++){
+							sets.add(arrays1[j]);
+						}
+					}
+					if(nickname != null && !nickname.equals("")){
+						sets.add(nickname);
+					}
+					List<String> fin1 = new ArrayList<String>();
+					if(sets.size() != 0){
+					    for(Iterator<String> iterator = sets.iterator();iterator.hasNext();){  
+						       fin1.add(iterator.next());
+						   }  
+					}
+					String[] setArray1 = (String[])fin1.toArray(new String[fin1.size()]);
+					if(setArray1.length != 0){
+						tmp.setProperty("nickname",setArray1);
+					}
+				}else{
+					Set<String>  sets = new HashSet<String>();
+					if(arrays != null){
+						for(int j=0;j<arrays.length; j++){
+							sets.add(arrays[j]);
+						}
+					}
+					if(nickname != null && !nickname.equals("")){
+						sets.add(nickname);
+					}
+					List<String> fin = new ArrayList<String>();
+					if(sets.size() != 0){
+					    for(Iterator<String> iterator = sets.iterator();iterator.hasNext();){  
+						       fin.add(iterator.next());
+						   }  
+					}
+					String[] setArray = (String[])fin.toArray(new String[fin.size()]);
+					if(setArray.length != 0){
+						tmp.setProperty("nickname",setArray);
+					}
+				}
+			Vertex group =null;
+			try{
+			Iterable<Vertex> groups = graph.query().has("groupnum",groupnum).vertices();
+				
+			Iterator<Vertex> gs = groups.iterator();
+			if(gs.hasNext()){
+					group = gs.next();
+								
+			if(group !=null){
+				if(group.getProperty("groupnum").equals(groupnum) && group.getProperty("type").equals("Group")){
+                    boolean isTrue = true;
+					Iterator<Vertex> coh = tmp.query().labels(new String[]{"group"}).vertices().iterator();
+					while(coh.hasNext()){
+						Vertex GROUP = coh.next();
+						if(GROUP == group){
+							isTrue = false;
+						}
+					}
+					if(isTrue){
+						Edge e = graph.addEdge(null, group, tmp, "group");
+						e.setProperty("grouptype", grouptype);
+						if(nickname != null && !nickname.equals("")){
+							e.setProperty("nickname", nickname);
+						}
+					}
+				}else{
+					Vertex QGroup = graph.addVertex(null);
+					QGroup.setProperty("type", "Group");
+					QGroup.setProperty("groupnum", groupnum);
+					if(ownerqq != null && !ownerqq.equals("")){
+						QGroup.setProperty("ownerqq", ownerqq);
+					}
+					if(groupname != null && !groupname.equals("")){
+						QGroup.setProperty("groupname", groupname);
+					}
+					if(groupdesc != null && !groupdesc.equals("")){
+						QGroup.setProperty("groupdesc", groupdesc );
+					}
+					if(createtime != null && !createtime.equals("")){
+						QGroup.setProperty("createtime", createtime );
+					}
+					
+					Edge e = graph.addEdge(null, QGroup, tmp, "group");
+					e.setProperty("grouptype", grouptype);
+					if(nickname != null && !nickname.equals("")){
+						e.setProperty("nickname", nickname);
+					}
+				}
+
+			}else{
+				Vertex QGroup = graph.addVertex(null);
+				QGroup.setProperty("type", "Group");
+				QGroup.setProperty("groupnum", groupnum);
+				if(ownerqq != null && !ownerqq.equals("")){
+					QGroup.setProperty("ownerqq", ownerqq);
+				}
+				if(groupname != null && !groupname.equals("")){
+					QGroup.setProperty("groupname", groupname);
+				}
+				if(groupdesc != null && !groupdesc.equals("")){
+					QGroup.setProperty("groupdesc", groupdesc );
+				}
+				if(createtime != null && !createtime.equals("")){
+					QGroup.setProperty("createtime", createtime );
+				}
+				Edge e = graph.addEdge(null, QGroup, tmp, "group");
+				e.setProperty("grouptype", grouptype);
+				if(nickname != null && !nickname.equals("")){
+					e.setProperty("nickname", nickname);
+				}
+			}
+		}else{
+			Vertex QGroup = graph.addVertex(null);
+			QGroup.setProperty("type","Group");
+			QGroup.setProperty("groupnum", groupnum);
+			if(ownerqq != null && !ownerqq.equals("")){
+				QGroup.setProperty("ownerqq", ownerqq);
+			}
+			if(groupname != null && !groupname.equals("")){
+				QGroup.setProperty("groupname", groupname);
+			}
+			if(groupdesc != null && !groupdesc.equals("")){
+				QGroup.setProperty("groupdesc", groupdesc );
+			}
+			if(createtime != null && !createtime.equals("")){
+				QGroup.setProperty("createtime", createtime );
+			}
+			Edge e = graph.addEdge(null,QGroup,tmp,"group");
+			e.setProperty("grouptype", grouptype);
+			if(nickname != null && !nickname.equals("")){
+				e.setProperty("nickname", nickname);
+			}
+		}
+		}catch(java.util.NoSuchElementException e){
+		e.printStackTrace();
+		}
+			}
+    }
+	}else{
+		Vertex Qq3 = null;
+		if(numid != null && !"".equals(numid)){
+			Vertex personNn = graph.addVertex(null);
+			personNn.setProperty("type", "Person");
+			//人物信息补充？
+			if(name != null && !name.equals("")){
+				personNn.setProperty("name",name);
+			}
+			
+			Qq3 = graph.addVertex(null);//QQ事件
+			Qq3.setProperty("type","IM");
+			if(domain != null && !"".equals(domain)){
+				Qq3.setProperty("domain",domain);
+			}
+			if(numid!=null && !"".equals(numid)){
+				Qq3.setProperty("numid",numid);
+			}
+			if(nickname != null && !nickname.equals("")){
+				String[] mark=new String[1];
+				mark[0] = nickname;
+				Qq3.setProperty("nickname", mark);
+			}
+			
+			graph.addEdge(null, personNn, Qq3, "own");
+			
+		}
+		if(groupnum != null && !groupnum.equals("")){
+		Vertex group =null;
+		try{
+		@SuppressWarnings("unchecked")
+		Iterable<Vertex> groups = graph.query().has("groupnum",groupnum).vertices();
+		Iterator<Vertex> gs1 = groups.iterator();
+		if(gs1.hasNext()){
+			group = gs1.next();
+			if(group !=null){
+				if(group.getProperty("groupnum").equals(groupnum) && group.getProperty("type").equals("Group")){
+					if(Qq3 != null){
+					Edge e = graph.addEdge(null, group, Qq3, "group");
+					e.setProperty("grouptype", grouptype);
+					if(nickname != null && !nickname.equals("")){
+						e.setProperty("nickname", nickname);
+					}
+				 }
+				}else{
+					Vertex QGroup = graph.addVertex(null);
+					QGroup.setProperty("type", "Group");
+					QGroup.setProperty("groupnum", groupnum);
+					if(ownerqq != null && !ownerqq.equals("")){
+						QGroup.setProperty("ownerqq", ownerqq);
+					}
+					if(groupname != null && !groupname.equals("")){
+						QGroup.setProperty("groupname", groupname);
+					}
+					if(groupdesc != null && !groupdesc.equals("")){
+						QGroup.setProperty("groupdesc", groupdesc );
+					}
+					if(createtime != null && !createtime.equals("")){
+						QGroup.setProperty("createtime", createtime );
+					}
+					if(Qq3 != null){
+						Edge e = graph.addEdge(null, QGroup, Qq3, "group");
+						e.setProperty("grouptype", grouptype);
+						if(nickname != null && !nickname.equals("")){
+							e.setProperty("nickname", nickname);
+						}
+					}
+				}
+			}else{
+				Vertex QGroup = graph.addVertex(null);
+				QGroup.setProperty("type", "Group");
+				QGroup.setProperty("groupnum", groupnum);
+				if(ownerqq != null && !ownerqq.equals("")){
+					QGroup.setProperty("ownerqq", ownerqq);
+				}
+				if(groupname != null && !groupname.equals("")){
+					QGroup.setProperty("groupname", groupname);
+				}
+				if(groupdesc != null && !groupdesc.equals("")){
+					QGroup.setProperty("groupdesc", groupdesc );
+				}
+				if(createtime != null && !createtime.equals("")){
+					QGroup.setProperty("createtime", createtime );
+				}
+				if(Qq3 != null){
+					Edge e = graph.addEdge(null, QGroup, Qq3, "group");
+					e.setProperty("grouptype", grouptype);
+					if(nickname != null && !nickname.equals("")){
+						e.setProperty("nickname", nickname);
+					}
+				}
+			}  
+		}else{
+            
+			Vertex QGroup = graph.addVertex(null);
+			QGroup.setProperty("type","Group");
+			
+			QGroup.setProperty("groupnum", groupnum);
+			if(ownerqq != null && !ownerqq.equals("")){
+				QGroup.setProperty("ownerqq", ownerqq);
+			}
+			if(groupname != null && !groupname.equals("")){
+				QGroup.setProperty("groupname", groupname);
+			}
+			if(groupdesc != null && !groupdesc.equals("")){
+				QGroup.setProperty("groupdesc", groupdesc );
+			}
+			if(createtime != null && !createtime.equals("")){
+				QGroup.setProperty("createtime", createtime );
+			}
+			if(Qq3 != null){
+				Edge e = graph.addEdge(null,QGroup,Qq3,"group");
+				e.setProperty("grouptype", grouptype);
+				if(nickname != null && !nickname.equals("")){
+					e.setProperty("nickname", nickname);
+				}
+			}
+		
+		}
+			}catch(java.util.NoSuchElementException e){
+			e.printStackTrace();
+			}
+		}
+		}
+	 }
+        graph.commit();
+		return "OK";
+
+	
+	}
+
+
+}

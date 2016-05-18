@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.integrity.lawCase.caseManage.bean.CaseObject" table="caseobject" >
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="caseName" type="java.lang.String">
+            <column name="caseName" length="64" not-null="true">
+                <comment>案件名称</comment>
+            </column>
+        </property>
+        <property name="createTime" type="java.util.Date">
+            <column name="createTime"  not-null="true">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="caseLevel" type="java.lang.String">
+            <column name="caseLevel" length="20" >
+                <comment>案件级别</comment>
+            </column>
+        </property>
+        <property name="caseLeader" type="java.lang.String">
+            <column name="caseLeader" length="64" >
+                <comment>负责人</comment>
+            </column>
+        </property>
+        <property name="caseSupervisor" type="java.lang.String">
+            <column name="caseSupervisor" length="64">
+                <comment>督办人</comment>
+            </column>
+        </property>
+        <property name="caseUserNames" type="java.lang.String">
+            <column name="caseUserNames" length="4000" >
+                <comment>案件人员</comment>
+            </column>
+        </property>
+        <property name="caseUserIds" type="java.lang.String">
+            <column name="caseUserIds" length="4000" >
+                <comment>案件人员ids</comment>
+            </column>
+        </property>
+        <property name="caseStatus" type="java.lang.String">
+            <column name="caseStatus" length="64" >
+                <comment>案件状态</comment>
+            </column>
+        </property>
+        <property name="directionCode" type="java.lang.String">
+            <column name="directionCode" length="4000" >
+                <comment>方向代码</comment>
+            </column>
+        </property>
+        <property name="caseAim" type="java.lang.String">
+            <column name="caseAim" length="65535" >
+                <comment>案件目标</comment>
+            </column>
+        </property>
+        <property name="memo" type="java.lang.String">
+            <column name="memo" length="65535" >
+                <comment>备注</comment>
+            </column>
+        </property>
+        
+        <property name="by1" type="java.lang.String">
+            <column name="by1" length="64" >
+                <comment>备用</comment>
+            </column>
+        </property>
+        <property name="by2" type="java.lang.String">
+            <column name="by2" length="4000" >
+                <comment>备用</comment>
+            </column>
+        </property>
+        <property name="by3" type="java.lang.Integer">
+            <column name="by3" >
+                <comment>备用</comment>
+            </column>
+        </property>
+        
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,5 @@
+package com.integrity.dataSmart.titanGraph.service;
+
+public interface  DataShowService {
+
+}

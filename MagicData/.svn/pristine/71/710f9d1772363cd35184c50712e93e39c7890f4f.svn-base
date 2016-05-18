@@ -1,0 +1,688 @@
+import com.thinkaurelius.titan.core.TitanFactory;
+import com.thinkaurelius.titan.core.TitanGraph;
+import com.tinkerpop.blueprints.Vertex;
+import java.util.Set;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+import java.lang.Iterable;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.*;
+import com.integrity.dataSmart.common.ProcessUtils;
+import com.integrity.dataSmart.dataImport.dao.DataImpTaskDao;
+import com.integrity.dataSmart.util.DateFormat;
+
+TitanGraph graph = TitanFactory.build().set("storage.backend", "hbase").set("storage.hostname", "192.168.40.10").open();
+
+AtomicLong count=new AtomicLong();
+TaskId
+public boolean processRow(StepMetaInterface smi,StepDataInterface sdi) throws KettleException
+{
+count.addAndGet(1);
+Object[] r = getRow();
+
+if (r == null) {
+    graph.commit();
+    DataImpTaskDao dao = new DataImpTaskDao();
+	dao.toRefreshData(taskId, count.get()-1);	
+    System.out.println("录入数量："+(count.get()-1)+"个；");
+	setOutputDone();
+	return false;
+
+}
+long st = System.currentTimeMillis();
+		String startTime= DateFormat.transferLongToDate(st);
+		System.out.println("开始时间："+startTime);
+
+r= createOutputRow(r, data.outputRowMeta.size());
+
+		
+   String uid = "";//uid
+    try {
+		uid = get(Fields.In, "uid").getString(r);//uid
+		} catch (Exception e) {}
+    String username = "";//用户名
+    try {
+		username = get(Fields.In, "username").getString(r);//用户名
+		} catch (Exception e) {}
+		System.out.println("--------用户名--------"+username);
+    String password = "";//密码
+    try {
+		password = get(Fields.In,"password").getString(r);//密码
+		} catch (Exception e) {}
+    String ct = "";//创建时间
+    try {
+    ct = get(Fields.In, "createtime").getString(r);//创建时间
+		} catch (Exception e) {}
+    String domain = "";//域地址
+    try {
+    domain = get(Fields.In, "domain").getString(r);//域地址
+		} catch (Exception e) {}
+    String regip = "";//注册Ip
+    try {
+    regip = get(Fields.In, "regip").getString(r);//注册Ip
+		} catch (Exception e) {}
+    String email = "";//邮箱
+    try {
+    email = get(Fields.In,"email").getString(r);//邮箱
+		} catch (Exception e) {}
+    String lt ="";//最后访问时间
+    try {
+    lt =get(Fields.In, "lastvisit").getString(r);//最后访问时间
+		} catch (Exception e) {}
+    String lastip = "";//最后访问ip
+    try {
+    lastip = get(Fields.In, "lastip").getString(r);//最后访问ip
+		} catch (Exception e) {}
+    String phonenum = "";//电话
+    try {
+    phonenum = get(Fields.In, "phonenum").getString(r);//电话
+		} catch (Exception e) {}
+    String model = "";
+    try {
+    model = get(Fields.In, "model").getString(r);
+		} catch (Exception e) {}
+    String place = "";//地点
+    try {
+    place = get(Fields.In, "place").getString(r);//地点
+		} catch (Exception e) {}
+    String address = "";
+    try {
+    address = get(Fields.In, "address").getString(r);
+		} catch (Exception e) {}
+	String name = "";//姓名
+	try {
+	name = get(Fields.In, "name").getString(r);//姓名
+		} catch (Exception e) {}
+	String idcard = "";//身份证号
+	try {
+	idcard = get(Fields.In, "idcard").getString(r);//身份证号
+		} catch (Exception e) {}
+	String question = "";//身份证号
+	try {
+	question = get(Fields.In, "question").getString(r);//问题
+		} catch (Exception e) {}
+	String country = "";//国家
+	try {
+	country = get(Fields.In, "country").getString(r);//国家
+		} catch (Exception e) {}
+
+    long createtime=0L;
+    if(!ct.equals("")){
+    createtime = Long.parseLong(ct);
+    }
+    long lastvisit=0L;
+    if(!lt.equals("")){
+    lastvisit = Long.parseLong(lt);
+    }  
+
+	
+    Object accountIte = null;
+		boolean istrue = false;
+		if(email != null && !"".equals(email) && uid != null && !uid.equals("")){
+			accountIte = graph.query().has("email",email).has("uid",uid).vertices();
+		}
+			Vertex tmp = null;
+			boolean t =  false;
+			if(accountIte != null){
+				t = ((Iterable) accountIte).iterator().hasNext();
+			}
+			while(t){
+						
+			tmp = (Vertex)((Iterable)accountIte).iterator().next();
+		       if(tmp != null){
+					if(tmp.getProperty("type").toString().equals("Account")){
+					        istrue  = true;
+								 }
+					            }
+						break;
+					}
+			if(tmp != null && istrue){
+				Vertex person =null;
+				try{
+				person = (Vertex)tmp.query().labels(new String[]{"own"}).vertices().iterator().next();
+				}catch(java.util.NoSuchElementException e){
+				e.printStackTrace();
+				System.out.println("无人物对象");
+				//putRow(data.outputRowMeta, r);
+				//return true;
+				}
+				if(person !=null){
+					System.out.println("存在人物对象");
+					if(name != null && !name.equals("")){
+						Object names = person.getProperty("name");
+						if(names ==null || names.equals("")){
+							person.setProperty("name",name);
+						}
+					
+					}
+					if(idcard != null && !idcard.equals("")){
+						Object idcards = person.getProperty("idcard");
+						if(idcards ==null || idcards.equals("")){
+							person.setProperty("idcard",idcard);
+						}
+					
+					}
+					if(country != null && !country.equals("")){
+						Object countrys = person.getProperty("country");
+						if(countrys ==null || countrys.equals("")){
+							person.setProperty("country",country);
+						}
+					
+					}
+					
+					Object childs = person.query().labels(new String[]{"own"}).vertices();
+					boolean exist = false;
+					boolean phoneExist = false;
+					boolean emailExist = false;
+					boolean loactionExist = false;
+					for (Iterator iterator = ((Iterable)childs).iterator(); iterator.hasNext();) {
+						
+					Vertex v = (Vertex) iterator.next();
+		         if(v != null){
+				
+					if("Account".equals(v.getProperty("type"))){
+	                 if(email != null && !"".equals(email) && uid != null && !"".equals(uid)){
+	                        if( v.getProperty("email").equals(email) && v.getProperty("uid").equals(uid)){
+									exist = true;
+								}
+
+	                          }
+			             }
+						
+					}
+
+					if(email!=null && !"".equals(email)){
+							if("Email".equals(v.getProperty("type")) && v.getProperty("email").equals(email)){
+								emailExist=true;
+							}
+						}
+	
+	                if(phonenum!=null && !"".equals(phonenum)){
+							if("Phone".equals(v.getProperty("type")) && v.getProperty("phonenum").equals(phonenum)){
+								phoneExist=true;
+							}
+						}
+					if(address!=null && !"".equals(address)){
+							if("Location".equals(v.getProperty("type")) && v.getProperty("address").equals(address)){
+								loactionExist=true;
+							}
+						}
+					}
+
+
+					if(!emailExist){//邮箱
+						boolean isEmail1 = false;
+						if(email!=null && !"".equals(email)){
+					    Iterable e = graph.getVertices("email",email);
+					    Iterator es = e.iterator();
+					    if(es.hasNext()){
+					    	System.out.println("存在人时邮件");
+					    	Vertex emails = (Vertex) es.next();
+					    	if(emails.getProperty("type").equals("Email")){
+					    		isEmail1 = true;
+					    	}
+					    	if(isEmail1){
+					    		if(emails != null){
+					    		 Vertex v = (Vertex)emails.query().labels(new String[]{"own"}).vertices().iterator().next();
+					    		 if(v != person){
+					    			 graph.addEdge(null,person,emails,"own");
+					    		 }
+					    		}
+					    		
+					    	}else{
+								Vertex emailtmp = graph.addVertex(null);
+								emailtmp.setProperty("type","Email");
+								emailtmp.setProperty("email",email);
+								if(password != null && !"".equals(password)){
+	                            emailtmp.setProperty("password", password);
+	                            }
+								graph.addEdge(null,person,emailtmp,"own");
+							
+					    	}
+					    }
+						
+					}
+						
+						
+					}
+
+                  if(!phoneExist){//电话
+                	  if(phonenum!=null && !"".equals(phonenum)){
+						boolean isPhone1 = false;
+						Iterable e = graph.getVertices("phonenum",phonenum);
+					    Iterator es = e.iterator();
+					    if(es.hasNext()){
+					    	System.out.println("存在人时电话");
+					    	Vertex phones = (Vertex) es.next();
+					    	if(phones.getProperty("type").equals("Phone")){
+					    		isPhone1 = true;
+					    	}
+					    	if(isPhone1){
+					    		if(phones != null){
+					    			Vertex v = (Vertex)phones.query().labels(new String[]{"own"}).vertices().iterator().next();
+						    		 if(v != person){
+						    			 graph.addEdge(null,person,phones,"own");
+						    		 }
+					    			
+					    		}
+					    	}else{
+								Vertex phonetmp = graph.addVertex(null);
+								phonetmp.setProperty("type","Phone");
+								phonetmp.setProperty("phonenum",phonenum);
+	                            if(model != null && !"".equals(model)){
+	                            phonetmp.setProperty("model",model);
+	                       
+								}
+								graph.addEdge(null,person,phonetmp,"own");
+							}
+					    }
+                  }
+								
+							
+                	  
+					}
+					if(!loactionExist){//地点
+						boolean isLocation1 = false;
+						if(address!=null && !"".equals(address)){
+							Iterable e = graph.getVertices("address",address);
+						    Iterator es = e.iterator();
+						    if(es.hasNext()){
+						    	System.out.println("存在人时地址");
+						    	Vertex locations = (Vertex) es.next();
+						    	if(locations.getProperty("type").equals("Location")){
+						    		isLocation1 = true;
+						    	}
+						    	if(isLocation1){
+						    		if(locations != null){
+						    			Vertex v = (Vertex)locations.query().labels(new String[]{"own"}).vertices().iterator().next();
+							    		 if(v != person){
+							    			 graph.addEdge(null,person,locations,"own");
+							    		 }
+						    			
+						    		}
+						    	}else{
+									Vertex placetmp = graph.addVertex(null);
+									placetmp.setProperty("type","Location");
+									placetmp.setProperty("address",address);
+		                            if(place != null && !"".equals(place)){
+		                            placetmp.setProperty("place",place);
+		                       
+									}
+									graph.addEdge(null,person,placetmp,"own");
+								}							
+						    }
+							
+						}
+						
+					}
+
+
+					if(!exist){
+						
+						Vertex account2 = graph.addVertex(null);
+						account2.setProperty("type","Account");
+						account2.setProperty("domain",domain);
+						if(uid!=null && !"".equals(uid)){
+							account2.setProperty("uid",uid);
+						}
+				
+						if(username!=null && !"".equals(username)){
+							account2.setProperty("username",username);//用户名
+						}
+				
+						if(password!=null && !"".equals(password)){
+							account2.setProperty("password",password);//密码
+						}
+
+						if(email!=null && !"".equals(email)){
+							account2.setProperty("email",email);//邮件
+						}
+				
+						if(regip!=null && !"".equals(regip)){
+							account2.setProperty("regip",regip);//注册ip
+						}
+						if(createtime!=0L && !"".equals(createtime)){
+							account2.setProperty("createtime",createtime);//注册时间
+						}
+						if(question!=null && !"".equals(question)){
+							account2.setProperty("question",question);//问题
+						}
+				
+						graph.addEdge(null,person,account2,"own");
+
+						if(lastip!=null && !"".equals(lastip)){
+							Vertex event = graph.addVertex(null);
+							event.setProperty("type","LoginEvent");
+							if(domain != null && domain != ""){
+                            event.setProperty("domain",domain);
+                            }
+							if(username != null && username != ""){
+							event.setProperty("username",username);
+                             }
+							if(lastip!=null && !"".equals(lastip)){
+								event.setProperty("ip",lastip);
+							}
+							if(lastvisit!=0L && !"".equals(lastvisit)){
+								event.setProperty("time",lastvisit);
+							}
+							graph.addEdge(null,person,event,"login").setProperty("eventtime",lastvisit);
+						}
+											
+					}else{
+
+				Object eventIte = person.query().labels(new String[]{"login"}).vertices();
+				boolean eventExist = false;
+				for (Iterator iterator = ((Iterable)eventIte).iterator(); iterator.hasNext();) {
+					Vertex v = (Vertex) iterator.next();
+                    if(lastip != null){
+                       if(lastip.equals((String)v.getProperty("ip")) && lastvisit == (Long)v.getProperty("time") ){
+						eventExist=true;
+					               }
+                              }
+
+				}
+				
+						if(!eventExist){
+                        if(lastip != null && !lastip.equals("")){
+							Vertex event = graph.addVertex(null);
+							event.setProperty("type","LoginEvent");
+                            if(domain != null && domain != ""){
+                            event.setProperty("domain",domain);
+                            }
+							if(username != null && username != ""){
+							event.setProperty("username",username);
+                             }
+							if(lastip!=null && !"".equals(lastip)){
+								event.setProperty("ip",lastip);
+							}
+							if(lastvisit!=0L && !"".equals(lastvisit)){
+								event.setProperty("time",lastvisit);
+							}
+							graph.addEdge(null,person,event,"login").setProperty("eventtime",lastvisit);
+						}
+                       }
+					}
+
+				}
+				
+			}else{
+				System.out.println("最新导入数据：");
+				boolean isEmail = false;
+				boolean isPhone = false;
+				boolean isLocation = false;
+				
+				Vertex personNew = null;
+				
+                //邮件
+				
+				if(email != null && !email.equals("")){
+			    Iterable e = graph.getVertices("email",email);
+			    Iterator es = e.iterator();
+			    if(es.hasNext()){
+			    	System.out.println("邮件");
+			    	Vertex emails = (Vertex) es.next();
+			    	if(emails.getProperty("type").equals("Email")){
+			    		isEmail = true;
+			    	}
+			    	if(isEmail){
+			    		if(emails != null){
+			    			Vertex em = null;
+			    			try{
+			    				em= (Vertex)emails.query().labels(new String[]{"own"}).vertices().iterator().next();
+			    				}catch(java.util.NoSuchElementException e1){
+			    				e1.printStackTrace();
+			    				}
+			    			
+			    			if(em != null && em.getProperty("type").equals("Person")){
+			    				personNew = (Vertex)em;
+			    				graph.addEdge(null,personNew,emails,"own");
+			    			}else{
+
+					    		personNew = graph.addVertex(null);
+					    		personNew.setProperty("type","Person");
+								if(name != null && !name.equals("")){
+									personNew.setProperty("name",name);
+								}
+								if(idcard != null && !idcard.equals("")){
+									personNew.setProperty("idcard",idcard);
+								}
+								if(country != null && !country.equals("")){
+									personNew.setProperty("country",country);
+								}
+					    		
+					    		graph.addEdge(null,personNew,emails,"own");
+					    	
+			    				
+			    			}
+			    		}
+			    		
+			    	}else{
+			    		personNew = graph.addVertex(null);
+			    		personNew.setProperty("type","Person");
+						if(name != null && !name.equals("")){
+							personNew.setProperty("name",name);
+						}
+						if(idcard != null && !idcard.equals("")){
+							personNew.setProperty("idcard",idcard);
+						}
+						if(country != null && !country.equals("")){
+							personNew.setProperty("country",country);
+						}
+			    		
+			    		Vertex emailtmp2 = graph.addVertex(null);
+			    		emailtmp2.setProperty("type","Email");
+			    		emailtmp2.setProperty("email",email);
+			    		if(password != null && !password.equals("")){
+			    			emailtmp2.setProperty("password", password);
+			    		}
+			    		
+			    		graph.addEdge(null,personNew,emailtmp2,"own");
+			    	}
+			    }else{
+
+		    		personNew = graph.addVertex(null);
+		    		personNew.setProperty("type","Person");
+					if(name != null && !name.equals("")){
+						personNew.setProperty("name",name);
+					}
+					if(idcard != null && !idcard.equals("")){
+						personNew.setProperty("idcard",idcard);
+					}
+					if(country != null && !country.equals("")){
+						personNew.setProperty("country",country);
+					}
+		    		
+		    		Vertex emailtmp2 = graph.addVertex(null);
+		    		emailtmp2.setProperty("type","Email");
+		    		emailtmp2.setProperty("email",email);
+		    		if(password != null && !password.equals("")){
+		    			emailtmp2.setProperty("password", password);
+		    		}
+		    		
+		    		graph.addEdge(null,personNew,emailtmp2,"own");
+		    	
+			    	
+			    }
+				
+				}else{
+					personNew = graph.addVertex(null);
+		    		personNew.setProperty("type","Person");
+					if(name != null && !name.equals("")){
+						personNew.setProperty("name",name);
+					}
+					if(idcard != null && !idcard.equals("")){
+						personNew.setProperty("idcard",idcard);
+					}
+					if(country != null && !country.equals("")){
+						personNew.setProperty("country",country);
+					}
+					
+				}
+				
+				
+				//电话
+			if(phonenum!=null && !"".equals(phonenum)){
+				Iterable e = graph.getVertices("phonenum",phonenum);
+			    Iterator es = e.iterator();
+			    if(es.hasNext()){
+			    	System.out.println("电话");
+			    	Vertex phones = (Vertex) es.next();
+			    	if(phones.getProperty("type").equals("Phone")){
+			    		isPhone = true;
+			    	}
+			    	if(isPhone){
+			    		if(phones != null){
+			    			graph.addEdge(null,personNew,phones,"own");
+			    		}
+			    	}else{
+			    		Vertex phonetmp1 = graph.addVertex(null);
+			    		phonetmp1.setProperty("type","Phone");
+			    		phonetmp1.setProperty("phonenum",phonenum);
+			    		if(model != null && !"".equals(model)){
+			    			phonetmp1.setProperty("model",model);
+			    			
+			    		}
+			    		graph.addEdge(null,personNew,phonetmp1,"own");
+			    	}
+			    }else{
+
+		    		Vertex phonetmp1 = graph.addVertex(null);
+		    		phonetmp1.setProperty("type","Phone");
+		    		phonetmp1.setProperty("phonenum",phonenum);
+		    		if(model != null && !"".equals(model)){
+		    			phonetmp1.setProperty("model",model);
+		    			
+		    		}
+		    		graph.addEdge(null,personNew,phonetmp1,"own");
+		    	
+			    }
+						
+					}
+				
+				
+				Vertex account3 = graph.addVertex(null);//account事件
+				account3.setProperty("type","Account");
+                if(domain != null && !"".equals(domain)){
+                  account3.setProperty("domain",domain);
+                }
+				
+				if(uid!=null && !"".equals(uid)){
+					account3.setProperty("uid",uid);
+				}
+				
+				if(username!=null && !"".equals(username)){
+					account3.setProperty("username",username);
+				}
+				
+				if(password!=null && !"".equals(password)){
+					account3.setProperty("password",password);
+				}
+
+
+				if(email!=null && !"".equals(email)){
+					account3.setProperty("email",email);
+				}
+				
+				if(createtime!=0L && !"".equals(createtime)){
+					account3.setProperty("createtime",createtime);
+				}
+
+				if(regip!=null && !"".equals(regip)){
+					account3.setProperty("regip",regip);
+				}
+				if(question!=null && !"".equals(question)){
+					account3.setProperty("question",question);//问题
+				}
+				if(phonenum!=null && !"".equals(phonenum)){
+					account3.setProperty("phonenum",phonenum);//电话
+				}
+				graph.addEdge(null,personNew,account3,"own");
+
+				
+				//地点
+			if(address!=null && !"".equals(address)){
+				Iterable e = graph.getVertices("address",address);
+			    Iterator es = e.iterator();
+			    if(es.hasNext()){
+			    	System.out.println("地址");
+			    	Vertex locations = (Vertex) es.next();
+			    	if(locations.getProperty("type").equals("Location")){
+			    		isLocation = true;
+			    	}
+			    	if(isLocation){
+			    		if(locations != null){
+			    			graph.addEdge(null,personNew,locations,"own");
+			    		}
+			    	}else{
+			    		Vertex placetmp = graph.addVertex(null);
+			    		placetmp.setProperty("type","Location");
+			    		placetmp.setProperty("address",address);
+			    		if(place != null && !"".equals(place)){
+			    			placetmp.setProperty("place",place);
+			    			
+			    		}
+			    		graph.addEdge(null,personNew,placetmp,"own");
+			    		
+			    	}							
+			    }else{
+
+		    		Vertex placetmp = graph.addVertex(null);
+		    		placetmp.setProperty("type","Location");
+		    		placetmp.setProperty("address",address);
+		    		if(place != null && !"".equals(place)){
+		    			placetmp.setProperty("place",place);
+		    			
+		    		}
+		    		graph.addEdge(null,personNew,placetmp,"own");
+		    		
+		    	
+			    }
+				
+			}		
+				
+        //登录事件
+		if(lastip!=null && !"".equals(lastip)){
+			Vertex event = graph.addVertex(null);
+			event.setProperty("type","LoginEvent");
+           if(domain != null && !"".equals(domain)){
+            event.setProperty("domain",domain);
+            }
+					
+           if(username != null && !username.equals("")){
+           event.setProperty("username",username);
+           }
+           if(lastip!=null && !"".equals(lastip)){
+				event.setProperty("ip",lastip);
+			}
+           if(lastvisit!= 0L && !"".equals(lastvisit)){
+           event.setProperty("time",lastvisit);
+           }
+					
+				graph.addEdge(null,personNew,event,"login").setProperty("eventtime",lastvisit);
+			}
+			
+				
+			}
+
+
+	       if((count.get()-1)%100==0){
+	              graph.commit(); 
+	        DataImpTaskDao dao = new DataImpTaskDao();
+	        dao.toRefreshData(taskId, count.get()-1);
+             }
+			 
+ 		long el = System.currentTimeMillis();
+		String endTime= DateFormat.transferLongToDate(el);
+		System.out.println("结束时间："+endTime);
+		System.out.println("用时："+(el - st)+"毫秒");
+          
+
+putRow(data.outputRowMeta, r);
+
+return true;
+
+
+}

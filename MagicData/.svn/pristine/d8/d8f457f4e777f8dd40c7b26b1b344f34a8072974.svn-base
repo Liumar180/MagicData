@@ -1,0 +1,1 @@
+mvn -Pyarn -Phadoop-2.4 -Dscala-2.11 -DskipTests clean package
