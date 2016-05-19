@@ -1,8 +1,0 @@
-#solr url config
-
-#\u6587\u4ef6
-solr.solrname=http://192.168.40.10/solr/core
-#\u90ae\u4ef6solr
-solr.hostname=http://192.168.40.10/solr/core0
-#\u6570\u636e
-solrs.hostname=http://192.168.40.10:8983/solr/lob_2014042815

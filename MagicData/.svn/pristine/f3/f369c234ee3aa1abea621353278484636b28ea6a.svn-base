@@ -1,3 +1,0 @@
-#solr url config
-
-solr.hostname=http://192.168.40.42:8090/solr/core

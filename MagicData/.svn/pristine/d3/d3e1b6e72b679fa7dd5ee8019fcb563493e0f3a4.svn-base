@@ -1,7 +1,0 @@
-#\u6BCF\u4E2A\u626B\u63CF\u4EFB\u52A1\u7684\u6700\u5927\u7EBF\u7A0B\u6570
-threadCount=4
-#//\u5F69\u8679\u8868\u4FDD\u5B58\u8DEF\u5F84
-rainbowTablesPath=D\:\\rainbowTables
-#rainbowTablesPath=/mnt/hgfs/ware/rainbowTables
-#//\u5F69\u8679\u8868\u5B89\u88C5\u8DEF\u5F84(Windows)
-rcrackWinPath=C\:\\Program Files (x86)\\rcracki_mt_0.7.0_win32_vc

@@ -1,5 +1,0 @@
-#\u56fe\u6570\u636e\u5e93\u8fde\u63a5\u914d\u7f6e
-storage.backend=hbase
-storage.hostname=192.168.40.10
-storage.tablename=titan
-
